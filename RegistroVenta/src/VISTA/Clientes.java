@@ -13,13 +13,13 @@ public class Clientes extends javax.swing.JFrame {
 
     ClienteClase cl = new ClienteClase();
     ClienteDAO client = new ClienteDAO();
-    DefaultTableModel modelo;
+    DefaultTableModel modelo = new DefaultTableModel();
     
     public Clientes() {
         initComponents();
-        this.setBounds(0,0,1920,1080);
+        this.setBounds(0,0,1920,1100);
         this.setLocationRelativeTo(null);
-        
+        ListarCliente();
     }
     public void ListarCliente(){
         List<ClienteClase> ListaCl = client.ListarCliente();
@@ -35,7 +35,20 @@ public class Clientes extends javax.swing.JFrame {
         }
         TbClient.setModel(modelo);
     }
-
+    
+    public void LimpiarTabla(){
+        for (int i = 0; i < modelo.getRowCount(); i++){
+            modelo.removeRow(i);
+            i = i-1;
+        }
+    }
+    private void vaciarInputs(){
+        DniClient.setText("");
+        NomClient.setText("");
+        ApellClient.setText("");
+        DireccClient.setText("");
+        TelefClient.setText("");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,7 +78,6 @@ public class Clientes extends javax.swing.JFrame {
         NomClient = new javax.swing.JTextField();
         DireccClient = new javax.swing.JTextField();
         TelefClient = new javax.swing.JTextField();
-        vertodos = new javax.swing.JButton();
         guardar = new javax.swing.JButton();
         eliminar = new javax.swing.JButton();
         modificar = new javax.swing.JButton();
@@ -73,6 +85,7 @@ public class Clientes extends javax.swing.JFrame {
         TbClient = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         ApellClient = new javax.swing.JTextField();
+        VaciarTxt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -182,18 +195,6 @@ public class Clientes extends javax.swing.JFrame {
         jPanel1.add(TelefClient);
         TelefClient.setBounds(1080, 380, 350, 40);
 
-        vertodos.setBackground(new java.awt.Color(55, 160, 244));
-        vertodos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        vertodos.setForeground(new java.awt.Color(255, 255, 255));
-        vertodos.setText("VER TODOS");
-        vertodos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vertodosActionPerformed(evt);
-            }
-        });
-        jPanel1.add(vertodos);
-        vertodos.setBounds(1470, 370, 130, 50);
-
         guardar.setBackground(new java.awt.Color(55, 160, 244));
         guardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         guardar.setForeground(new java.awt.Color(255, 255, 255));
@@ -210,6 +211,11 @@ public class Clientes extends javax.swing.JFrame {
         eliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         eliminar.setForeground(new java.awt.Color(255, 255, 255));
         eliminar.setText("ELIMINAR");
+        eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarActionPerformed(evt);
+            }
+        });
         jPanel1.add(eliminar);
         eliminar.setBounds(1470, 250, 130, 50);
 
@@ -217,6 +223,11 @@ public class Clientes extends javax.swing.JFrame {
         modificar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         modificar.setForeground(new java.awt.Color(255, 255, 255));
         modificar.setText("MODIFICAR");
+        modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarActionPerformed(evt);
+            }
+        });
         jPanel1.add(modificar);
         modificar.setBounds(1470, 310, 130, 50);
 
@@ -236,6 +247,11 @@ public class Clientes extends javax.swing.JFrame {
         TbClient.setSelectionBackground(new java.awt.Color(85, 183, 252));
         TbClient.setSelectionForeground(new java.awt.Color(255, 255, 255));
         TbClient.setShowGrid(true);
+        TbClient.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbClientMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(TbClient);
         if (TbClient.getColumnModel().getColumnCount() > 0) {
             TbClient.getColumnModel().getColumn(0).setMinWidth(220);
@@ -255,6 +271,18 @@ public class Clientes extends javax.swing.JFrame {
         jPanel1.add(ApellClient);
         ApellClient.setBounds(1080, 280, 350, 40);
 
+        VaciarTxt.setBackground(new java.awt.Color(55, 160, 244));
+        VaciarTxt.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        VaciarTxt.setForeground(new java.awt.Color(255, 255, 255));
+        VaciarTxt.setText("VACIAR");
+        VaciarTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VaciarTxtActionPerformed(evt);
+            }
+        });
+        jPanel1.add(VaciarTxt);
+        VaciarTxt.setBounds(1470, 370, 130, 50);
+
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1920, 1010);
 
@@ -270,25 +298,71 @@ public class Clientes extends javax.swing.JFrame {
             cl.setTelef_client(TelefClient.getText());
             client.RegistrarCliente(cl);
             JOptionPane.showMessageDialog(null, "Cliente Registrado");
+            LimpiarTabla();
+            ListarCliente();
+            vaciarInputs();
         }
         else{
             JOptionPane.showMessageDialog(null, "Los campos estan vacion");
         }
-        ListarCliente();
-        DniClient.setText("");
-        NomClient.setText("");
-        ApellClient.setText("");
-        DireccClient.setText("");
-        TelefClient.setText("");
+        
     }//GEN-LAST:event_guardarActionPerformed
 
     private void ClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientesActionPerformed
         
     }//GEN-LAST:event_ClientesActionPerformed
 
-    private void vertodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertodosActionPerformed
-        ListarCliente();
-    }//GEN-LAST:event_vertodosActionPerformed
+    private void TbClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbClientMouseClicked
+        int fila = TbClient.rowAtPoint(evt.getPoint());
+        DniClient.setText(TbClient.getValueAt(fila, 0).toString());
+        NomClient.setText(TbClient.getValueAt(fila, 1).toString());
+        ApellClient.setText(TbClient.getValueAt(fila, 2).toString());
+        DireccClient.setText(TbClient.getValueAt(fila, 3).toString());
+        TelefClient.setText(TbClient.getValueAt(fila, 4).toString());
+    }//GEN-LAST:event_TbClientMouseClicked
+
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+        if(!"".equals(DniClient.getText())){
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este cliente?");
+            if(pregunta == 0){
+                int dni = Integer.parseInt(DniClient.getText());
+                
+                if (client.EliminarCliente(dni)) {
+                    JOptionPane.showMessageDialog(null, "Cliente eliminado");
+                    LimpiarTabla();
+                    vaciarInputs();
+                    ListarCliente();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar cliente");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, ingresa un DNI");
+        }
+    }//GEN-LAST:event_eliminarActionPerformed
+
+    private void VaciarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VaciarTxtActionPerformed
+        vaciarInputs();
+    }//GEN-LAST:event_VaciarTxtActionPerformed
+
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        if("".equals(DniClient.getText())){
+           JOptionPane.showMessageDialog(null, "Selecciones un usuario");
+        }
+        else{
+            cl.setDni_client(Integer.parseInt(DniClient.getText()));
+            cl.setNom_client(NomClient.getText());
+            cl.setApell_client(ApellClient.getText());
+            cl.setTelef_client(TelefClient.getText());
+            cl.setDirecc_client(DireccClient.getText());
+            if(!"".equals(DniClient.getText()) || !"".equals(NomClient.getText()) || !"".equals(ApellClient.getText()) || !"".equals(DireccClient.getText()) || !"".equals(TelefClient.getText())){
+                client.ModificarCliente(cl);
+                LimpiarTabla();
+                vaciarInputs();
+                ListarCliente();
+            }
+        }
+    }//GEN-LAST:event_modificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -337,6 +411,7 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JButton Pedidos;
     private javax.swing.JTable TbClient;
     private javax.swing.JTextField TelefClient;
+    private javax.swing.JButton VaciarTxt;
     private javax.swing.JButton Venta;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
@@ -353,6 +428,5 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
-    private javax.swing.JButton vertodos;
     // End of variables declaration//GEN-END:variables
 }

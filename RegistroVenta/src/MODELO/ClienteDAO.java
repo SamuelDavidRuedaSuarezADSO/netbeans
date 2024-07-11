@@ -34,7 +34,7 @@ public class ClienteDAO {
         }
         finally{
             try {
-                con.close();
+                if(con != null) con.close();
             } catch (SQLException e) {
                 System.out.print(e.toString());
             }
@@ -62,9 +62,9 @@ public class ClienteDAO {
             System.out.println(e.toString());
         }finally {
             try {
-                rs.close();
-                ps.close();
-                con.close();
+                if(ps !=null) ps.close();
+                if(con != null) con.close();
+                if(rs !=null) rs.close();
             } catch (SQLException e) {
                 System.out.print(e.toString());
             }
@@ -72,4 +72,53 @@ public class ClienteDAO {
         
         return ListaCl;
     }  
+    
+    public boolean EliminarCliente(int dni){
+        String sql = "DELETE FROM tb_clientes WHERE dni_client = ?";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, dni);
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+            return false;
+        }finally{
+            try {
+                if(ps !=null) ps.close();
+                if(con != null) con.close();
+                
+            } catch (SQLException ex) {
+                System.out.println(ex.toString());
+            }
+            
+        }
+        
+    }
+    public boolean ModificarCliente(ClienteClase cl) {
+        String sql = "UPDATE tb_clientes SET nom_client = ?, apell_client = ?, direcc_client = ?, telef_client = ? WHERE dni_client = ?";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, cl.getNom_client());
+            ps.setString(2, cl.getApell_client());
+            ps.setString(3, cl.getDirecc_client());
+            ps.setString(4, cl.getTelef_client());
+            ps.setInt(5, cl.getDni_client());
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+            return false;
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.toString());
+            }
+        }
+    }
+
 }
