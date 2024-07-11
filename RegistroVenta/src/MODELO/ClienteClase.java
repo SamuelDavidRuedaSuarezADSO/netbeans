@@ -1,41 +1,31 @@
 
 package MODELO;
 
-import java.time.LocalDate;
 
 public class ClienteClase {
-    private int cod_client;
     private int dni_client;
     private String nom_client;
+    private String apell_client;
     private String direcc_client;
-    private int telef_client;
-    private LocalDate fechaCrea_client;
+    private String telef_client;
 
     public ClienteClase() {
     }
 
-    public ClienteClase(int cod_client, int dni_client, String nom_client, String apell_client, String direcc_client, int telef_client) {
-        this.cod_client = cod_client;
+    public ClienteClase(int dni_client, String nom_client, String direcc_client, String telef_client, String apell_client) {
         this.dni_client = dni_client;
         this.nom_client = nom_client;
+        this.apell_client = apell_client;
         this.direcc_client = direcc_client;
         this.telef_client = telef_client;
     }
 
-    public LocalDate getFechaCrea_client() {
-        return fechaCrea_client;
+    public String getApell_client() {
+        return apell_client;
     }
 
-    public void setFechaCrea_client(LocalDate fechaCrea_client) {
-        this.fechaCrea_client = fechaCrea_client;
-    }
-
-    public int getCod_client() {
-        return cod_client;
-    }
-
-    public void setCod_client(int cod_client) {
-        this.cod_client = cod_client;
+    public void setApell_client(String apell_client) {
+        this.apell_client = apell_client;
     }
 
     public int getDni_client() {
@@ -62,13 +52,14 @@ public class ClienteClase {
         this.direcc_client = direcc_client;
     }
 
-    public int getTelef_client() {
+    public String getTelef_client() {
         return telef_client;
     }
 
-    public void setTelef_client(int telef_client) {
+    public void setTelef_client(String telef_client) {
         this.telef_client = telef_client;
     }
+
     
     
     

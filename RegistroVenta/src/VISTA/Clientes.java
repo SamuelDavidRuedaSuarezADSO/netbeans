@@ -1,15 +1,39 @@
 
 package VISTA;
 
+import MODELO.ClienteClase;
+import MODELO.ClienteDAO;
+import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 public class Clientes extends javax.swing.JFrame {
 
-    
-    
+    ClienteClase cl = new ClienteClase();
+    ClienteDAO client = new ClienteDAO();
+    DefaultTableModel modelo;
     
     public Clientes() {
         initComponents();
         this.setBounds(0,0,1920,1080);
         this.setLocationRelativeTo(null);
+        
+    }
+    public void ListarCliente(){
+        List<ClienteClase> ListaCl = client.ListarCliente();
+        modelo = (DefaultTableModel) TbClient.getModel();
+        Object[] ob = new Object[5];
+        for (int i = 0; i < ListaCl.size(); i++){
+            ob[0] = ListaCl.get(i).getDni_client();
+            ob[1] = ListaCl.get(i).getNom_client();
+            ob[2] = ListaCl.get(i).getApell_client();
+            ob[3] = ListaCl.get(i).getDirecc_client();
+            ob[4] = ListaCl.get(i).getTelef_client();
+            modelo.addRow(ob);
+        }
+        TbClient.setModel(modelo);
     }
 
     /**
@@ -34,11 +58,9 @@ public class Clientes extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        DateCrea = new javax.swing.JTextField();
         DniClient = new javax.swing.JTextField();
         NomClient = new javax.swing.JTextField();
         DireccClient = new javax.swing.JTextField();
@@ -46,9 +68,11 @@ public class Clientes extends javax.swing.JFrame {
         vertodos = new javax.swing.JButton();
         guardar = new javax.swing.JButton();
         eliminar = new javax.swing.JButton();
-        vaciar = new javax.swing.JButton();
+        modificar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        TbClient = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        ApellClient = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -98,6 +122,11 @@ public class Clientes extends javax.swing.JFrame {
         Clientes.setBackground(new java.awt.Color(55, 160, 244));
         Clientes.setForeground(new java.awt.Color(255, 255, 255));
         Clientes.setText("CLIENTES");
+        Clientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClientesActionPerformed(evt);
+            }
+        });
         jPanel2.add(Clientes);
         Clientes.setBounds(560, 20, 110, 40);
 
@@ -122,11 +151,6 @@ public class Clientes extends javax.swing.JFrame {
         jPanel1.add(jLabel2);
         jLabel2.setBounds(840, 180, 210, 40);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("FECHA DE REGISTRO:");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(840, 380, 210, 40);
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("NOMBRE DEL CLIENTE:");
         jPanel1.add(jLabel4);
@@ -135,16 +159,12 @@ public class Clientes extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("DIRECCIÓN DEL CLIENTE:");
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(840, 280, 210, 40);
+        jLabel5.setBounds(840, 330, 210, 40);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("TELEFONO DEL CLIENTE:");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(840, 330, 210, 40);
-
-        DateCrea.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
-        jPanel1.add(DateCrea);
-        DateCrea.setBounds(1080, 380, 350, 40);
+        jLabel7.setBounds(840, 380, 210, 40);
 
         DniClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(DniClient);
@@ -156,16 +176,21 @@ public class Clientes extends javax.swing.JFrame {
 
         DireccClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(DireccClient);
-        DireccClient.setBounds(1080, 280, 350, 40);
+        DireccClient.setBounds(1080, 330, 350, 40);
 
         TelefClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(TelefClient);
-        TelefClient.setBounds(1080, 330, 350, 40);
+        TelefClient.setBounds(1080, 380, 350, 40);
 
         vertodos.setBackground(new java.awt.Color(55, 160, 244));
         vertodos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         vertodos.setForeground(new java.awt.Color(255, 255, 255));
         vertodos.setText("VER TODOS");
+        vertodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vertodosActionPerformed(evt);
+            }
+        });
         jPanel1.add(vertodos);
         vertodos.setBounds(1470, 370, 130, 50);
 
@@ -188,50 +213,47 @@ public class Clientes extends javax.swing.JFrame {
         jPanel1.add(eliminar);
         eliminar.setBounds(1470, 250, 130, 50);
 
-        vaciar.setBackground(new java.awt.Color(55, 160, 244));
-        vaciar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        vaciar.setForeground(new java.awt.Color(255, 255, 255));
-        vaciar.setText("VACIAR");
-        jPanel1.add(vaciar);
-        vaciar.setBounds(1470, 310, 130, 50);
+        modificar.setBackground(new java.awt.Color(55, 160, 244));
+        modificar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        modificar.setForeground(new java.awt.Color(255, 255, 255));
+        modificar.setText("MODIFICAR");
+        jPanel1.add(modificar);
+        modificar.setBounds(1470, 310, 130, 50);
 
-        jTable2.setAutoCreateRowSorter(true);
-        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        TbClient.setAutoCreateRowSorter(true);
+        TbClient.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        TbClient.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "CODIGO", "DNI", "NOMBRE", "DIRECCIÓN", "TELEFONO", "FECHA REGISTRO"
+                "DNI", "NOMBRE", "APELLIDO", "DIRECCIÓN", "TELEFONO"
             }
         ));
-        jTable2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTable2.setGridColor(new java.awt.Color(204, 204, 204));
-        jTable2.setRowHeight(35);
-        jTable2.setSelectionBackground(new java.awt.Color(85, 183, 252));
-        jTable2.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        jTable2.setShowGrid(true);
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setMinWidth(130);
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(130);
-            jTable2.getColumnModel().getColumn(0).setMaxWidth(130);
-            jTable2.getColumnModel().getColumn(1).setMinWidth(220);
-            jTable2.getColumnModel().getColumn(1).setPreferredWidth(220);
-            jTable2.getColumnModel().getColumn(1).setMaxWidth(220);
+        TbClient.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        TbClient.setGridColor(new java.awt.Color(204, 204, 204));
+        TbClient.setRowHeight(35);
+        TbClient.setSelectionBackground(new java.awt.Color(85, 183, 252));
+        TbClient.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        TbClient.setShowGrid(true);
+        jScrollPane2.setViewportView(TbClient);
+        if (TbClient.getColumnModel().getColumnCount() > 0) {
+            TbClient.getColumnModel().getColumn(0).setMinWidth(220);
+            TbClient.getColumnModel().getColumn(0).setPreferredWidth(220);
+            TbClient.getColumnModel().getColumn(0).setMaxWidth(220);
         }
 
         jPanel1.add(jScrollPane2);
         jScrollPane2.setBounds(220, 460, 1390, 380);
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setText("APELLIDO DEL CLIENTE:");
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(840, 280, 210, 40);
+
+        ApellClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
+        jPanel1.add(ApellClient);
+        ApellClient.setBounds(1080, 280, 350, 40);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1920, 1010);
@@ -240,19 +262,33 @@ public class Clientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        if(!"".equals(DniClient.getText()) || !"".equals(NomClient.getText()) || !"".equals(TelefClient.getText()) || !"".equals(DateCreate.getText())){
+        if(!"".equals(DniClient.getText()) || !"".equals(NomClient.getText()) || !"".equals(ApellClient.getText()) || !"".equals(DireccClient.getText()) || !"".equals(TelefClient.getText())){
             cl.setDni_client(Integer.parseInt(DniClient.getText()));
             cl.setNom_client(NomClient.getText());
-            cl.setTelef_client(Integer.parseInt(TelefClient.getText()));
-            cl.setFechaCrea_client(LocalDate.parse(DateCreate.getText()));
-            
+            cl.setApell_client(ApellClient.getText());
+            cl.setDirecc_client(DireccClient.getText());
+            cl.setTelef_client(TelefClient.getText());
             client.RegistrarCliente(cl);
             JOptionPane.showMessageDialog(null, "Cliente Registrado");
         }
         else{
             JOptionPane.showMessageDialog(null, "Los campos estan vacion");
         }
+        ListarCliente();
+        DniClient.setText("");
+        NomClient.setText("");
+        ApellClient.setText("");
+        DireccClient.setText("");
+        TelefClient.setText("");
     }//GEN-LAST:event_guardarActionPerformed
+
+    private void ClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientesActionPerformed
+        
+    }//GEN-LAST:event_ClientesActionPerformed
+
+    private void vertodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertodosActionPerformed
+        ListarCliente();
+    }//GEN-LAST:event_vertodosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -290,15 +326,16 @@ public class Clientes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField ApellClient;
     private javax.swing.JButton Categoria;
     private javax.swing.JButton Cerrar;
     private javax.swing.JButton Clientes;
-    private javax.swing.JTextField DateCrea;
     private javax.swing.JTextField DireccClient;
     private javax.swing.JTextField DniClient;
     private javax.swing.JButton Mueble;
     private javax.swing.JTextField NomClient;
     private javax.swing.JButton Pedidos;
+    private javax.swing.JTable TbClient;
     private javax.swing.JTextField TelefClient;
     private javax.swing.JButton Venta;
     private javax.swing.JButton eliminar;
@@ -306,17 +343,16 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton vaciar;
+    private javax.swing.JButton modificar;
     private javax.swing.JButton vertodos;
     // End of variables declaration//GEN-END:variables
 }
