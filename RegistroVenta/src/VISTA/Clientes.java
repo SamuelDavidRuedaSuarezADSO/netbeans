@@ -17,7 +17,7 @@ public class Clientes extends javax.swing.JFrame {
     
     public Clientes() {
         initComponents();
-        this.setBounds(0,0,1920,1100);
+        this.setBounds(0,0,1350,725);
         this.setLocationRelativeTo(null);
         ListarCliente();
     }
@@ -100,37 +100,37 @@ public class Clientes extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("CLIENTES");
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(1540, 20, 160, 48);
+        jLabel1.setBounds(970, 20, 160, 48);
 
         Cerrar.setBackground(new java.awt.Color(55, 160, 244));
         Cerrar.setForeground(new java.awt.Color(255, 255, 255));
         Cerrar.setText("CERRAR SESIÓN");
         jPanel2.add(Cerrar);
-        Cerrar.setBounds(1760, 20, 140, 40);
+        Cerrar.setBounds(1180, 20, 140, 50);
 
         Venta.setBackground(new java.awt.Color(55, 160, 244));
         Venta.setForeground(new java.awt.Color(255, 255, 255));
         Venta.setText("VENTAS");
         jPanel2.add(Venta);
-        Venta.setBounds(80, 20, 110, 40);
+        Venta.setBounds(50, 20, 110, 50);
 
         Mueble.setBackground(new java.awt.Color(55, 160, 244));
         Mueble.setForeground(new java.awt.Color(255, 255, 255));
         Mueble.setText("MUEBLES");
         jPanel2.add(Mueble);
-        Mueble.setBounds(200, 20, 110, 40);
+        Mueble.setBounds(170, 20, 110, 50);
 
         Categoria.setBackground(new java.awt.Color(55, 160, 244));
         Categoria.setForeground(new java.awt.Color(255, 255, 255));
         Categoria.setText("CATEGORIA");
         jPanel2.add(Categoria);
-        Categoria.setBounds(320, 20, 110, 40);
+        Categoria.setBounds(290, 20, 110, 50);
 
         Pedidos.setBackground(new java.awt.Color(55, 160, 244));
         Pedidos.setForeground(new java.awt.Color(255, 255, 255));
         Pedidos.setText("PEDIDOS");
         jPanel2.add(Pedidos);
-        Pedidos.setBounds(440, 20, 110, 40);
+        Pedidos.setBounds(410, 20, 110, 50);
 
         Clientes.setBackground(new java.awt.Color(55, 160, 244));
         Clientes.setForeground(new java.awt.Color(255, 255, 255));
@@ -141,59 +141,59 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
         jPanel2.add(Clientes);
-        Clientes.setBounds(560, 20, 110, 40);
+        Clientes.setBounds(530, 20, 110, 50);
 
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 0, 1920, 90);
+        jPanel2.setBounds(0, 0, 1360, 90);
 
         jLabel6.setText("©2024SamuelRueda. Todos los derechos reservados");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(240, 980, 290, 16);
+        jLabel6.setBounds(10, 660, 290, 16);
 
         jTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(55, 160, 244)));
         jPanel1.add(jTextField1);
-        jTextField1.setBounds(310, 370, 480, 50);
+        jTextField1.setBounds(170, 330, 410, 50);
 
         jButton1.setBackground(new java.awt.Color(55, 160, 244));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGENES/Iconos/search.png"))); // NOI18N
         jPanel1.add(jButton1);
-        jButton1.setBounds(240, 370, 50, 50);
+        jButton1.setBounds(100, 330, 50, 50);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("DNI DEL CLIENTE:");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(840, 180, 210, 40);
+        jLabel2.setBounds(630, 150, 210, 40);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("NOMBRE DEL CLIENTE:");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(840, 230, 210, 40);
+        jLabel4.setBounds(630, 200, 210, 40);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("DIRECCIÓN DEL CLIENTE:");
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(840, 330, 210, 40);
+        jLabel5.setBounds(630, 300, 210, 40);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("TELEFONO DEL CLIENTE:");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(840, 380, 210, 40);
+        jLabel7.setBounds(630, 350, 210, 40);
 
         DniClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(DniClient);
-        DniClient.setBounds(1080, 180, 350, 40);
+        DniClient.setBounds(870, 150, 270, 40);
 
         NomClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(NomClient);
-        NomClient.setBounds(1080, 230, 350, 40);
+        NomClient.setBounds(870, 200, 270, 40);
 
         DireccClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(DireccClient);
-        DireccClient.setBounds(1080, 330, 350, 40);
+        DireccClient.setBounds(870, 300, 270, 40);
 
         TelefClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(TelefClient);
-        TelefClient.setBounds(1080, 380, 350, 40);
+        TelefClient.setBounds(870, 350, 270, 40);
 
         guardar.setBackground(new java.awt.Color(55, 160, 244));
         guardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -205,7 +205,7 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
         jPanel1.add(guardar);
-        guardar.setBounds(1470, 190, 130, 50);
+        guardar.setBounds(1180, 160, 130, 50);
 
         eliminar.setBackground(new java.awt.Color(55, 160, 244));
         eliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -217,7 +217,7 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
         jPanel1.add(eliminar);
-        eliminar.setBounds(1470, 250, 130, 50);
+        eliminar.setBounds(1180, 220, 130, 50);
 
         modificar.setBackground(new java.awt.Color(55, 160, 244));
         modificar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -229,7 +229,7 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
         jPanel1.add(modificar);
-        modificar.setBounds(1470, 310, 130, 50);
+        modificar.setBounds(1180, 280, 130, 50);
 
         TbClient.setAutoCreateRowSorter(true);
         TbClient.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -260,16 +260,16 @@ public class Clientes extends javax.swing.JFrame {
         }
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(220, 460, 1390, 380);
+        jScrollPane2.setBounds(60, 410, 1260, 240);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("APELLIDO DEL CLIENTE:");
         jPanel1.add(jLabel8);
-        jLabel8.setBounds(840, 280, 210, 40);
+        jLabel8.setBounds(630, 250, 210, 40);
 
         ApellClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(ApellClient);
-        ApellClient.setBounds(1080, 280, 350, 40);
+        ApellClient.setBounds(870, 250, 270, 40);
 
         VaciarTxt.setBackground(new java.awt.Color(55, 160, 244));
         VaciarTxt.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -281,10 +281,10 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
         jPanel1.add(VaciarTxt);
-        VaciarTxt.setBounds(1470, 370, 130, 50);
+        VaciarTxt.setBounds(1180, 340, 130, 50);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 1920, 1010);
+        jPanel1.setBounds(0, 0, 1360, 1010);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

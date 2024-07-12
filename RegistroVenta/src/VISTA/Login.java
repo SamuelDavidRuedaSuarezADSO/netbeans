@@ -22,12 +22,12 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        this.setBounds(0,0,1920,1080);
+        this.setBounds(0,0,1350,725);
         this.setLocationRelativeTo(null);
     }
     
     public void  validar(){
-        String user = Usuario.getText();
+        String user = Usuario.getText();f
         String contra = String.valueOf(Contraseña.getPassword());
         if (!"".equals(user) || !"".equals(contra)) {
            
@@ -83,13 +83,13 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Usuario);
-        Usuario.setBounds(110, 240, 370, 40);
+        Usuario.setBounds(110, 220, 370, 40);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(29, 90, 138));
         jLabel2.setText("Usuario:");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(110, 210, 80, 25);
+        jLabel2.setBounds(110, 190, 80, 25);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(29, 90, 138));
@@ -107,7 +107,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Eliminar);
-        Eliminar.setBounds(170, 550, 240, 40);
+        Eliminar.setBounds(170, 520, 240, 40);
 
         Iniciar.setBackground(new java.awt.Color(55, 160, 244));
         Iniciar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -119,18 +119,18 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Iniciar);
-        Iniciar.setBounds(170, 490, 240, 40);
+        Iniciar.setBounds(170, 460, 240, 40);
 
         Contraseña.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(29, 90, 138), 3));
         jPanel1.add(Contraseña);
         Contraseña.setBounds(110, 340, 370, 40);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(680, 160, 590, 720);
+        jPanel1.setBounds(440, 10, 590, 660);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGENES/fondoArreglo.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 2400, 1300);
+        jLabel1.setBounds(-510, -220, 2400, 1300);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
