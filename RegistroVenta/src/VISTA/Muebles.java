@@ -1,53 +1,45 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package VISTA;
 
-import MODELO.ClienteClase;
-import MODELO.ClienteDAO;
-import javax.swing.JOptionPane;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+import MODELO.MueblesClase;
+import MODELO.MueblesDAO;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-public class Clientes extends javax.swing.JFrame {
+/**
+ *
+ * @author Propietario
+ */
+public class Muebles extends javax.swing.JFrame {
 
-    ClienteClase cl = new ClienteClase();
-    ClienteDAO client = new ClienteDAO();
+    MueblesClase mb = new MueblesClase();
+    MueblesDAO touch = new MueblesDAO();
     DefaultTableModel modelo = new DefaultTableModel();
-    
-    public Clientes() {
+    public Muebles() {
         initComponents();
         this.setBounds(0,0,1350,725);
         this.setLocationRelativeTo(null);
-        ListarCliente();
+        Listar();
     }
-    public void ListarCliente(){
-        List<ClienteClase> ListaCl = client.ListarCliente();
-        modelo = (DefaultTableModel) TbClient.getModel();
-        Object[] ob = new Object[5];
-        for (int i = 0; i < ListaCl.size(); i++){
-            ob[0] = ListaCl.get(i).getDni_client();
-            ob[1] = ListaCl.get(i).getNom_client();
-            ob[2] = ListaCl.get(i).getApell_client();
-            ob[3] = ListaCl.get(i).getDirecc_client();
-            ob[4] = ListaCl.get(i).getTelef_client();
+
+    
+    public void Listar(){
+        List<MueblesClase> Lista = touch.Listar();
+        modelo = (DefaultTableModel) TbMueble.getModel();
+        Object[] ob = new Object[6];
+        for (int i = 0; i < Lista.size(); i++){
+            ob[0] = Lista.get(i).getCod_categ_fk();
+            ob[1] = Lista.get(i).getNom_mueble();
+            ob[2] = Lista.get(i).getCod_categ_fk();
+            ob[3] = Lista.get(i).getMater_mueble();
+            ob[4] = Lista.get(i).getPresi_mueble();
+            ob[5] = Lista.get(i).getStok_mueble();
             modelo.addRow(ob);
         }
-        TbClient.setModel(modelo);
-    }
-    
-    public void LimpiarTabla(){
-        for (int i = 0; i < modelo.getRowCount(); i++){
-            modelo.removeRow(i);
-            i = i-1;
-        }
-    }
-    private void vaciarInputs(){
-        DniClient.setText("");
-        NomClient.setText("");
-        ApellClient.setText("");
-        DireccClient.setText("");
-        TelefClient.setText("");
+        TbMueble.setModel(modelo);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,18 +66,20 @@ public class Clientes extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        DniClient = new javax.swing.JTextField();
-        NomClient = new javax.swing.JTextField();
-        DireccClient = new javax.swing.JTextField();
-        TelefClient = new javax.swing.JTextField();
+        codigo = new javax.swing.JTextField();
+        NomMueble = new javax.swing.JTextField();
+        MaterialMueble = new javax.swing.JTextField();
+        pressMueble = new javax.swing.JTextField();
         guardar = new javax.swing.JButton();
         eliminar = new javax.swing.JButton();
         modificar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        TbClient = new javax.swing.JTable();
+        TbMueble = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
-        ApellClient = new javax.swing.JTextField();
+        CodCategoria = new javax.swing.JTextField();
         VaciarTxt = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        StokMueble = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -98,7 +92,7 @@ public class Clientes extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("CLIENTES");
+        jLabel1.setText("MUEBLES");
         jPanel2.add(jLabel1);
         jLabel1.setBounds(970, 20, 160, 48);
 
@@ -117,22 +111,12 @@ public class Clientes extends javax.swing.JFrame {
         Mueble.setBackground(new java.awt.Color(55, 160, 244));
         Mueble.setForeground(new java.awt.Color(255, 255, 255));
         Mueble.setText("MUEBLES");
-        Mueble.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MuebleActionPerformed(evt);
-            }
-        });
         jPanel2.add(Mueble);
         Mueble.setBounds(170, 20, 110, 50);
 
         Categoria.setBackground(new java.awt.Color(55, 160, 244));
         Categoria.setForeground(new java.awt.Color(255, 255, 255));
-        Categoria.setText("CATEGORIAS");
-        Categoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CategoriaActionPerformed(evt);
-            }
-        });
+        Categoria.setText("CATEGORIA");
         jPanel2.add(Categoria);
         Categoria.setBounds(290, 20, 110, 50);
 
@@ -170,40 +154,40 @@ public class Clientes extends javax.swing.JFrame {
         jButton1.setBounds(100, 330, 50, 50);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("DNI DEL CLIENTE:");
+        jLabel2.setText("CODIGO DEL MUEBLE:");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(630, 150, 210, 40);
+        jLabel2.setBounds(640, 100, 210, 40);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("NOMBRE DEL CLIENTE:");
+        jLabel4.setText("NOMBRE DEL MUEBLE:");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(630, 200, 210, 40);
+        jLabel4.setBounds(640, 150, 210, 40);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("DIRECCIÓN DEL CLIENTE:");
+        jLabel5.setText("MATERIAL DEL MUEBLE:");
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(630, 300, 210, 40);
+        jLabel5.setBounds(640, 250, 210, 40);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setText("TELEFONO DEL CLIENTE:");
+        jLabel7.setText("PRESIO DEL MUEBLE:");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(630, 350, 210, 40);
+        jLabel7.setBounds(640, 300, 210, 40);
 
-        DniClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
-        jPanel1.add(DniClient);
-        DniClient.setBounds(870, 150, 270, 40);
+        codigo.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
+        jPanel1.add(codigo);
+        codigo.setBounds(880, 100, 270, 40);
 
-        NomClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
-        jPanel1.add(NomClient);
-        NomClient.setBounds(870, 200, 270, 40);
+        NomMueble.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
+        jPanel1.add(NomMueble);
+        NomMueble.setBounds(880, 150, 270, 40);
 
-        DireccClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
-        jPanel1.add(DireccClient);
-        DireccClient.setBounds(870, 300, 270, 40);
+        MaterialMueble.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
+        jPanel1.add(MaterialMueble);
+        MaterialMueble.setBounds(880, 250, 270, 40);
 
-        TelefClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
-        jPanel1.add(TelefClient);
-        TelefClient.setBounds(870, 350, 270, 40);
+        pressMueble.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
+        jPanel1.add(pressMueble);
+        pressMueble.setBounds(880, 300, 270, 40);
 
         guardar.setBackground(new java.awt.Color(55, 160, 244));
         guardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -241,45 +225,43 @@ public class Clientes extends javax.swing.JFrame {
         jPanel1.add(modificar);
         modificar.setBounds(1180, 220, 130, 50);
 
-        TbClient.setAutoCreateRowSorter(true);
-        TbClient.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        TbClient.setModel(new javax.swing.table.DefaultTableModel(
+        TbMueble.setAutoCreateRowSorter(true);
+        TbMueble.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        TbMueble.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "DNI", "NOMBRE", "APELLIDO", "DIRECCIÓN", "TELEFONO"
+                "CODIGO", "NOMBRE", "COD CATEGORIA", "MATERIAL", "PRESIO", "STOK"
             }
         ));
-        TbClient.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        TbClient.setGridColor(new java.awt.Color(204, 204, 204));
-        TbClient.setRowHeight(35);
-        TbClient.setSelectionBackground(new java.awt.Color(85, 183, 252));
-        TbClient.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        TbClient.setShowGrid(true);
-        TbClient.addMouseListener(new java.awt.event.MouseAdapter() {
+        TbMueble.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        TbMueble.setGridColor(new java.awt.Color(204, 204, 204));
+        TbMueble.setRowHeight(35);
+        TbMueble.setSelectionBackground(new java.awt.Color(85, 183, 252));
+        TbMueble.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        TbMueble.setShowGrid(true);
+        TbMueble.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TbClientMouseClicked(evt);
+                TbMuebleMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(TbClient);
-        if (TbClient.getColumnModel().getColumnCount() > 0) {
-            TbClient.getColumnModel().getColumn(0).setMinWidth(220);
-            TbClient.getColumnModel().getColumn(0).setPreferredWidth(220);
-            TbClient.getColumnModel().getColumn(0).setMaxWidth(220);
+        jScrollPane2.setViewportView(TbMueble);
+        if (TbMueble.getColumnModel().getColumnCount() > 0) {
+            TbMueble.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jPanel1.add(jScrollPane2);
         jScrollPane2.setBounds(60, 410, 1260, 240);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("APELLIDO DEL CLIENTE:");
+        jLabel8.setText("CODIGO DE LA CATEGORIA:");
         jPanel1.add(jLabel8);
-        jLabel8.setBounds(630, 250, 210, 40);
+        jLabel8.setBounds(640, 200, 210, 40);
 
-        ApellClient.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
-        jPanel1.add(ApellClient);
-        ApellClient.setBounds(870, 250, 270, 40);
+        CodCategoria.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
+        jPanel1.add(CodCategoria);
+        CodCategoria.setBounds(880, 200, 270, 40);
 
         VaciarTxt.setBackground(new java.awt.Color(55, 160, 244));
         VaciarTxt.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -293,98 +275,52 @@ public class Clientes extends javax.swing.JFrame {
         jPanel1.add(VaciarTxt);
         VaciarTxt.setBounds(1180, 340, 130, 50);
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setText("STOK DEL MUEBLE:");
+        jPanel1.add(jLabel9);
+        jLabel9.setBounds(640, 350, 210, 40);
+
+        StokMueble.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
+        jPanel1.add(StokMueble);
+        StokMueble.setBounds(880, 350, 270, 40);
+
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 1360, 1010);
+        jPanel1.setBounds(0, 0, 1360, 700);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        if(!"".equals(DniClient.getText()) || !"".equals(NomClient.getText()) || !"".equals(ApellClient.getText()) || !"".equals(DireccClient.getText()) || !"".equals(TelefClient.getText())){
-            cl.setDni_client(Integer.parseInt(DniClient.getText()));
-            cl.setNom_client(NomClient.getText());
-            cl.setApell_client(ApellClient.getText());
-            cl.setDirecc_client(DireccClient.getText());
-            cl.setTelef_client(TelefClient.getText());
-            client.RegistrarCliente(cl);
-            JOptionPane.showMessageDialog(null, "Cliente Registrado");
-            LimpiarTabla();
-            ListarCliente();
-            vaciarInputs();
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Los campos estan vacion");
-        }
-        
-    }//GEN-LAST:event_guardarActionPerformed
-
     private void ClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientesActionPerformed
-        
+        Clientes cl = new Clientes();
+        cl.setVisible(true);
+        dispose();
     }//GEN-LAST:event_ClientesActionPerformed
 
-    private void TbClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbClientMouseClicked
-        int fila = TbClient.rowAtPoint(evt.getPoint());
-        DniClient.setText(TbClient.getValueAt(fila, 0).toString());
-        NomClient.setText(TbClient.getValueAt(fila, 1).toString());
-        ApellClient.setText(TbClient.getValueAt(fila, 2).toString());
-        DireccClient.setText(TbClient.getValueAt(fila, 3).toString());
-        TelefClient.setText(TbClient.getValueAt(fila, 4).toString());
-    }//GEN-LAST:event_TbClientMouseClicked
+    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+
+    }//GEN-LAST:event_guardarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        if(!"".equals(DniClient.getText())){
-            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este cliente?");
-            if(pregunta == 0){
-                int dni = Integer.parseInt(DniClient.getText());
-                
-                if (client.EliminarCliente(dni)) {
-                    JOptionPane.showMessageDialog(null, "Cliente eliminado");
-                    LimpiarTabla();
-                    vaciarInputs();
-                    ListarCliente();
-                } else {
-                    JOptionPane.showMessageDialog(null, "ERROR: El cliente no fue eliminado");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "ERROR: Seleccion un cliente");
-        }
+
     }//GEN-LAST:event_eliminarActionPerformed
 
-    private void VaciarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VaciarTxtActionPerformed
-        vaciarInputs();
-    }//GEN-LAST:event_VaciarTxtActionPerformed
-
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        if("".equals(DniClient.getText())){
-           JOptionPane.showMessageDialog(null, "Selecciones un usuario");
-        }
-        else{
-            cl.setDni_client(Integer.parseInt(DniClient.getText()));
-            cl.setNom_client(NomClient.getText());
-            cl.setApell_client(ApellClient.getText());
-            cl.setTelef_client(TelefClient.getText());
-            cl.setDirecc_client(DireccClient.getText());
-            if(!"".equals(DniClient.getText()) || !"".equals(NomClient.getText()) || !"".equals(ApellClient.getText()) || !"".equals(DireccClient.getText()) || !"".equals(TelefClient.getText())){
-                client.ModificarCliente(cl);
-                LimpiarTabla();
-                vaciarInputs();
-                ListarCliente();
-            }
-        }
+
     }//GEN-LAST:event_modificarActionPerformed
 
-    private void CategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoriaActionPerformed
-        Categoria ct = new Categoria();
-        ct.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_CategoriaActionPerformed
+    private void TbMuebleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbMuebleMouseClicked
+       int fila = TbMueble.rowAtPoint(evt.getPoint());
+        codigo.setText(TbMueble.getValueAt(fila, 0).toString());
+        NomMueble.setText(TbMueble.getValueAt(fila, 1).toString());
+        CodCategoria.setText(TbMueble.getValueAt(fila, 2).toString());
+        MaterialMueble.setText(TbMueble.getValueAt(fila, 3).toString());
+        pressMueble.setText(TbMueble.getValueAt(fila, 4).toString());
+        StokMueble.setText(TbMueble.getValueAt(fila, 4).toString());
+    }//GEN-LAST:event_TbMuebleMouseClicked
 
-    private void MuebleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MuebleActionPerformed
-        Muebles mb = new Muebles();
-        mb.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_MuebleActionPerformed
+    private void VaciarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VaciarTxtActionPerformed
+
+    }//GEN-LAST:event_VaciarTxtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -403,38 +339,38 @@ public class Clientes extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Muebles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Muebles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Muebles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Muebles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Clientes().setVisible(true);
+                new Muebles().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField ApellClient;
     private javax.swing.JButton Categoria;
     private javax.swing.JButton Cerrar;
     private javax.swing.JButton Clientes;
-    private javax.swing.JTextField DireccClient;
-    private javax.swing.JTextField DniClient;
+    private javax.swing.JTextField CodCategoria;
+    private javax.swing.JTextField MaterialMueble;
     private javax.swing.JButton Mueble;
-    private javax.swing.JTextField NomClient;
+    private javax.swing.JTextField NomMueble;
     private javax.swing.JButton Pedidos;
-    private javax.swing.JTable TbClient;
-    private javax.swing.JTextField TelefClient;
+    private javax.swing.JTextField StokMueble;
+    private javax.swing.JTable TbMueble;
     private javax.swing.JButton VaciarTxt;
     private javax.swing.JButton Venta;
+    private javax.swing.JTextField codigo;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
     private javax.swing.JButton jButton1;
@@ -445,10 +381,12 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
+    private javax.swing.JTextField pressMueble;
     // End of variables declaration//GEN-END:variables
 }

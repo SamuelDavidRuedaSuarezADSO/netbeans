@@ -27,7 +27,7 @@ public class Login extends javax.swing.JFrame {
     }
     
     public void  validar(){
-        String user = Usuario.getText();f
+        String user = Usuario.getText();
         String contra = String.valueOf(Contraseña.getPassword());
         if (!"".equals(user) || !"".equals(contra)) {
            
