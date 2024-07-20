@@ -118,6 +118,11 @@ public class Categoria extends javax.swing.JFrame {
         Mueble.setBackground(new java.awt.Color(55, 160, 244));
         Mueble.setForeground(new java.awt.Color(255, 255, 255));
         Mueble.setText("MUEBLES");
+        Mueble.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MuebleActionPerformed(evt);
+            }
+        });
         jPanel2.add(Mueble);
         Mueble.setBounds(170, 20, 110, 50);
 
@@ -334,8 +339,14 @@ public class Categoria extends javax.swing.JFrame {
     }//GEN-LAST:event_TbCategoriaMouseClicked
 
     private void VaciarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VaciarTxtActionPerformed
-
+        VaciarInputs();
     }//GEN-LAST:event_VaciarTxtActionPerformed
+
+    private void MuebleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MuebleActionPerformed
+        Muebles mb = new Muebles();
+        mb.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_MuebleActionPerformed
 
     /**
      * @param args the command line arguments

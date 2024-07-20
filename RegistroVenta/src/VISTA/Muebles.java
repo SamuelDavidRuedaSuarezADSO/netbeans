@@ -7,6 +7,7 @@ package VISTA;
 import MODELO.MueblesClase;
 import MODELO.MueblesDAO;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,6 +26,21 @@ public class Muebles extends javax.swing.JFrame {
         Listar();
     }
 
+    public void Vaciar(){
+        codigo.setText("");
+        NomMueble.setText("");
+        CodCategoria.setText("");
+        MaterialMueble.setText("");
+        pressMueble.setText("");
+        StokMueble.setText("");
+    }
+    
+    public void LimpiarTabla(){
+        for (int i = 0; i < modelo.getRowCount(); i++){
+            modelo.removeRow(i);
+            i = i-1;
+        }
+    }
     
     public void Listar(){
         List<MueblesClase> Lista = touch.Listar();
@@ -117,6 +133,11 @@ public class Muebles extends javax.swing.JFrame {
         Categoria.setBackground(new java.awt.Color(55, 160, 244));
         Categoria.setForeground(new java.awt.Color(255, 255, 255));
         Categoria.setText("CATEGORIA");
+        Categoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CategoriaActionPerformed(evt);
+            }
+        });
         jPanel2.add(Categoria);
         Categoria.setBounds(290, 20, 110, 50);
 
@@ -297,15 +318,62 @@ public class Muebles extends javax.swing.JFrame {
     }//GEN-LAST:event_ClientesActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-
+        if(!"".equals(codigo.getText()) || !"".equals(NomMueble.getText()) || !"".equals(CodCategoria.getText()) || !"".equals(MaterialMueble.getText()) || !"".equals(pressMueble.getText()) || !"".equals(StokMueble.getText())){
+            mb.setCod_mueble(Integer.parseInt(codigo.getText()));
+            mb.setNom_mueble(NomMueble.getText());
+            mb.setCod_categ_fk(Integer.parseInt(CodCategoria.getText()));
+            mb.setMater_mueble(MaterialMueble.getText());
+            mb.setPresi_mueble(Integer.parseInt(pressMueble.getText()));
+            mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
+            touch.Registrar(mb);
+            JOptionPane.showMessageDialog(null, "Mueble Registrado");
+            LimpiarTabla();
+            Listar();
+            Vaciar();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Los campos estan vacion");
+        }
     }//GEN-LAST:event_guardarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-
+        if(!"".equals(codigo.getText())){
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este mueble?");
+            if(pregunta == 0){
+                int cod = Integer.parseInt(codigo.getText());
+                
+                if (touch.Eliminar(cod)) {
+                    JOptionPane.showMessageDialog(null, "Mueble eliminado");
+                    LimpiarTabla();
+                    Vaciar();
+                    Listar();
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR: El mueble no fue eliminado");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR: Seleccion un mueble");
+        }
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-
+        if("".equals(codigo.getText())){
+           JOptionPane.showMessageDialog(null, "Selecciones un usuario");
+        }
+        else{
+            mb.setCod_mueble(Integer.parseInt(codigo.getText()));
+            mb.setNom_mueble(NomMueble.getText());
+            mb.setCod_categ_fk(Integer.parseInt(CodCategoria.getText()));
+            mb.setMater_mueble(MaterialMueble.getText());
+            mb.setPresi_mueble(Double.parseDouble(pressMueble.getText()));
+            mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
+            if(!"".equals(codigo.getText()) || !"".equals(NomMueble.getText()) || !"".equals(CodCategoria.getText()) || !"".equals(MaterialMueble.getText()) || !"".equals(pressMueble.getText()) || !"".equals(StokMueble.getText())){
+                touch.Modificar(mb);
+                LimpiarTabla();
+                Vaciar();
+                Listar();
+            }
+        }
     }//GEN-LAST:event_modificarActionPerformed
 
     private void TbMuebleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbMuebleMouseClicked
@@ -315,12 +383,18 @@ public class Muebles extends javax.swing.JFrame {
         CodCategoria.setText(TbMueble.getValueAt(fila, 2).toString());
         MaterialMueble.setText(TbMueble.getValueAt(fila, 3).toString());
         pressMueble.setText(TbMueble.getValueAt(fila, 4).toString());
-        StokMueble.setText(TbMueble.getValueAt(fila, 4).toString());
+        StokMueble.setText(TbMueble.getValueAt(fila, 5).toString());
     }//GEN-LAST:event_TbMuebleMouseClicked
 
     private void VaciarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VaciarTxtActionPerformed
-
+        Vaciar();
     }//GEN-LAST:event_VaciarTxtActionPerformed
+
+    private void CategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoriaActionPerformed
+        Categoria ct = new Categoria();
+        ct.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_CategoriaActionPerformed
 
     /**
      * @param args the command line arguments
