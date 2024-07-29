@@ -168,16 +168,14 @@ public class MueblesDAO {
         } 
     }
     
-    public boolean RegistrarColor(MueblesColor mc){
+    public boolean RegistrarColor(int cod, int codColor){
         String sql = "INSERT INTO tb_mueble_color(cod_mueble_fk, cod_color_fk) VALUES (?,?)";
         try {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1,mc.getCod_mueble_fk());
-            ps.setInt(2, mc.getCod_color_fk());
+            ps.setInt(1,cod);
+            ps.setInt(2, codColor);
             ps.execute();
-            JOptionPane.showMessageDialog(null, mc.getCod_mueble_fk());
-            JOptionPane.showMessageDialog(null, mc.getCod_color_fk());
             return true;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());

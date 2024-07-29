@@ -368,18 +368,21 @@ public class Muebles extends javax.swing.JFrame {
         mb.setNom_mueble(NomMueble.getText());
         
         // Extraer el código de la categoría seleccionada
+        
+        int cod = Integer.parseInt(codigo.getText());
         String selectedCategoria = (String) categoria.getSelectedItem();
         String codCategoria = selectedCategoria.split(" - ")[0];
         String selectedColor = (String) selectColor.getSelectedItem();
         String codColor = selectedColor.split(" - ")[0];
         
+        int colorCod = Integer.parseInt(codColor);
+        
         mb.setCod_categ_fk(codCategoria);
         mb.setMater_mueble(MaterialMueble.getText());
-        mc.setCod_color_fk(Integer.parseInt(codColor));
         mb.setPresi_mueble(Double.parseDouble(pressMueble.getText()));
         mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
         touch.Registrar(mb);
-        touch.RegistrarColor(mc);
+        touch.RegistrarColor(cod, colorCod);
         JOptionPane.showMessageDialog(null, "Mueble Registrado");
         LimpiarTabla();
         Listar();
