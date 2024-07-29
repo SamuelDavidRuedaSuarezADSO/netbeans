@@ -369,12 +369,12 @@ public class Muebles extends javax.swing.JFrame {
         
         // Extraer el código de la categoría seleccionada
         
-        int cod = Integer.parseInt(codigo.getText());
         String selectedCategoria = (String) categoria.getSelectedItem();
         String codCategoria = selectedCategoria.split(" - ")[0];
         String selectedColor = (String) selectColor.getSelectedItem();
         String codColor = selectedColor.split(" - ")[0];
         
+        int cod = Integer.parseInt(codigo.getText());
         int colorCod = Integer.parseInt(codColor);
         
         mb.setCod_categ_fk(codCategoria);
@@ -388,7 +388,7 @@ public class Muebles extends javax.swing.JFrame {
         Listar();
         Vaciar();
     } else {
-        JOptionPane.showMessageDialog(null, "Los campos estan vacion");
+        JOptionPane.showMessageDialog(null, "Los campos estan vacios");
     }
     }//GEN-LAST:event_guardarActionPerformed
 
