@@ -72,6 +72,7 @@ public class Categoria extends javax.swing.JFrame {
         Categoria = new javax.swing.JButton();
         Pedidos = new javax.swing.JButton();
         Clientes = new javax.swing.JButton();
+        clores = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -136,7 +137,7 @@ public class Categoria extends javax.swing.JFrame {
         Pedidos.setForeground(new java.awt.Color(255, 255, 255));
         Pedidos.setText("PEDIDOS");
         jPanel2.add(Pedidos);
-        Pedidos.setBounds(410, 20, 110, 50);
+        Pedidos.setBounds(530, 20, 110, 50);
 
         Clientes.setBackground(new java.awt.Color(55, 160, 244));
         Clientes.setForeground(new java.awt.Color(255, 255, 255));
@@ -147,7 +148,18 @@ public class Categoria extends javax.swing.JFrame {
             }
         });
         jPanel2.add(Clientes);
-        Clientes.setBounds(530, 20, 110, 50);
+        Clientes.setBounds(650, 20, 110, 50);
+
+        clores.setBackground(new java.awt.Color(55, 160, 244));
+        clores.setForeground(new java.awt.Color(255, 255, 255));
+        clores.setText("COLORES");
+        clores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cloresActionPerformed(evt);
+            }
+        });
+        jPanel2.add(clores);
+        clores.setBounds(410, 20, 110, 50);
 
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 1360, 90);
@@ -324,6 +336,7 @@ public class Categoria extends javax.swing.JFrame {
             cc.setZona_mueble(ZonaCategoria.getText());
             if(!"".equals(CodCategoria.getText()) || !"".equals(NomCategoria.getText()) || !"".equals(ZonaCategoria.getText())){
                 categori.Modificar(cc);
+                JOptionPane.showMessageDialog(null, "Categoria modificada");
                 LimpiarTabla();
                 VaciarInputs();
                 ListarCategoria();
@@ -347,6 +360,12 @@ public class Categoria extends javax.swing.JFrame {
         mb.setVisible(true);
         dispose();
     }//GEN-LAST:event_MuebleActionPerformed
+
+    private void cloresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cloresActionPerformed
+        Color cl = new Color();
+        cl.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_cloresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -395,6 +414,7 @@ public class Categoria extends javax.swing.JFrame {
     private javax.swing.JButton VaciarTxt;
     private javax.swing.JButton Venta;
     private javax.swing.JTextField ZonaCategoria;
+    private javax.swing.JButton clores;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
     private javax.swing.JButton jButton1;

@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 public class MueblesDAO {
@@ -27,7 +28,7 @@ public class MueblesDAO {
                 MueblesClase mb = new MueblesClase();
                 mb.setCod_mueble(rs.getInt("cod_mueble"));
                 mb.setNom_mueble(rs.getString("nom_mueble"));
-                mb.setCod_categ_fk(rs.getInt("cod_categ_fk"));
+                mb.setCod_categ_fk(rs.getString("cod_categ_fk"));
                 mb.setMater_mueble(rs.getString("mater_mueble"));
                 mb.setPresi_mueble(rs.getInt("presi_mueble"));
                 mb.setStok_mueble(rs.getInt("stok_mueble"));
@@ -48,6 +49,7 @@ public class MueblesDAO {
         
         return Lista;
     }
+    
     public boolean Registrar(MueblesClase mb){
         String sql = "INSERT INTO tb_mueble(cod_mueble, nom_mueble, cod_categ_fk, mater_mueble, presi_mueble, stok_mueble) VALUES (?,?,?,?,?,?)";
         try {
@@ -55,7 +57,7 @@ public class MueblesDAO {
             ps = con.prepareStatement(sql);
             ps.setInt(1,mb.getCod_mueble());
             ps.setString(2, mb.getNom_mueble());
-            ps.setInt(3, mb.getCod_categ_fk());
+            ps.setString(3, mb.getCod_categ_fk());
             ps.setString(4, mb.getMater_mueble());
             ps.setDouble(5,mb.getPresi_mueble());
             ps.setInt(6,mb.getStok_mueble());
@@ -103,7 +105,7 @@ public class MueblesDAO {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, mt.getNom_mueble());
-            ps.setInt(2, mt.getCod_categ_fk());
+            ps.setString(2, mt.getCod_categ_fk());
             ps.setString(3, mt.getMater_mueble());
             ps.setDouble(4, mt.getPresi_mueble());
             ps.setInt(5, mt.getStok_mueble());
@@ -122,4 +124,71 @@ public class MueblesDAO {
             }
         }
     }
-}
+    
+    public void ConsultarCategoria(JComboBox<String> MueblesClase) {
+        String sql = "SELECT cod_categ, nom_categ FROM tb_categoria";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                MueblesClase.addItem(rs.getString("cod_categ") + " - " + rs.getString("nom_categ"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
+        }
+    }
+    
+    public void ConusltarColor(JComboBox MueblesClase){
+        String sql = "SELECT cod_color, nom_color FROM tb_color";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                MueblesClase.addItem(rs.getString("cod_color") + " - " + rs.getString("nom_color"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.toString());
+            }
+        } 
+    }
+    
+    public boolean RegistrarColor(MueblesColor mc){
+        String sql = "INSERT INTO tb_mueble_color(cod_mueble_fk, cod_color_fk) VALUES (?,?)";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1,mc.getCod_mueble_fk());
+            ps.setInt(2, mc.getCod_color_fk());
+            ps.execute();
+            JOptionPane.showMessageDialog(null, mc.getCod_mueble_fk());
+            JOptionPane.showMessageDialog(null, mc.getCod_color_fk());
+            return true;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
+            return false;
+        }
+        finally{
+            try {
+                if(con != null) con.close();
+            } catch (SQLException e) {
+                System.out.print(e.toString());
+            }
+        }
+    }
+}   

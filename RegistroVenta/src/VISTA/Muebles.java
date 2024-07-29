@@ -5,6 +5,7 @@
 package VISTA;
 
 import MODELO.MueblesClase;
+import MODELO.MueblesColor;
 import MODELO.MueblesDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -17,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class Muebles extends javax.swing.JFrame {
 
     MueblesClase mb = new MueblesClase();
+    MueblesColor mc = new MueblesColor();
     MueblesDAO touch = new MueblesDAO();
     DefaultTableModel modelo = new DefaultTableModel();
     public Muebles() {
@@ -24,16 +26,19 @@ public class Muebles extends javax.swing.JFrame {
         this.setBounds(0,0,1350,725);
         this.setLocationRelativeTo(null);
         Listar();
+        touch.ConsultarCategoria(categoria);
+        touch.ConusltarColor(selectColor);
     }
 
     public void Vaciar(){
         codigo.setText("");
         NomMueble.setText("");
-        CodCategoria.setText("");
+        categoria.setSelectedItem("Selecione una categoria...");
         MaterialMueble.setText("");
         pressMueble.setText("");
         StokMueble.setText("");
-    }
+        selectColor.setSelectedItem("Seleccione un color...");
+    }  
     
     public void LimpiarTabla(){
         for (int i = 0; i < modelo.getRowCount(); i++){
@@ -47,7 +52,7 @@ public class Muebles extends javax.swing.JFrame {
         modelo = (DefaultTableModel) TbMueble.getModel();
         Object[] ob = new Object[6];
         for (int i = 0; i < Lista.size(); i++){
-            ob[0] = Lista.get(i).getCod_categ_fk();
+            ob[0] = Lista.get(i).getCod_mueble();
             ob[1] = Lista.get(i).getNom_mueble();
             ob[2] = Lista.get(i).getCod_categ_fk();
             ob[3] = Lista.get(i).getMater_mueble();
@@ -75,6 +80,7 @@ public class Muebles extends javax.swing.JFrame {
         Categoria = new javax.swing.JButton();
         Pedidos = new javax.swing.JButton();
         Clientes = new javax.swing.JButton();
+        clores = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -92,10 +98,12 @@ public class Muebles extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         TbMueble = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
-        CodCategoria = new javax.swing.JTextField();
         VaciarTxt = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         StokMueble = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        categoria = new javax.swing.JComboBox<>();
+        selectColor = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -121,6 +129,11 @@ public class Muebles extends javax.swing.JFrame {
         Venta.setBackground(new java.awt.Color(55, 160, 244));
         Venta.setForeground(new java.awt.Color(255, 255, 255));
         Venta.setText("VENTAS");
+        Venta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VentaActionPerformed(evt);
+            }
+        });
         jPanel2.add(Venta);
         Venta.setBounds(50, 20, 110, 50);
 
@@ -144,8 +157,13 @@ public class Muebles extends javax.swing.JFrame {
         Pedidos.setBackground(new java.awt.Color(55, 160, 244));
         Pedidos.setForeground(new java.awt.Color(255, 255, 255));
         Pedidos.setText("PEDIDOS");
+        Pedidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PedidosActionPerformed(evt);
+            }
+        });
         jPanel2.add(Pedidos);
-        Pedidos.setBounds(410, 20, 110, 50);
+        Pedidos.setBounds(530, 20, 110, 50);
 
         Clientes.setBackground(new java.awt.Color(55, 160, 244));
         Clientes.setForeground(new java.awt.Color(255, 255, 255));
@@ -156,7 +174,18 @@ public class Muebles extends javax.swing.JFrame {
             }
         });
         jPanel2.add(Clientes);
-        Clientes.setBounds(530, 20, 110, 50);
+        Clientes.setBounds(650, 20, 110, 50);
+
+        clores.setBackground(new java.awt.Color(55, 160, 244));
+        clores.setForeground(new java.awt.Color(255, 255, 255));
+        clores.setText("COLORES");
+        clores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cloresActionPerformed(evt);
+            }
+        });
+        jPanel2.add(clores);
+        clores.setBounds(410, 20, 110, 50);
 
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 1360, 90);
@@ -177,12 +206,12 @@ public class Muebles extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("CODIGO DEL MUEBLE:");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(640, 100, 210, 40);
+        jLabel2.setBounds(90, 190, 210, 40);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("NOMBRE DEL MUEBLE:");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(640, 150, 210, 40);
+        jLabel4.setBounds(90, 240, 210, 40);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("MATERIAL DEL MUEBLE:");
@@ -196,11 +225,11 @@ public class Muebles extends javax.swing.JFrame {
 
         codigo.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(codigo);
-        codigo.setBounds(880, 100, 270, 40);
+        codigo.setBounds(330, 190, 270, 40);
 
         NomMueble.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(NomMueble);
-        NomMueble.setBounds(880, 150, 270, 40);
+        NomMueble.setBounds(330, 240, 270, 40);
 
         MaterialMueble.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(MaterialMueble);
@@ -276,18 +305,19 @@ public class Muebles extends javax.swing.JFrame {
         jScrollPane2.setBounds(60, 410, 1260, 240);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("CODIGO DE LA CATEGORIA:");
+        jLabel8.setText("CATEGORIA DE LA CATEGORIA:");
         jPanel1.add(jLabel8);
-        jLabel8.setBounds(640, 200, 210, 40);
-
-        CodCategoria.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
-        jPanel1.add(CodCategoria);
-        CodCategoria.setBounds(880, 200, 270, 40);
+        jLabel8.setBounds(640, 150, 210, 40);
 
         VaciarTxt.setBackground(new java.awt.Color(55, 160, 244));
         VaciarTxt.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         VaciarTxt.setForeground(new java.awt.Color(255, 255, 255));
         VaciarTxt.setText("VACIAR");
+        VaciarTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                VaciarTxtMouseClicked(evt);
+            }
+        });
         VaciarTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VaciarTxtActionPerformed(evt);
@@ -305,6 +335,21 @@ public class Muebles extends javax.swing.JFrame {
         jPanel1.add(StokMueble);
         StokMueble.setBounds(880, 350, 270, 40);
 
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel10.setText("SELECONAR COLOR:");
+        jPanel1.add(jLabel10);
+        jLabel10.setBounds(640, 200, 210, 40);
+
+        categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione una categoria..." }));
+        categoria.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
+        jPanel1.add(categoria);
+        categoria.setBounds(880, 150, 270, 40);
+
+        selectColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un color..." }));
+        selectColor.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
+        jPanel1.add(selectColor);
+        selectColor.setBounds(880, 200, 270, 40);
+
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1360, 700);
 
@@ -318,22 +363,30 @@ public class Muebles extends javax.swing.JFrame {
     }//GEN-LAST:event_ClientesActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        if(!"".equals(codigo.getText()) || !"".equals(NomMueble.getText()) || !"".equals(CodCategoria.getText()) || !"".equals(MaterialMueble.getText()) || !"".equals(pressMueble.getText()) || !"".equals(StokMueble.getText())){
-            mb.setCod_mueble(Integer.parseInt(codigo.getText()));
-            mb.setNom_mueble(NomMueble.getText());
-            mb.setCod_categ_fk(Integer.parseInt(CodCategoria.getText()));
-            mb.setMater_mueble(MaterialMueble.getText());
-            mb.setPresi_mueble(Integer.parseInt(pressMueble.getText()));
-            mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
-            touch.Registrar(mb);
-            JOptionPane.showMessageDialog(null, "Mueble Registrado");
-            LimpiarTabla();
-            Listar();
-            Vaciar();
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Los campos estan vacion");
-        }
+    if (!"".equals(codigo.getText()) || !"".equals(NomMueble.getText()) || "Seleccione una categoria...".equals(categoria.getSelectedItem()) || "Seleccione un color...".equals(selectColor.getSelectedItem()) || !"".equals(MaterialMueble.getText()) || !"".equals(pressMueble.getText()) || !"".equals(StokMueble.getText())) {
+        mb.setCod_mueble(Integer.parseInt(codigo.getText()));
+        mb.setNom_mueble(NomMueble.getText());
+        
+        // Extraer el código de la categoría seleccionada
+        String selectedCategoria = (String) categoria.getSelectedItem();
+        String codCategoria = selectedCategoria.split(" - ")[0];
+        String selectedColor = (String) selectColor.getSelectedItem();
+        String codColor = selectedColor.split(" - ")[0];
+        
+        mb.setCod_categ_fk(codCategoria);
+        mb.setMater_mueble(MaterialMueble.getText());
+        mc.setCod_color_fk(Integer.parseInt(codColor));
+        mb.setPresi_mueble(Double.parseDouble(pressMueble.getText()));
+        mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
+        touch.Registrar(mb);
+        touch.RegistrarColor(mc);
+        JOptionPane.showMessageDialog(null, "Mueble Registrado");
+        LimpiarTabla();
+        Listar();
+        Vaciar();
+    } else {
+        JOptionPane.showMessageDialog(null, "Los campos estan vacion");
+    }
     }//GEN-LAST:event_guardarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
@@ -363,12 +416,13 @@ public class Muebles extends javax.swing.JFrame {
         else{
             mb.setCod_mueble(Integer.parseInt(codigo.getText()));
             mb.setNom_mueble(NomMueble.getText());
-            mb.setCod_categ_fk(Integer.parseInt(CodCategoria.getText()));
+            mb.setCod_categ_fk(categoria.getItemAt(WIDTH));
             mb.setMater_mueble(MaterialMueble.getText());
             mb.setPresi_mueble(Double.parseDouble(pressMueble.getText()));
             mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
-            if(!"".equals(codigo.getText()) || !"".equals(NomMueble.getText()) || !"".equals(CodCategoria.getText()) || !"".equals(MaterialMueble.getText()) || !"".equals(pressMueble.getText()) || !"".equals(StokMueble.getText())){
+            if(!"".equals(codigo.getText()) || !"".equals(NomMueble.getText()) || !"".equals(categoria.getSelectedItem()) || !"".equals(MaterialMueble.getText()) || !"".equals(pressMueble.getText()) || !"".equals(StokMueble.getText())){
                 touch.Modificar(mb);
+                JOptionPane.showMessageDialog(null, "Mueble modificado");
                 LimpiarTabla();
                 Vaciar();
                 Listar();
@@ -380,7 +434,7 @@ public class Muebles extends javax.swing.JFrame {
        int fila = TbMueble.rowAtPoint(evt.getPoint());
         codigo.setText(TbMueble.getValueAt(fila, 0).toString());
         NomMueble.setText(TbMueble.getValueAt(fila, 1).toString());
-        CodCategoria.setText(TbMueble.getValueAt(fila, 2).toString());
+        categoria.setSelectedItem(TbMueble.getValueAt(fila, 2).toString());
         MaterialMueble.setText(TbMueble.getValueAt(fila, 3).toString());
         pressMueble.setText(TbMueble.getValueAt(fila, 4).toString());
         StokMueble.setText(TbMueble.getValueAt(fila, 5).toString());
@@ -395,6 +449,24 @@ public class Muebles extends javax.swing.JFrame {
         ct.setVisible(true);
         dispose();
     }//GEN-LAST:event_CategoriaActionPerformed
+
+    private void VaciarTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VaciarTxtMouseClicked
+
+    }//GEN-LAST:event_VaciarTxtMouseClicked
+
+    private void PedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PedidosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PedidosActionPerformed
+
+    private void cloresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cloresActionPerformed
+        Color cc = new Color();
+        cc.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_cloresActionPerformed
+
+    private void VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -435,7 +507,6 @@ public class Muebles extends javax.swing.JFrame {
     private javax.swing.JButton Categoria;
     private javax.swing.JButton Cerrar;
     private javax.swing.JButton Clientes;
-    private javax.swing.JTextField CodCategoria;
     private javax.swing.JTextField MaterialMueble;
     private javax.swing.JButton Mueble;
     private javax.swing.JTextField NomMueble;
@@ -444,11 +515,14 @@ public class Muebles extends javax.swing.JFrame {
     private javax.swing.JTable TbMueble;
     private javax.swing.JButton VaciarTxt;
     private javax.swing.JButton Venta;
+    private javax.swing.JComboBox<String> categoria;
+    private javax.swing.JButton clores;
     private javax.swing.JTextField codigo;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -462,5 +536,6 @@ public class Muebles extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
     private javax.swing.JTextField pressMueble;
+    private javax.swing.JComboBox<String> selectColor;
     // End of variables declaration//GEN-END:variables
 }

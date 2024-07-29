@@ -8,7 +8,7 @@ package MODELO;
 public class MueblesClase {
     private int cod_mueble;
     private String nom_mueble;
-    private int cod_categ_fk;
+    private String cod_categ_fk;
     private String mater_mueble;
     private double presi_mueble;
     private int stok_mueble;
@@ -16,7 +16,7 @@ public class MueblesClase {
     public MueblesClase() {
     }
 
-    public MueblesClase(int cod_mueble, String nom_mueble, int cod_categ_fk, String mater_mueble, double presi_mueble, int stok_mueble) {
+    public MueblesClase(int cod_mueble, String nom_mueble, String cod_categ_fk, String mater_mueble, double presi_mueble, int stok_mueble) {
         this.cod_mueble = cod_mueble;
         this.nom_mueble = nom_mueble;
         this.cod_categ_fk = cod_categ_fk;
@@ -41,11 +41,11 @@ public class MueblesClase {
         this.nom_mueble = nom_mueble;
     }
 
-    public int getCod_categ_fk() {
+    public String getCod_categ_fk() {
         return cod_categ_fk;
     }
 
-    public void setCod_categ_fk(int cod_categ_fk) {
+    public void setCod_categ_fk(String cod_categ_fk) {
         this.cod_categ_fk = cod_categ_fk;
     }
 
