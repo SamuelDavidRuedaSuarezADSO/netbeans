@@ -120,5 +120,39 @@ public class ClienteDAO {
             }
         }
     }
+    
+    public ClienteClase Buscar(int cod){
+        String sql = "SELECT * FROM tb_clientes WHERE dni_client = ?";
+        ClienteClase cliente = null;
+        
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            if(rs.next()){
+                cliente = new ClienteClase(
+                    rs.getInt("dni_client"),
+                    rs.getString("nom_client"),
+                    rs.getString("apell_client"),
+                    rs.getString("direcc_client"),
+                    rs.getString("telef_client")
+                );
+            }
+            
+            
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
+        }
+        return cliente;
+    }
 
 }

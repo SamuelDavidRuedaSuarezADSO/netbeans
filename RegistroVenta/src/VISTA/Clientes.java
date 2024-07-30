@@ -69,7 +69,7 @@ public class Clientes extends javax.swing.JFrame {
         Clientes = new javax.swing.JButton();
         clores = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        search = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -87,6 +87,7 @@ public class Clientes extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         ApellClient = new javax.swing.JTextField();
         VaciarTxt = new javax.swing.JButton();
+        buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -170,16 +171,21 @@ public class Clientes extends javax.swing.JFrame {
 
         jLabel6.setText("©2024SamuelRueda. Todos los derechos reservados");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(10, 660, 290, 16);
+        jLabel6.setBounds(60, 710, 290, 16);
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(55, 160, 244)));
-        jPanel1.add(jTextField1);
-        jTextField1.setBounds(170, 330, 410, 50);
+        search.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(55, 160, 244)));
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+        jPanel1.add(search);
+        search.setBounds(130, 340, 330, 50);
 
         jButton1.setBackground(new java.awt.Color(55, 160, 244));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGENES/Iconos/search.png"))); // NOI18N
         jPanel1.add(jButton1);
-        jButton1.setBounds(100, 330, 50, 50);
+        jButton1.setBounds(60, 340, 50, 50);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("DNI DEL CLIENTE:");
@@ -305,6 +311,18 @@ public class Clientes extends javax.swing.JFrame {
         jPanel1.add(VaciarTxt);
         VaciarTxt.setBounds(1180, 340, 130, 50);
 
+        buscar.setBackground(new java.awt.Color(55, 160, 244));
+        buscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        buscar.setForeground(new java.awt.Color(255, 255, 255));
+        buscar.setText("BUSCAR");
+        buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(buscar);
+        buscar.setBounds(470, 340, 130, 50);
+
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1360, 1010);
 
@@ -405,6 +423,17 @@ public class Clientes extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_cloresActionPerformed
 
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
+        if(!"".equals(search.getText())){
+            int dni = Integer.parseInt(search.getText());
+            client.Buscar(dni);
+        }
+    }//GEN-LAST:event_buscarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -454,6 +483,7 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JTextField TelefClient;
     private javax.swing.JButton VaciarTxt;
     private javax.swing.JButton Venta;
+    private javax.swing.JButton buscar;
     private javax.swing.JButton clores;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
@@ -468,7 +498,7 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
+    private javax.swing.JTextField search;
     // End of variables declaration//GEN-END:variables
 }

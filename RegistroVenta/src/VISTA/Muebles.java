@@ -21,6 +21,7 @@ public class Muebles extends javax.swing.JFrame {
     MueblesColor mc = new MueblesColor();
     MueblesDAO touch = new MueblesDAO();
     DefaultTableModel modelo = new DefaultTableModel();
+    
     public Muebles() {
         initComponents();
         this.setBounds(0,0,1350,725);
