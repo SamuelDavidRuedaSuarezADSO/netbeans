@@ -357,8 +357,7 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_VaciarTxtActionPerformed
 
     private void BuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarMouseClicked
-        Buscar bc = new Buscar();
-        bc.setVisible(true);
+
     }//GEN-LAST:event_BuscarMouseClicked
 
     /**

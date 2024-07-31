@@ -71,7 +71,6 @@ public class Clientes extends javax.swing.JFrame {
         clores = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -174,19 +173,14 @@ public class Clientes extends javax.swing.JFrame {
         jPanel1.add(jLabel6);
         jLabel6.setBounds(60, 710, 290, 16);
 
-        search.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(55, 160, 244)));
+        search.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 160, 244), 3), "Buscar por codigo...", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
         search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchActionPerformed(evt);
             }
         });
         jPanel1.add(search);
-        search.setBounds(130, 340, 330, 50);
-
-        jButton1.setBackground(new java.awt.Color(55, 160, 244));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGENES/Iconos/search.png"))); // NOI18N
-        jPanel1.add(jButton1);
-        jButton1.setBounds(60, 340, 50, 50);
+        search.setBounds(60, 320, 400, 70);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("DNI DEL CLIENTE:");
@@ -500,7 +494,6 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JButton clores;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
