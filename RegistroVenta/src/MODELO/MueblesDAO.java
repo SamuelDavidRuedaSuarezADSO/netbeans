@@ -17,38 +17,41 @@ public class MueblesDAO {
     PreparedStatement ps;
     ResultSet rs;
     
-    public List Listar(){
-        List<MueblesClase> Lista = new ArrayList();
-       String sqlList = "SELECT * FROM tb_mueble";
-        try {
-            con = cn .getConnection();
-            ps = con.prepareStatement(sqlList);
-            rs =ps.executeQuery();
-            while(rs.next()){
-                MueblesClase mb = new MueblesClase();
-                mb.setCod_mueble(rs.getInt("cod_mueble"));
-                mb.setNom_mueble(rs.getString("nom_mueble"));
-                mb.setCod_categ_fk(rs.getString("cod_categ_fk"));
-                mb.setMater_mueble(rs.getString("mater_mueble"));
-                mb.setPresi_mueble(rs.getInt("presi_mueble"));
-                mb.setStok_mueble(rs.getInt("stok_mueble"));
-                Lista.add(mb);
-            }
-            
-        } catch (SQLException e) {
-            System.out.println(e.toString());
-        }finally {
-            try {
-                if(ps !=null) ps.close();
-                if(con != null) con.close();
-                if(rs !=null) rs.close();
-            } catch (SQLException e) {
-                System.out.print(e.toString());
-            }
+    public List<MueblesClase> Listar() {
+    List<MueblesClase> Lista = new ArrayList<>();
+    String sqlList = "SELECT m.*, c.nom_categ, col.nom_color " +
+                     "FROM tb_mueble m " +
+                     "JOIN tb_categoria c ON m.cod_categ_fk = c.cod_categ " +
+                     "JOIN tb_mueble_color mc ON m.cod_mueble = mc.cod_mueble_fk " +
+                     "JOIN tb_color col ON mc.cod_color_fk = col.cod_color";
+    try {
+        con = cn.getConnection();
+        ps = con.prepareStatement(sqlList);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            MueblesClase mb = new MueblesClase();
+            mb.setCod_mueble(rs.getInt("cod_mueble"));
+            mb.setNom_mueble(rs.getString("nom_mueble"));
+            mb.setCod_categ_fk(rs.getString("nom_categ"));
+            mb.setMater_mueble(rs.getString("mater_mueble"));
+            mb.setPresi_mueble(rs.getInt("presi_mueble"));
+            mb.setStok_mueble(rs.getInt("stok_mueble"));
+            mb.setNom_color(rs.getString("nom_color"));
+            Lista.add(mb);
         }
-        
-        return Lista;
+    } catch (SQLException e) {
+        System.out.println(e.toString());
+    } finally {
+        try {
+            if (ps != null) ps.close();
+            if (con != null) con.close();
+            if (rs != null) rs.close();
+        } catch (SQLException e) {
+            System.out.print(e.toString());
+        }
     }
+    return Lista;
+}
     
     public boolean Registrar(MueblesClase mb){
         String sql = "INSERT INTO tb_mueble(cod_mueble, nom_mueble, cod_categ_fk, mater_mueble, presi_mueble, stok_mueble) VALUES (?,?,?,?,?,?)";
@@ -188,5 +191,42 @@ public class MueblesDAO {
                 System.out.print(e.toString());
             }
         }
+    }
+    
+    public MueblesClase Buscar(int cod){
+        String sql = "SELECT * FROM tb_mueble WHERE cod_mueble = ?";
+        MueblesClase mueble = null;
+        
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cod);
+            rs = ps.executeQuery();
+            
+            if(rs.next()){
+                mueble = new MueblesClase(
+                    rs.getInt("cod_mueble"),
+                    rs.getString("nom_mueble"),
+                    rs.getString("cod_categ_fk"),
+                    rs.getString("mater_mueble"),
+                    rs.getDouble("presi_mueble"),
+                    rs.getInt("stok_mueble"),
+                    rs.getString("nom_color")
+                );
+            }
+            
+            
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
+        }
+        return mueble;
     }
 }   

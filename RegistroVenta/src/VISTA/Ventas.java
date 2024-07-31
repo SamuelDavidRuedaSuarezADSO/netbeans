@@ -4,6 +4,8 @@
  */
 package VISTA;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Propietario
@@ -38,9 +40,8 @@ public class Ventas extends javax.swing.JFrame {
         Pedidos = new javax.swing.JButton();
         Clientes = new javax.swing.JButton();
         clores = new javax.swing.JButton();
+        register = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        Buscar = new javax.swing.JButton();
         guardar = new javax.swing.JButton();
         eliminar = new javax.swing.JButton();
         modificar = new javax.swing.JButton();
@@ -48,6 +49,8 @@ public class Ventas extends javax.swing.JFrame {
         TbMueble = new javax.swing.JTable();
         VaciarTxt = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
+        search = new javax.swing.JTextField();
+        buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -131,26 +134,23 @@ public class Ventas extends javax.swing.JFrame {
         jPanel2.add(clores);
         clores.setBounds(410, 20, 110, 50);
 
+        register.setBackground(new java.awt.Color(55, 160, 244));
+        register.setForeground(new java.awt.Color(255, 255, 255));
+        register.setText("REGISTRAR");
+        register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerActionPerformed(evt);
+            }
+        });
+        jPanel2.add(register);
+        register.setBounds(770, 20, 110, 50);
+
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 1360, 90);
 
         jLabel6.setText("©2024SamuelRueda. Todos los derechos reservados");
         jPanel1.add(jLabel6);
         jLabel6.setBounds(10, 750, 290, 16);
-
-        jTextField1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)), "Buscar por codigo...", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
-        jPanel1.add(jTextField1);
-        jTextField1.setBounds(170, 330, 410, 50);
-
-        Buscar.setBackground(new java.awt.Color(55, 160, 244));
-        Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGENES/Iconos/search.png"))); // NOI18N
-        Buscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BuscarMouseClicked(evt);
-            }
-        });
-        jPanel1.add(Buscar);
-        Buscar.setBounds(100, 330, 50, 50);
 
         guardar.setBackground(new java.awt.Color(55, 160, 244));
         guardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -235,6 +235,27 @@ public class Ventas extends javax.swing.JFrame {
         jPanel1.add(jComboBox1);
         jComboBox1.setBounds(320, 120, 250, 40);
 
+        search.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 160, 244), 3), "Buscar por codigo...", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+        jPanel1.add(search);
+        search.setBounds(60, 320, 400, 70);
+
+        buscar.setBackground(new java.awt.Color(55, 160, 244));
+        buscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        buscar.setForeground(new java.awt.Color(255, 255, 255));
+        buscar.setText("BUSCAR");
+        buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(buscar);
+        buscar.setBounds(470, 340, 130, 50);
+
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1360, 770);
 
@@ -252,7 +273,9 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_CategoriaActionPerformed
 
     private void PedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PedidosActionPerformed
-        // TODO add your handling code here:
+        Pedidos pd = new Pedidos();
+        pd.setVisible(true);
+        dispose();
     }//GEN-LAST:event_PedidosActionPerformed
 
     private void ClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientesActionPerformed
@@ -356,9 +379,34 @@ public class Ventas extends javax.swing.JFrame {
 //        Vaciar();
     }//GEN-LAST:event_VaciarTxtActionPerformed
 
-    private void BuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarMouseClicked
+    private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
+        Registrar rg = new Registrar();
+        rg.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_registerActionPerformed
 
-    }//GEN-LAST:event_BuscarMouseClicked
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
+//        if(!"".equals(search.getText())){
+//            int dni = Integer.parseInt(search.getText());
+//            MueblesClase mueble = touch.Buscar(dni);
+//            if(mueble != null){
+//                codigo.setText(String.valueOf(mueble.getCod_mueble()));
+//                NomMueble.setText(mueble.getNom_mueble());
+//                MaterialMueble.setText(mueble.getMater_mueble());
+//                pressMueble.setText(String.valueOf(mueble.getPresi_mueble()));
+//                StokMueble.setText(String.valueOf(mueble.getStok_mueble()));
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Mueble no encontrado");
+//                Vaciar();
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Por favor ingrese un codigo para buscar");
+//        }
+    }//GEN-LAST:event_buscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -396,7 +444,6 @@ public class Ventas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Buscar;
     private javax.swing.JButton Categoria;
     private javax.swing.JButton Cerrar;
     private javax.swing.JButton Clientes;
@@ -405,6 +452,7 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JTable TbMueble;
     private javax.swing.JButton VaciarTxt;
     private javax.swing.JButton Venta;
+    private javax.swing.JButton buscar;
     private javax.swing.JButton clores;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
@@ -414,7 +462,8 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
+    private javax.swing.JButton register;
+    private javax.swing.JTextField search;
     // End of variables declaration//GEN-END:variables
 }

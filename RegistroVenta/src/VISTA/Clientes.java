@@ -69,6 +69,7 @@ public class Clientes extends javax.swing.JFrame {
         Pedidos = new javax.swing.JButton();
         Clientes = new javax.swing.JButton();
         clores = new javax.swing.JButton();
+        register = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -141,6 +142,11 @@ public class Clientes extends javax.swing.JFrame {
         Pedidos.setBackground(new java.awt.Color(55, 160, 244));
         Pedidos.setForeground(new java.awt.Color(255, 255, 255));
         Pedidos.setText("PEDIDOS");
+        Pedidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PedidosActionPerformed(evt);
+            }
+        });
         jPanel2.add(Pedidos);
         Pedidos.setBounds(530, 20, 110, 50);
 
@@ -165,6 +171,17 @@ public class Clientes extends javax.swing.JFrame {
         });
         jPanel2.add(clores);
         clores.setBounds(410, 20, 110, 50);
+
+        register.setBackground(new java.awt.Color(55, 160, 244));
+        register.setForeground(new java.awt.Color(255, 255, 255));
+        register.setText("REGISTRAR");
+        register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerActionPerformed(evt);
+            }
+        });
+        jPanel2.add(register);
+        register.setBounds(770, 20, 110, 50);
 
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 1360, 90);
@@ -441,6 +458,18 @@ public class Clientes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buscarActionPerformed
 
+    private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
+        Registrar rg = new Registrar();
+        rg.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_registerActionPerformed
+
+    private void PedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PedidosActionPerformed
+        Pedidos pd = new Pedidos();
+        pd.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_PedidosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -505,6 +534,7 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton modificar;
+    private javax.swing.JButton register;
     private javax.swing.JTextField search;
     // End of variables declaration//GEN-END:variables
 }

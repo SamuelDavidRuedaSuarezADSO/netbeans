@@ -118,6 +118,38 @@ public class CategoriaDAO {
         }
     }
     
- 
+    public CategoriaClase Buscar(int cod){
+        String sql = "SELECT * FROM tb_categoria WHERE cod_categ = ?";
+        CategoriaClase categ = null;
+        
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cod);
+            rs = ps.executeQuery();
+            
+            if(rs.next()){
+                categ = new CategoriaClase(
+                    rs.getInt("cod_categ"),
+                    rs.getString("nom_categ"),
+                    rs.getString("zona_mueble")
+                );
+            }
+            
+            
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
+        }
+        return categ;
+    }
+
 
 }

@@ -39,6 +39,7 @@ public class Categoria extends javax.swing.JFrame {
         CodCategoria.setText("");
         NomCategoria.setText("");
         ZonaCategoria.setText("");
+        search.setText("");
     }
     
     public void ListarCategoria(){
@@ -73,9 +74,8 @@ public class Categoria extends javax.swing.JFrame {
         Pedidos = new javax.swing.JButton();
         Clientes = new javax.swing.JButton();
         clores = new javax.swing.JButton();
+        register = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         CodCategoria = new javax.swing.JTextField();
@@ -88,6 +88,8 @@ public class Categoria extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         ZonaCategoria = new javax.swing.JTextField();
         VaciarTxt = new javax.swing.JButton();
+        buscar = new javax.swing.JButton();
+        search = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -136,6 +138,11 @@ public class Categoria extends javax.swing.JFrame {
         Pedidos.setBackground(new java.awt.Color(55, 160, 244));
         Pedidos.setForeground(new java.awt.Color(255, 255, 255));
         Pedidos.setText("PEDIDOS");
+        Pedidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PedidosActionPerformed(evt);
+            }
+        });
         jPanel2.add(Pedidos);
         Pedidos.setBounds(530, 20, 110, 50);
 
@@ -161,21 +168,23 @@ public class Categoria extends javax.swing.JFrame {
         jPanel2.add(clores);
         clores.setBounds(410, 20, 110, 50);
 
+        register.setBackground(new java.awt.Color(55, 160, 244));
+        register.setForeground(new java.awt.Color(255, 255, 255));
+        register.setText("REGISTRAR");
+        register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerActionPerformed(evt);
+            }
+        });
+        jPanel2.add(register);
+        register.setBounds(770, 20, 110, 50);
+
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 1360, 90);
 
         jLabel6.setText("©2024SamuelRueda. Todos los derechos reservados");
         jPanel1.add(jLabel6);
         jLabel6.setBounds(10, 660, 290, 16);
-
-        jTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(55, 160, 244)));
-        jPanel1.add(jTextField1);
-        jTextField1.setBounds(170, 330, 410, 50);
-
-        jButton1.setBackground(new java.awt.Color(55, 160, 244));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGENES/Iconos/search.png"))); // NOI18N
-        jPanel1.add(jButton1);
-        jButton1.setBounds(100, 330, 50, 50);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("CODIGO DE LA ZONA:");
@@ -278,6 +287,27 @@ public class Categoria extends javax.swing.JFrame {
         jPanel1.add(VaciarTxt);
         VaciarTxt.setBounds(1180, 340, 130, 50);
 
+        buscar.setBackground(new java.awt.Color(55, 160, 244));
+        buscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        buscar.setForeground(new java.awt.Color(255, 255, 255));
+        buscar.setText("BUSCAR");
+        buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(buscar);
+        buscar.setBounds(470, 340, 130, 50);
+
+        search.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 160, 244), 3), "Buscar por codigo...", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+        jPanel1.add(search);
+        search.setBounds(60, 320, 400, 70);
+
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1360, 700);
 
@@ -308,7 +338,7 @@ public class Categoria extends javax.swing.JFrame {
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
         if(!"".equals(CodCategoria.getText())){
-            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este cliente?");
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar esta categoria?");
             if(pregunta == 0){
                 int cod = Integer.parseInt(CodCategoria.getText());
                 
@@ -367,6 +397,40 @@ public class Categoria extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_cloresActionPerformed
 
+    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
+        if(!"".equals(search.getText())){
+            int dni = Integer.parseInt(search.getText());
+            CategoriaClase categ = categori.Buscar(dni);
+            if(categ != null){
+                CodCategoria.setText(String.valueOf(categ.getCod_categ()));
+                NomCategoria.setText(categ.getNom_categ());
+                ZonaCategoria.setText(categ.getZona_mueble());
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Categoria no encontrado");
+                VaciarInputs();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un codigo para buscar");
+        }
+    }//GEN-LAST:event_buscarActionPerformed
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
+        Registrar rg = new Registrar();
+        rg.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_registerActionPerformed
+
+    private void PedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PedidosActionPerformed
+        Pedidos pd = new Pedidos();
+        pd.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_PedidosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -414,10 +478,10 @@ public class Categoria extends javax.swing.JFrame {
     private javax.swing.JButton VaciarTxt;
     private javax.swing.JButton Venta;
     private javax.swing.JTextField ZonaCategoria;
+    private javax.swing.JButton buscar;
     private javax.swing.JButton clores;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -426,7 +490,8 @@ public class Categoria extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
+    private javax.swing.JButton register;
+    private javax.swing.JTextField search;
     // End of variables declaration//GEN-END:variables
 }

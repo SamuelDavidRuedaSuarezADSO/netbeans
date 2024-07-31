@@ -39,6 +39,7 @@ public class Muebles extends javax.swing.JFrame {
         pressMueble.setText("");
         StokMueble.setText("");
         selectColor.setSelectedItem("Seleccione un color...");
+        search.setText("");
     }  
     
     public void LimpiarTabla(){
@@ -51,14 +52,15 @@ public class Muebles extends javax.swing.JFrame {
     public void Listar(){
         List<MueblesClase> Lista = touch.Listar();
         modelo = (DefaultTableModel) TbMueble.getModel();
-        Object[] ob = new Object[6];
+        Object[] ob = new Object[7];
         for (int i = 0; i < Lista.size(); i++){
             ob[0] = Lista.get(i).getCod_mueble();
             ob[1] = Lista.get(i).getNom_mueble();
             ob[2] = Lista.get(i).getCod_categ_fk();
-            ob[3] = Lista.get(i).getMater_mueble();
-            ob[4] = Lista.get(i).getPresi_mueble();
-            ob[5] = Lista.get(i).getStok_mueble();
+            ob[3] = Lista.get(i).getNom_color();
+            ob[4] = Lista.get(i).getMater_mueble();
+            ob[5] = Lista.get(i).getPresi_mueble();
+            ob[6] = Lista.get(i).getStok_mueble();
             modelo.addRow(ob);
         }
         TbMueble.setModel(modelo);
@@ -82,9 +84,8 @@ public class Muebles extends javax.swing.JFrame {
         Pedidos = new javax.swing.JButton();
         Clientes = new javax.swing.JButton();
         clores = new javax.swing.JButton();
+        register = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -105,6 +106,8 @@ public class Muebles extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         categoria = new javax.swing.JComboBox<>();
         selectColor = new javax.swing.JComboBox<>();
+        buscar = new javax.swing.JButton();
+        search = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -188,21 +191,23 @@ public class Muebles extends javax.swing.JFrame {
         jPanel2.add(clores);
         clores.setBounds(410, 20, 110, 50);
 
+        register.setBackground(new java.awt.Color(55, 160, 244));
+        register.setForeground(new java.awt.Color(255, 255, 255));
+        register.setText("REGISTRAR");
+        register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerActionPerformed(evt);
+            }
+        });
+        jPanel2.add(register);
+        register.setBounds(770, 20, 110, 50);
+
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 1360, 90);
 
         jLabel6.setText("©2024SamuelRueda. Todos los derechos reservados");
         jPanel1.add(jLabel6);
         jLabel6.setBounds(10, 660, 290, 16);
-
-        jTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(55, 160, 244)));
-        jPanel1.add(jTextField1);
-        jTextField1.setBounds(170, 330, 410, 50);
-
-        jButton1.setBackground(new java.awt.Color(55, 160, 244));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGENES/Iconos/search.png"))); // NOI18N
-        jPanel1.add(jButton1);
-        jButton1.setBounds(100, 330, 50, 50);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("CODIGO DEL MUEBLE:");
@@ -283,7 +288,7 @@ public class Muebles extends javax.swing.JFrame {
 
             },
             new String [] {
-                "CODIGO", "NOMBRE", "COD CATEGORIA", "MATERIAL", "PRESIO", "STOK"
+                "CODIGO", "NOMBRE", "CATEGORIA", "COLOR", "MATERIAL", "PRESIO", "STOK"
             }
         ));
         TbMueble.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -298,9 +303,6 @@ public class Muebles extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(TbMueble);
-        if (TbMueble.getColumnModel().getColumnCount() > 0) {
-            TbMueble.getColumnModel().getColumn(3).setResizable(false);
-        }
 
         jPanel1.add(jScrollPane2);
         jScrollPane2.setBounds(60, 410, 1260, 240);
@@ -350,6 +352,27 @@ public class Muebles extends javax.swing.JFrame {
         selectColor.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(selectColor);
         selectColor.setBounds(880, 200, 270, 40);
+
+        buscar.setBackground(new java.awt.Color(55, 160, 244));
+        buscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        buscar.setForeground(new java.awt.Color(255, 255, 255));
+        buscar.setText("BUSCAR");
+        buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(buscar);
+        buscar.setBounds(470, 340, 130, 50);
+
+        search.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 160, 244), 3), "Buscar por codigo...", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+        jPanel1.add(search);
+        search.setBounds(60, 320, 400, 70);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1360, 700);
@@ -415,7 +438,7 @@ public class Muebles extends javax.swing.JFrame {
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
         if("".equals(codigo.getText())){
-           JOptionPane.showMessageDialog(null, "Selecciones un usuario");
+           JOptionPane.showMessageDialog(null, "Selecciones un mueble");
         }
         else{
             mb.setCod_mueble(Integer.parseInt(codigo.getText()));
@@ -459,7 +482,9 @@ public class Muebles extends javax.swing.JFrame {
     }//GEN-LAST:event_VaciarTxtMouseClicked
 
     private void PedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PedidosActionPerformed
-        // TODO add your handling code here:
+        Pedidos pd = new Pedidos();
+        pd.setVisible(true);
+        dispose();
     }//GEN-LAST:event_PedidosActionPerformed
 
     private void cloresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cloresActionPerformed
@@ -471,6 +496,35 @@ public class Muebles extends javax.swing.JFrame {
     private void VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VentaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_VentaActionPerformed
+
+    private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
+        Registrar rg = new Registrar();
+        rg.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_registerActionPerformed
+
+    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
+        if(!"".equals(search.getText())){
+            int dni = Integer.parseInt(search.getText());
+            MueblesClase mueble = touch.Buscar(dni);
+            if(mueble != null){
+                codigo.setText(String.valueOf(mueble.getCod_mueble()));
+                NomMueble.setText(mueble.getNom_mueble());
+                MaterialMueble.setText(mueble.getMater_mueble());
+                pressMueble.setText(String.valueOf(mueble.getPresi_mueble()));
+                StokMueble.setText(String.valueOf(mueble.getStok_mueble()));
+            } else {
+                JOptionPane.showMessageDialog(null, "Mueble no encontrado");
+                Vaciar();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un codigo para buscar");
+        }
+    }//GEN-LAST:event_buscarActionPerformed
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -519,12 +573,12 @@ public class Muebles extends javax.swing.JFrame {
     private javax.swing.JTable TbMueble;
     private javax.swing.JButton VaciarTxt;
     private javax.swing.JButton Venta;
+    private javax.swing.JButton buscar;
     private javax.swing.JComboBox<String> categoria;
     private javax.swing.JButton clores;
     private javax.swing.JTextField codigo;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -537,9 +591,10 @@ public class Muebles extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
     private javax.swing.JTextField pressMueble;
+    private javax.swing.JButton register;
+    private javax.swing.JTextField search;
     private javax.swing.JComboBox<String> selectColor;
     // End of variables declaration//GEN-END:variables
 }

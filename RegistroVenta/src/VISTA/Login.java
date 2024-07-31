@@ -33,9 +33,17 @@ public class Login extends javax.swing.JFrame {
            
             lg = login.log(user, contra);
             if (lg.getUser()!= null && lg.getContra() != null) {
-                Clientes sis = new Clientes();
-                sis.setVisible(true);
-                dispose();
+                if(lg.getCod_rol_fk()!= 1){
+                    Ventas sis = new Ventas();
+                    sis.setVisible(true);
+                    dispose();
+                }else{
+                    ClientesAdmin ca = new ClientesAdmin();
+                    ca.setVisible(true);
+                    dispose();
+                }
+                
+                
                
             }else{
                 JOptionPane.showMessageDialog(null, "El usuario o la contraseña son incorrecta");

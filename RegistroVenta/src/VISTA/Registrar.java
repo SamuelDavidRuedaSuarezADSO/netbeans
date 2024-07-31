@@ -52,16 +52,18 @@ public class Registrar extends javax.swing.JFrame {
                         
                         int cod = Integer.parseInt(codrol);
                         
-                        rg.setCod_rol_fk(cod);
-                        
-                        if(register.Registrar(rg)){
-                            JOptionPane.showMessageDialog(null, "Usuario registrado");
+                        if(cod != 1){
+                            rg.setCod_rol_fk(cod);
+                            if(register.Registrar(rg)){
+                                JOptionPane.showMessageDialog(null, "Usuario registrado");
+                            }
+                            vaciar();
                         }
-                        
-                        
-                        
-                        vaciar();
-                        
+                        else{
+                            
+                            JOptionPane.showMessageDialog(null, "ERROR: No tienes los permisos para crear un administrador");
+                            vaciar();
+                        }
                     }
                     else{
                         JOptionPane.showMessageDialog(null, "ERROR: Las CONTRASELAS no coinciden");
@@ -72,7 +74,7 @@ public class Registrar extends javax.swing.JFrame {
                 }                
             }
             else{
-                JOptionPane.showMessageDialog(null,"ERROR: El CORREO no es valido");
+                JOptionPane.showMessageDialog(null,"ERROR: El CORREO debe tener un @ y un .com la final");
             }
         }else{
             JOptionPane.showMessageDialog(null,"ERROR: Seleccione todos los campos");
@@ -222,7 +224,9 @@ public class Registrar extends javax.swing.JFrame {
     }//GEN-LAST:event_nomUserActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
-        System.exit(0);
+        Ventas vt = new Ventas();
+        vt.setVisible(true);
+        dispose();
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void IniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IniciarActionPerformed

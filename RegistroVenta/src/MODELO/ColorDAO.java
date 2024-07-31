@@ -117,4 +117,36 @@ public class ColorDAO {
             }
         }
     }
+    
+    public ColorClase Buscar(int cod){
+        String sql = "SELECT * FROM tb_color WHERE cod_color = ?";
+        ColorClase color = null;
+        
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cod);
+            rs = ps.executeQuery();
+            
+            if(rs.next()){
+                color = new ColorClase(
+                    rs.getInt("cod_color"),
+                    rs.getString("nom_color")
+                );
+            }
+            
+            
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
+        }
+        return color;
+    }
 }

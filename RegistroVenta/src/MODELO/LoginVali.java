@@ -30,6 +30,7 @@ public class LoginVali {
             if (rs.next()) {
                 l.setUser(rs.getString("nom_user"));
                 l.setContra(rs.getString("contra_user"));
+                l.setCod_rol_fk(rs.getInt("cod_rol_fk"));
             }
         } catch (SQLException e) {
             System.out.println(e.toString());
