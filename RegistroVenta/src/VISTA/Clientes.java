@@ -43,6 +43,7 @@ public class Clientes extends javax.swing.JFrame {
         }
     }
     private void vaciarInputs(){
+        search.setText("");
         DniClient.setText("");
         NomClient.setText("");
         ApellClient.setText("");
@@ -343,7 +344,7 @@ public class Clientes extends javax.swing.JFrame {
             vaciarInputs();
         }
         else{
-            JOptionPane.showMessageDialog(null, "Los campos estan vacion");
+            JOptionPane.showMessageDialog(null, "Los campos estan vacios");
         }
         
     }//GEN-LAST:event_guardarActionPerformed
@@ -387,7 +388,7 @@ public class Clientes extends javax.swing.JFrame {
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
         if("".equals(DniClient.getText())){
-           JOptionPane.showMessageDialog(null, "Selecciones un usuario");
+           JOptionPane.showMessageDialog(null, "Selecciones un Cliente");
         }
         else{
             cl.setDni_client(Integer.parseInt(DniClient.getText()));
@@ -430,7 +431,19 @@ public class Clientes extends javax.swing.JFrame {
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
         if(!"".equals(search.getText())){
             int dni = Integer.parseInt(search.getText());
-            client.Buscar(dni);
+            ClienteClase cliente = client.Buscar(dni);
+            if(cliente != null){
+                DniClient.setText(String.valueOf(cliente.getDni_client()));
+                NomClient.setText(cliente.getNom_client());
+                ApellClient.setText(cliente.getApell_client());
+                DireccClient.setText(cliente.getDirecc_client());
+                TelefClient.setText(cliente.getTelef_client());
+            } else {
+                JOptionPane.showMessageDialog(null, "Cliente no encontrado");
+                vaciarInputs();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un DNI para buscar");
         }
     }//GEN-LAST:event_buscarActionPerformed
 

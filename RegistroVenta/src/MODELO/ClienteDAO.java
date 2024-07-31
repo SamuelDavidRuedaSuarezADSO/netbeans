@@ -128,6 +128,7 @@ public class ClienteDAO {
         try {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
+            ps.setInt(1, cod);
             rs = ps.executeQuery();
             
             if(rs.next()){
