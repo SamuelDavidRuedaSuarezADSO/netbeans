@@ -115,6 +115,11 @@ public class Categoria extends javax.swing.JFrame {
         Venta.setBackground(new java.awt.Color(55, 160, 244));
         Venta.setForeground(new java.awt.Color(255, 255, 255));
         Venta.setText("VENTAS");
+        Venta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VentaActionPerformed(evt);
+            }
+        });
         jPanel2.add(Venta);
         Venta.setBounds(50, 20, 110, 50);
 
@@ -430,6 +435,12 @@ public class Categoria extends javax.swing.JFrame {
         pd.setVisible(true);
         dispose();
     }//GEN-LAST:event_PedidosActionPerformed
+
+    private void VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VentaActionPerformed
+        Ventas vt = new Ventas();
+        vt.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_VentaActionPerformed
 
     /**
      * @param args the command line arguments

@@ -66,7 +66,7 @@ public class Registrar extends javax.swing.JFrame {
                         }
                     }
                     else{
-                        JOptionPane.showMessageDialog(null, "ERROR: Las CONTRASELAS no coinciden");
+                        JOptionPane.showMessageDialog(null, "ERROR: Las CONTRASEÑAS no coinciden");
                     }
                 }
                 else{

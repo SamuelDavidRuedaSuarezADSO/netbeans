@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package MODELO;
 
 
@@ -12,30 +8,18 @@ public class MueblesClase {
     private String mater_mueble;
     private double presi_mueble;
     private int stok_mueble;
-    private String nom_color;
 
     public MueblesClase() {
     }
 
-    public MueblesClase(int cod_mueble, String nom_mueble, String cod_categ_fk, String mater_mueble, double presi_mueble, int stok_mueble, String nom_color) {
+    public MueblesClase(int cod_mueble, String nom_mueble, String cod_categ_fk, String mater_mueble, double presi_mueble, int stok_mueble) {
         this.cod_mueble = cod_mueble;
         this.nom_mueble = nom_mueble;
         this.cod_categ_fk = cod_categ_fk;
         this.mater_mueble = mater_mueble;
         this.presi_mueble = presi_mueble;
         this.stok_mueble = stok_mueble;
-        this.nom_color = nom_color;
     }
-
-    public String getNom_color() {
-        return nom_color;
-    }
-
-    public void setNom_color(String nom_color) {
-        this.nom_color = nom_color;
-    }
-
-
 
     public int getCod_mueble() {
         return cod_mueble;

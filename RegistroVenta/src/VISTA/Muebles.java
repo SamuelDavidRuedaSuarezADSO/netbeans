@@ -4,12 +4,15 @@
  */
 package VISTA;
 
+import MODELO.ColorClase;
+import MODELO.ColorDAO;
 import MODELO.MueblesClase;
 import MODELO.MueblesColor;
 import MODELO.MueblesDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -18,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class Muebles extends javax.swing.JFrame {
 
     MueblesClase mb = new MueblesClase();
-    MueblesColor mc = new MueblesColor();
+    ColorDAO cd = new ColorDAO();
     MueblesDAO touch = new MueblesDAO();
     DefaultTableModel modelo = new DefaultTableModel();
     
@@ -51,20 +54,29 @@ public class Muebles extends javax.swing.JFrame {
     
     public void Listar(){
         List<MueblesClase> Lista = touch.Listar();
+        List<ColorClase> li = cd.Listar();
         modelo = (DefaultTableModel) TbMueble.getModel();
-        Object[] ob = new Object[7];
-        for (int i = 0; i < Lista.size(); i++){
+
+        // Verificar que las listas tengan al menos el mismo tamaño
+        int maxSize = Math.min(Lista.size(), li.size());
+
+        // Limpiar el modelo de la tabla antes de añadir nuevas filas
+        modelo.setRowCount(0);
+
+        for (int i = 0; i < maxSize; i++){
+            Object[] ob = new Object[8];
             ob[0] = Lista.get(i).getCod_mueble();
             ob[1] = Lista.get(i).getNom_mueble();
             ob[2] = Lista.get(i).getCod_categ_fk();
-            ob[3] = Lista.get(i).getNom_color();
+            ob[3] = li.get(i).getNom_color();
             ob[4] = Lista.get(i).getMater_mueble();
             ob[5] = Lista.get(i).getPresi_mueble();
             ob[6] = Lista.get(i).getStok_mueble();
             modelo.addRow(ob);
-        }
-        TbMueble.setModel(modelo);
     }
+    
+    TbMueble.setModel(modelo);
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -207,7 +219,7 @@ public class Muebles extends javax.swing.JFrame {
 
         jLabel6.setText("©2024SamuelRueda. Todos los derechos reservados");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(10, 660, 290, 16);
+        jLabel6.setBounds(10, 670, 290, 16);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("CODIGO DEL MUEBLE:");
@@ -388,29 +400,35 @@ public class Muebles extends javax.swing.JFrame {
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
     if (!"".equals(codigo.getText()) || !"".equals(NomMueble.getText()) || "Seleccione una categoria...".equals(categoria.getSelectedItem()) || "Seleccione un color...".equals(selectColor.getSelectedItem()) || !"".equals(MaterialMueble.getText()) || !"".equals(pressMueble.getText()) || !"".equals(StokMueble.getText())) {
-        mb.setCod_mueble(Integer.parseInt(codigo.getText()));
-        mb.setNom_mueble(NomMueble.getText());
+        if(touch.ValidarExistencia(Integer.parseInt(codigo.getText()))){
+            JOptionPane.showMessageDialog(null, "ERROR: El CODIGO del mueble YA esta en USO");
+        }
+        else{
+            mb.setCod_mueble(Integer.parseInt(codigo.getText()));
+            mb.setNom_mueble(NomMueble.getText());
+
+            // Extraer el código de la categoría seleccionada
+
+            String selectedCategoria = (String) categoria.getSelectedItem();
+            String codCategoria = selectedCategoria.split(" - ")[0];
+            String selectedColor = (String) selectColor.getSelectedItem();
+            String codColor = selectedColor.split(" - ")[0];
+
+            int cod = Integer.parseInt(codigo.getText());
+            int colorCod = Integer.parseInt(codColor);
+
+            mb.setCod_categ_fk(codCategoria);
+            mb.setMater_mueble(MaterialMueble.getText());
+            mb.setPresi_mueble(Double.parseDouble(pressMueble.getText()));
+            mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
+            touch.Registrar(mb);
+            touch.RegistrarColor(cod, colorCod);
+            JOptionPane.showMessageDialog(null, "Mueble Registrado");
+            LimpiarTabla();
+            Listar();
+            Vaciar();   
+        }
         
-        // Extraer el código de la categoría seleccionada
-        
-        String selectedCategoria = (String) categoria.getSelectedItem();
-        String codCategoria = selectedCategoria.split(" - ")[0];
-        String selectedColor = (String) selectColor.getSelectedItem();
-        String codColor = selectedColor.split(" - ")[0];
-        
-        int cod = Integer.parseInt(codigo.getText());
-        int colorCod = Integer.parseInt(codColor);
-        
-        mb.setCod_categ_fk(codCategoria);
-        mb.setMater_mueble(MaterialMueble.getText());
-        mb.setPresi_mueble(Double.parseDouble(pressMueble.getText()));
-        mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
-        touch.Registrar(mb);
-        touch.RegistrarColor(cod, colorCod);
-        JOptionPane.showMessageDialog(null, "Mueble Registrado");
-        LimpiarTabla();
-        Listar();
-        Vaciar();
     } else {
         JOptionPane.showMessageDialog(null, "Los campos estan vacios");
     }
@@ -443,7 +461,9 @@ public class Muebles extends javax.swing.JFrame {
         else{
             mb.setCod_mueble(Integer.parseInt(codigo.getText()));
             mb.setNom_mueble(NomMueble.getText());
-            mb.setCod_categ_fk(categoria.getItemAt(WIDTH));
+            String selectedCategoria = (String) categoria.getSelectedItem();
+            String codCategoria = selectedCategoria.split(" - ")[0];
+            mb.setCod_categ_fk(codCategoria);
             mb.setMater_mueble(MaterialMueble.getText());
             mb.setPresi_mueble(Double.parseDouble(pressMueble.getText()));
             mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
@@ -462,9 +482,9 @@ public class Muebles extends javax.swing.JFrame {
         codigo.setText(TbMueble.getValueAt(fila, 0).toString());
         NomMueble.setText(TbMueble.getValueAt(fila, 1).toString());
         categoria.setSelectedItem(TbMueble.getValueAt(fila, 2).toString());
-        MaterialMueble.setText(TbMueble.getValueAt(fila, 3).toString());
-        pressMueble.setText(TbMueble.getValueAt(fila, 4).toString());
-        StokMueble.setText(TbMueble.getValueAt(fila, 5).toString());
+        MaterialMueble.setText(TbMueble.getValueAt(fila, 4).toString());
+        pressMueble.setText(TbMueble.getValueAt(fila, 5).toString());
+        StokMueble.setText(TbMueble.getValueAt(fila, 6).toString());
     }//GEN-LAST:event_TbMuebleMouseClicked
 
     private void VaciarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VaciarTxtActionPerformed
@@ -494,7 +514,9 @@ public class Muebles extends javax.swing.JFrame {
     }//GEN-LAST:event_cloresActionPerformed
 
     private void VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VentaActionPerformed
-        // TODO add your handling code here:
+        Ventas vt = new Ventas();
+        vt.setVisible(true);
+        dispose();
     }//GEN-LAST:event_VentaActionPerformed
 
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
@@ -513,6 +535,7 @@ public class Muebles extends javax.swing.JFrame {
                 MaterialMueble.setText(mueble.getMater_mueble());
                 pressMueble.setText(String.valueOf(mueble.getPresi_mueble()));
                 StokMueble.setText(String.valueOf(mueble.getStok_mueble()));
+                selectColor.setSelectedItem(mueble.getNom_mueble());
             } else {
                 JOptionPane.showMessageDialog(null, "Mueble no encontrado");
                 Vaciar();

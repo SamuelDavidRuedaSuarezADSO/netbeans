@@ -30,13 +30,14 @@ public class MueblesDAO {
         rs = ps.executeQuery();
         while (rs.next()) {
             MueblesClase mb = new MueblesClase();
+            ColorClase mc = new ColorClase();
             mb.setCod_mueble(rs.getInt("cod_mueble"));
             mb.setNom_mueble(rs.getString("nom_mueble"));
             mb.setCod_categ_fk(rs.getString("nom_categ"));
             mb.setMater_mueble(rs.getString("mater_mueble"));
             mb.setPresi_mueble(rs.getInt("presi_mueble"));
             mb.setStok_mueble(rs.getInt("stok_mueble"));
-            mb.setNom_color(rs.getString("nom_color"));
+            mc.setNom_color(rs.getString("nom_color"));
             Lista.add(mb);
         }
     } catch (SQLException e) {
@@ -210,8 +211,7 @@ public class MueblesDAO {
                     rs.getString("cod_categ_fk"),
                     rs.getString("mater_mueble"),
                     rs.getDouble("presi_mueble"),
-                    rs.getInt("stok_mueble"),
-                    rs.getString("nom_color")
+                    rs.getInt("stok_mueble")
                 );
             }
             
@@ -228,5 +228,32 @@ public class MueblesDAO {
             }
         }
         return mueble;
+    }
+    
+    public boolean ValidarExistencia(int cod){
+        String sql = "SELECT cod_mueble FROM tb_mueble WHERE cod_mueble = ?";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cod);
+            ps.execute();
+            if(ps.execute()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e){
+            System.out.println(e.toString());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
+        }
+        return false;
     }
 }   

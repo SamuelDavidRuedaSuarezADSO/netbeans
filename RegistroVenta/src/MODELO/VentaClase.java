@@ -8,6 +8,6 @@ package MODELO;
  *
  * @author Propietario
  */
-public class VentaEmpleado {
+public class VentaClase {
     
 }

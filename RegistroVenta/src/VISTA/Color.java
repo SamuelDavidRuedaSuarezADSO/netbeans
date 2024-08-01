@@ -395,7 +395,9 @@ public class Color extends javax.swing.JFrame {
     }//GEN-LAST:event_CategoriaActionPerformed
 
     private void VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VentaActionPerformed
-        
+        Ventas vt = new Ventas();
+        vt.setVisible(true);
+        dispose();
     }//GEN-LAST:event_VentaActionPerformed
 
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
