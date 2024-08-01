@@ -6,17 +6,19 @@ public class MueblesClase {
     private String nom_mueble;
     private String cod_categ_fk;
     private String mater_mueble;
+    private String color_mueble;
     private double presi_mueble;
     private int stok_mueble;
 
+    
     public MueblesClase() {
     }
-
-    public MueblesClase(int cod_mueble, String nom_mueble, String cod_categ_fk, String mater_mueble, double presi_mueble, int stok_mueble) {
+    public MueblesClase(int cod_mueble, String nom_mueble, String cod_categ_fk, String mater_mueble, String color_mueble, double presi_mueble, int stok_mueble) {
         this.cod_mueble = cod_mueble;
         this.nom_mueble = nom_mueble;
         this.cod_categ_fk = cod_categ_fk;
         this.mater_mueble = mater_mueble;
+        this.color_mueble = color_mueble;
         this.presi_mueble = presi_mueble;
         this.stok_mueble = stok_mueble;
     }
@@ -53,6 +55,14 @@ public class MueblesClase {
         this.mater_mueble = mater_mueble;
     }
 
+    public String getColor_mueble() {
+        return color_mueble;
+    }
+
+    public void setColor_mueble(String color_mueble) {
+        this.color_mueble = color_mueble;
+    }
+
     public double getPresi_mueble() {
         return presi_mueble;
     }
@@ -68,6 +78,8 @@ public class MueblesClase {
     public void setStok_mueble(int stok_mueble) {
         this.stok_mueble = stok_mueble;
     }
+
+    
     
     
 }

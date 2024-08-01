@@ -68,7 +68,6 @@ public class Clientes extends javax.swing.JFrame {
         Categoria = new javax.swing.JButton();
         Pedidos = new javax.swing.JButton();
         Clientes = new javax.swing.JButton();
-        clores = new javax.swing.JButton();
         register = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
@@ -153,7 +152,7 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
         jPanel2.add(Pedidos);
-        Pedidos.setBounds(530, 20, 110, 50);
+        Pedidos.setBounds(410, 20, 110, 50);
 
         Clientes.setBackground(new java.awt.Color(55, 160, 244));
         Clientes.setForeground(new java.awt.Color(255, 255, 255));
@@ -164,18 +163,7 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
         jPanel2.add(Clientes);
-        Clientes.setBounds(650, 20, 110, 50);
-
-        clores.setBackground(new java.awt.Color(55, 160, 244));
-        clores.setForeground(new java.awt.Color(255, 255, 255));
-        clores.setText("COLORES");
-        clores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cloresActionPerformed(evt);
-            }
-        });
-        jPanel2.add(clores);
-        clores.setBounds(410, 20, 110, 50);
+        Clientes.setBounds(530, 20, 110, 50);
 
         register.setBackground(new java.awt.Color(55, 160, 244));
         register.setForeground(new java.awt.Color(255, 255, 255));
@@ -186,7 +174,7 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
         jPanel2.add(register);
-        register.setBounds(770, 20, 110, 50);
+        register.setBounds(650, 20, 110, 50);
 
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 1360, 90);
@@ -434,12 +422,6 @@ public class Clientes extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_MuebleActionPerformed
 
-    private void cloresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cloresActionPerformed
-        Color cl = new Color();
-        cl.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_cloresActionPerformed
-
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_searchActionPerformed
@@ -531,7 +513,6 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JButton VaciarTxt;
     private javax.swing.JButton Venta;
     private javax.swing.JButton buscar;
-    private javax.swing.JButton clores;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton guardar;
     private javax.swing.JLabel jLabel1;

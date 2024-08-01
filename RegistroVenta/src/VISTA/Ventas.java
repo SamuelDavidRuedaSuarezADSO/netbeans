@@ -65,7 +65,6 @@ public class Ventas extends javax.swing.JFrame {
         Categoria = new javax.swing.JButton();
         Pedidos = new javax.swing.JButton();
         Clientes = new javax.swing.JButton();
-        clores = new javax.swing.JButton();
         register = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         guardar = new javax.swing.JButton();
@@ -156,7 +155,7 @@ public class Ventas extends javax.swing.JFrame {
             }
         });
         jPanel2.add(Pedidos);
-        Pedidos.setBounds(530, 20, 110, 50);
+        Pedidos.setBounds(410, 20, 110, 50);
 
         Clientes.setBackground(new java.awt.Color(55, 160, 244));
         Clientes.setForeground(new java.awt.Color(255, 255, 255));
@@ -167,18 +166,7 @@ public class Ventas extends javax.swing.JFrame {
             }
         });
         jPanel2.add(Clientes);
-        Clientes.setBounds(650, 20, 110, 50);
-
-        clores.setBackground(new java.awt.Color(55, 160, 244));
-        clores.setForeground(new java.awt.Color(255, 255, 255));
-        clores.setText("COLORES");
-        clores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cloresActionPerformed(evt);
-            }
-        });
-        jPanel2.add(clores);
-        clores.setBounds(410, 20, 110, 50);
+        Clientes.setBounds(530, 20, 110, 50);
 
         register.setBackground(new java.awt.Color(55, 160, 244));
         register.setForeground(new java.awt.Color(255, 255, 255));
@@ -189,7 +177,7 @@ public class Ventas extends javax.swing.JFrame {
             }
         });
         jPanel2.add(register);
-        register.setBounds(770, 20, 110, 50);
+        register.setBounds(650, 20, 110, 50);
 
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 1360, 90);
@@ -405,12 +393,6 @@ public class Ventas extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_ClientesActionPerformed
 
-    private void cloresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cloresActionPerformed
-        Color cc = new Color();
-        cc.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_cloresActionPerformed
-
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
 
     }//GEN-LAST:event_guardarActionPerformed
@@ -522,7 +504,6 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JButton buscar;
     private javax.swing.JSpinner cant;
     private javax.swing.JTextField categMueble;
-    private javax.swing.JButton clores;
     private javax.swing.JComboBox<String> codClient;
     private javax.swing.JComboBox<String> codEmple;
     private javax.swing.JButton eliminar;

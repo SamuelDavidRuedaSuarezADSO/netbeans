@@ -39,6 +39,7 @@ public class VentaDAO {
                     rs.getString("nom_mueble"),
                     rs.getString("cod_categ_fk"),
                     rs.getString("mater_mueble"),
+                    rs.getString("colro_mueble"),
                     rs.getDouble("presi_mueble"),
                     rs.getInt("stok_mueble")
                 );
