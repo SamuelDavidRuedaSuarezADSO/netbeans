@@ -336,16 +336,28 @@ public class Clientes extends javax.swing.JFrame {
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         if(!"".equals(DniClient.getText()) || !"".equals(NomClient.getText()) || !"".equals(ApellClient.getText()) || !"".equals(DireccClient.getText()) || !"".equals(TelefClient.getText())){
-            cl.setDni_client(Integer.parseInt(DniClient.getText()));
-            cl.setNom_client(NomClient.getText());
-            cl.setApell_client(ApellClient.getText());
-            cl.setDirecc_client(DireccClient.getText());
-            cl.setTelef_client(TelefClient.getText());
-            client.RegistrarCliente(cl);
-            JOptionPane.showMessageDialog(null, "Cliente Registrado");
-            LimpiarTabla();
-            ListarCliente();
-            vaciarInputs();
+            if(DniClient.getText().length()<= 10){
+                if(TelefClient.getText().length() <= 10){
+                    cl.setDni_client(Integer.parseInt(DniClient.getText()));
+                    cl.setNom_client(NomClient.getText());
+                    cl.setApell_client(ApellClient.getText());
+                    cl.setDirecc_client(DireccClient.getText());
+                    cl.setTelef_client(TelefClient.getText());
+                    client.RegistrarCliente(cl);
+                    JOptionPane.showMessageDialog(null, "Cliente Registrado");
+                    LimpiarTabla();
+                    ListarCliente();
+                    vaciarInputs();
+                }else{
+                    JOptionPane.showMessageDialog(null, "El TELEFONO no es valido (tiene que ser menor a 10 caracteres)");
+                }
+                
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "El CODIGO no es valido (tiene que ser menor a 10 caracteres)");
+            }
+            
+            
         }
         else{
             JOptionPane.showMessageDialog(null, "Los campos estan vacios");

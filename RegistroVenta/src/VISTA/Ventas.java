@@ -229,7 +229,7 @@ public class Ventas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "CODIGO", "NOMBRE", "COD CATEGORIA", "MATERIAL", "PRESIO", "STOK"
+                "CODIGO", "NOMBRE", "CATEGORIA", "STOK", "MATERIAL", "CATIDAD", "PRECIO/U", "PRECIO/T"
             }
         ));
         TbMueble.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -301,7 +301,7 @@ public class Ventas extends javax.swing.JFrame {
         jLabel7.setBounds(680, 160, 190, 30);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("CATIDAD DESEADA:");
+        jLabel8.setText("CANTIDAD DESEADA:");
         jPanel1.add(jLabel8);
         jLabel8.setBounds(680, 360, 190, 30);
 
@@ -361,7 +361,7 @@ public class Ventas extends javax.swing.JFrame {
         pressMueble.setBounds(880, 300, 250, 40);
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setText("PRESIO DEL MUEBLE:");
+        jLabel11.setText("PRECIO DEL MUEBLE:");
         jPanel1.add(jLabel11);
         jLabel11.setBounds(680, 310, 190, 30);
 
@@ -372,9 +372,7 @@ public class Ventas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VentaActionPerformed
-        Ventas vt = new Ventas();
-        vt.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_VentaActionPerformed
 
     private void CategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoriaActionPerformed

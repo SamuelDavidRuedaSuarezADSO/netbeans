@@ -135,7 +135,7 @@ public class Categoria extends javax.swing.JFrame {
 
         Categoria.setBackground(new java.awt.Color(55, 160, 244));
         Categoria.setForeground(new java.awt.Color(255, 255, 255));
-        Categoria.setText("CATEGORIAS");
+        Categoria.setText("CATEGORIA");
         jPanel2.add(Categoria);
         Categoria.setBounds(290, 20, 110, 50);
 
