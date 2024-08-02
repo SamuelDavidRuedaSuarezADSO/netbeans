@@ -29,8 +29,8 @@ public class MueblesDAO {
                 mb.setCod_mueble(rs.getInt("cod_mueble"));
                 mb.setNom_mueble(rs.getString("nom_mueble"));
                 mb.setCod_categ_fk(rs.getString("cod_categ_fk"));
-                mb.setColor_mueble(rs.getString("color_mueble"));
                 mb.setMater_mueble(rs.getString("mater_mueble"));
+                mb.setColor_mueble(rs.getString("color_mueble"));
                 mb.setPresi_mueble(rs.getInt("presi_mueble"));
                 mb.setStok_mueble(rs.getInt("stok_mueble"));
                 Lista.add(mb);
@@ -50,7 +50,7 @@ public class MueblesDAO {
     }
     
     public boolean Registrar(MueblesClase mb){
-        String sql = "INSERT INTO tb_mueble(cod_mueble, nom_mueble, cod_categ_fk, color_mueble,mater_mueble, presi_mueble, stok_mueble) VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO tb_mueble(cod_mueble, nom_mueble, cod_categ_fk, mater_mueble, color_mueble, presi_mueble, stok_mueble) VALUES (?,?,?,?,?,?,?)";
         try {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
@@ -164,8 +164,8 @@ public class MueblesDAO {
                     rs.getInt("cod_mueble"),
                     rs.getString("nom_mueble"),
                     rs.getString("cod_categ_fk"),
-                    rs.getString("color_mueble"),
                     rs.getString("mater_mueble"),
+                    rs.getString("color_mueble"),
                     rs.getDouble("presi_mueble"),
                     rs.getInt("stok_mueble")
                 );

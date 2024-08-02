@@ -39,7 +39,7 @@ public class VentaDAO {
                     rs.getString("nom_mueble"),
                     rs.getString("cod_categ_fk"),
                     rs.getString("mater_mueble"),
-                    rs.getString("colro_mueble"),
+                    rs.getString("color_mueble"),
                     rs.getDouble("presi_mueble"),
                     rs.getInt("stok_mueble")
                 );
@@ -83,13 +83,13 @@ public class VentaDAO {
     }
     
     public void ConsultarCliente(JComboBox<String> ClienteClase) {
-        String sql = "SELECT dni_client, nom_client FROM tb_clientes";
+        String sql = "SELECT dni_client, nom_client, apell_client FROM tb_clientes";
         try {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                ClienteClase.addItem(rs.getString("dni_client") + " - " + rs.getString("nom_client"));
+                ClienteClase.addItem(rs.getString("dni_client") + " - " + rs.getString("nom_client") + " " + rs.getString("apell_client"));
             }
         } catch (SQLException e) {
             System.out.println(e.toString());
