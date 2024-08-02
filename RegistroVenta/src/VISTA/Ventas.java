@@ -70,7 +70,7 @@ public class Ventas extends javax.swing.JFrame {
             double cal = (double) tbVenta.getModel().getValueAt(i, 7);
             totalP = totalP + cal;
         }
-        pagar.setText(String.format("%.2f", totalP));
+        pagar.setText(String.format("%.0f",totalP));
     }
     
     private void añadir(){
@@ -465,16 +465,15 @@ public class Ventas extends javax.swing.JFrame {
         jPanel1.add(jLabel11);
         jLabel11.setBounds(680, 310, 190, 30);
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel12.setText("TOTAL A PAGAR");
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel12.setText("TOTAL A PAGAR:                 $");
         jPanel1.add(jLabel12);
-        jLabel12.setBounds(870, 570, 190, 30);
+        jLabel12.setBounds(870, 570, 190, 40);
 
         pagar.setEditable(false);
-        pagar.setText("0.00");
         pagar.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(55, 160, 244)));
         jPanel1.add(pagar);
-        pagar.setBounds(1070, 560, 250, 40);
+        pagar.setBounds(1070, 570, 250, 40);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1360, 690);
