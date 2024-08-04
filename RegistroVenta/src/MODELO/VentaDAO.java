@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 public class VentaDAO {
     
@@ -92,6 +93,28 @@ public class VentaDAO {
                 if (rs != null) rs.close();
             } catch (SQLException e) {
                 System.out.println(e.toString());
+            }
+        }
+    }
+    
+    public boolean RegistrarPedido(VentaPClase vt){
+        String sql = "INSERT INTO tb_pedido()";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1,vt.getCod_user_fk());
+            ps.setInt(2, vt.getCod_client_fk());
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
+            return false;
+        }
+        finally{
+            try {
+                if(con != null) con.close();
+            } catch (SQLException e) {
+                System.out.print(e.toString());
             }
         }
     }

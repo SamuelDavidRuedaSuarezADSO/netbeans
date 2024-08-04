@@ -6,6 +6,7 @@ import MODELO.MueblesClase;
 import MODELO.MueblesDAO;
 import MODELO.VentaClase;
 import MODELO.VentaDAO;
+import MODELO.VentaPClase;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,6 +17,7 @@ public class Ventas extends javax.swing.JFrame {
     double totalP = 0.00;
     VentaDAO sells = new VentaDAO();
     VentaClase sl = new VentaClase();
+    VentaPClase vt = new VentaPClase();
     MueblesDAO touch = new MueblesDAO();
     CategoriaDAO categ = new CategoriaDAO();
     
@@ -129,6 +131,70 @@ public class Ventas extends javax.swing.JFrame {
         }
     }
 
+    public void eliminar(){
+        modelo = (DefaultTableModel) tbVenta.getModel();
+        modelo.removeRow(tbVenta.getSelectedRow());
+        TotalP();
+        LimpiserVenta();
+        search.requestFocus();
+    }
+    
+    public void Buscar(){
+        if(!"".equals(search.getText())){
+            int dni = Integer.parseInt(search.getText());
+            MueblesClase mueble = touch.Buscar(dni);
+            CategoriaClase cag = categ.Buscar(dni);
+            if(mueble != null){
+                nomMueble.setText(mueble.getNom_mueble());
+                categMueble.setText(cag.getNom_categ());
+                materialMueble.setText(mueble.getMater_mueble());
+                stokMueble.setText(String.valueOf(mueble.getStok_mueble()));
+                pressMueble.setText(String.valueOf(mueble.getPresi_mueble()));
+            } else {
+                JOptionPane.showMessageDialog(null, "Mueble no encontrado");
+                Vaciar();
+                search.requestFocus();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un codigo para buscar");
+        }
+    }
+    
+    public void selecionar(int fila){
+        
+        search.setText(tbVenta.getValueAt(fila, 0).toString());
+        nomMueble.setText(tbVenta.getValueAt(fila, 1).toString());       
+        categMueble.setText(tbVenta.getValueAt(fila, 2).toString());
+        materialMueble.setText(tbVenta.getValueAt(fila, 3).toString()); 
+        stokMueble.setText(tbVenta.getValueAt(fila, 4).toString());
+        cant.setValue(tbVenta.getValueAt(fila, 5));
+        pressMueble.setText(tbVenta.getValueAt(fila, 6).toString());
+    }
+    
+    public void modifi(){
+        int fila = tbVenta.getSelectedRow();
+        if (fila != -1) {
+            modelo.setValueAt(Integer.parseInt(search.getText()), fila, 0);
+            modelo.setValueAt(nomMueble.getText(), fila, 1);
+            modelo.setValueAt(categMueble.getText(), fila, 2);
+            modelo.setValueAt(materialMueble.getText(), fila, 3);
+            modelo.setValueAt(Integer.parseInt(stokMueble.getText()), fila, 4);
+            modelo.setValueAt((Integer) cant.getValue(), fila, 5);
+            modelo.setValueAt(Double.parseDouble(pressMueble.getText()), fila, 6);
+            double pressTot = (Integer) cant.getValue() * Double.parseDouble(pressMueble.getText());
+            modelo.setValueAt(pressTot, fila, 7);
+            TotalP();
+            LimpiserVenta();
+            search.requestFocus();
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un elemento de la tabla para actualizar");
+        }
+    }
+    
+    public void pagar(){
+        
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -170,6 +236,8 @@ public class Ventas extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         pagar = new javax.swing.JTextField();
+        pagarBtn = new javax.swing.JButton();
+        eliminarTodo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -458,6 +526,30 @@ public class Ventas extends javax.swing.JFrame {
         jPanel1.add(pagar);
         pagar.setBounds(1070, 570, 250, 40);
 
+        pagarBtn.setBackground(new java.awt.Color(0, 182, 18));
+        pagarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        pagarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        pagarBtn.setText("PAGAR");
+        pagarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pagarBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(pagarBtn);
+        pagarBtn.setBounds(1170, 620, 130, 50);
+
+        eliminarTodo.setBackground(new java.awt.Color(243, 33, 33));
+        eliminarTodo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        eliminarTodo.setForeground(new java.awt.Color(255, 255, 255));
+        eliminarTodo.setText("ELIMINAR");
+        eliminarTodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarTodoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(eliminarTodo);
+        eliminarTodo.setBounds(60, 610, 130, 50);
+
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1360, 690);
 
@@ -489,42 +581,16 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_añadirActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        modelo = (DefaultTableModel) tbVenta.getModel();
-        modelo.removeRow(tbVenta.getSelectedRow());
-        TotalP();
-        LimpiserVenta();
-        search.requestFocus();
+        eliminar();
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        int fila = tbVenta.getSelectedRow();
-        if (fila != -1) {
-            modelo.setValueAt(Integer.parseInt(search.getText()), fila, 0);
-            modelo.setValueAt(nomMueble.getText(), fila, 1);
-            modelo.setValueAt(categMueble.getText(), fila, 2);
-            modelo.setValueAt(materialMueble.getText(), fila, 3);
-            modelo.setValueAt(Integer.parseInt(stokMueble.getText()), fila, 4);
-            modelo.setValueAt((Integer) cant.getValue(), fila, 5);
-            modelo.setValueAt(Double.parseDouble(pressMueble.getText()), fila, 6);
-            double pressTot = (Integer) cant.getValue() * Double.parseDouble(pressMueble.getText());
-            modelo.setValueAt(pressTot, fila, 7);
-            TotalP();
-            LimpiserVenta();
-            search.requestFocus();
-        } else {
-            JOptionPane.showMessageDialog(null, "Seleccione un elemento de la tabla para actualizar");
-    }
+        modifi();
     }//GEN-LAST:event_modificarActionPerformed
 
     private void tbVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbVentaMouseClicked
         int fila = tbVenta.rowAtPoint(evt.getPoint());
-        search.setText(tbVenta.getValueAt(fila, 0).toString());
-        nomMueble.setText(tbVenta.getValueAt(fila, 1).toString());       
-        categMueble.setText(tbVenta.getValueAt(fila, 2).toString());
-        materialMueble.setText(tbVenta.getValueAt(fila, 3).toString()); 
-        stokMueble.setText(tbVenta.getValueAt(fila, 4).toString());
-        cant.setValue(tbVenta.getValueAt(fila, 5));
-        pressMueble.setText(tbVenta.getValueAt(fila, 6).toString());
+        selecionar(fila);
     }//GEN-LAST:event_tbVentaMouseClicked
 
     private void VaciarTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VaciarTxtMouseClicked
@@ -540,24 +606,7 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_searchActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        if(!"".equals(search.getText())){
-            int dni = Integer.parseInt(search.getText());
-            MueblesClase mueble = touch.Buscar(dni);
-            CategoriaClase cag = categ.Buscar(dni);
-            if(mueble != null){
-                nomMueble.setText(mueble.getNom_mueble());
-                categMueble.setText(cag.getNom_categ());
-                materialMueble.setText(mueble.getMater_mueble());
-                stokMueble.setText(String.valueOf(mueble.getStok_mueble()));
-                pressMueble.setText(String.valueOf(mueble.getPresi_mueble()));
-            } else {
-                JOptionPane.showMessageDialog(null, "Mueble no encontrado");
-                Vaciar();
-                search.requestFocus();
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un codigo para buscar");
-        }
+        Buscar();
     }//GEN-LAST:event_buscarActionPerformed
 
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
@@ -575,6 +624,34 @@ public class Ventas extends javax.swing.JFrame {
         mf.setVisible(true);
         dispose();
     }//GEN-LAST:event_MuebleActionPerformed
+
+    private void pagarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarBtnActionPerformed
+        if(modelo.getRowCount() > 0){
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estas seguro de continuar la venta?"); 
+            if(pregunta == 0){
+                String selectEmple = (String) codEmple.getSelectedItem();
+                String codEmple = selectEmple.split(" - ")[0];
+                
+                String selectClient = (String) codClient.getSelectedItem();
+                String codClient = selectClient.split(" - ")[0];
+                
+                vt.setCod_user_fk(Integer.parseInt(codEmple));
+                vt.setCod_client_fk(Integer.parseInt(codClient));
+                
+                sells.RegistrarPedido(vt);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "No");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "ERROR: No hay ningun elemento registrado.");
+        }
+    }//GEN-LAST:event_pagarBtnActionPerformed
+
+    private void eliminarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarTodoActionPerformed
+        Vaciar();
+        modelo.setRowCount(0);
+    }//GEN-LAST:event_eliminarTodoActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -599,6 +676,7 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> codClient;
     private javax.swing.JComboBox<String> codEmple;
     private javax.swing.JButton eliminar;
+    private javax.swing.JButton eliminarTodo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -617,6 +695,7 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JButton modificar;
     private javax.swing.JTextField nomMueble;
     private javax.swing.JTextField pagar;
+    private javax.swing.JButton pagarBtn;
     private javax.swing.JTextField pressMueble;
     private javax.swing.JButton register;
     private javax.swing.JTextField search;
