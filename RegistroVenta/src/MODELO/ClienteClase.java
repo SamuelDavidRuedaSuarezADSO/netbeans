@@ -1,6 +1,4 @@
-
 package MODELO;
-
 
 public class ClienteClase {
     private int dni_client;
@@ -58,9 +56,6 @@ public class ClienteClase {
 
     public void setTelef_client(String telef_client) {
         this.telef_client = telef_client;
-    }
-
-    
-    
+    }   
     
 }
