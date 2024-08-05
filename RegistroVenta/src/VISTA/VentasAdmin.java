@@ -700,7 +700,7 @@ public class VentasAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarActionPerformed
 
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
-        Registrar rg = new Registrar();
+        RegistrarAdmin rg = new RegistrarAdmin();
         rg.setVisible(true);
         dispose();
     }//GEN-LAST:event_registerActionPerformed

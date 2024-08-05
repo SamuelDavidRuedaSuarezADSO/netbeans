@@ -86,10 +86,10 @@ public class RegistrarAdmin extends javax.swing.JFrame {
         contraseña = new javax.swing.JPasswordField();
         mailUser = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         confiContra = new javax.swing.JPasswordField();
         jLabel7 = new javax.swing.JLabel();
         rol = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -174,12 +174,6 @@ public class RegistrarAdmin extends javax.swing.JFrame {
         jPanel1.add(jLabel5);
         jLabel5.setBounds(130, 200, 170, 25);
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(29, 90, 138));
-        jLabel6.setText("Contraseña:");
-        jPanel1.add(jLabel6);
-        jLabel6.setBounds(130, 360, 110, 25);
-
         confiContra.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(29, 90, 138), 3));
         jPanel1.add(confiContra);
         confiContra.setBounds(130, 390, 340, 40);
@@ -195,8 +189,14 @@ public class RegistrarAdmin extends javax.swing.JFrame {
         jPanel1.add(rol);
         rol.setBounds(130, 470, 340, 40);
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(29, 90, 138));
+        jLabel6.setText("Confirmar Contraseña:");
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(130, 360, 200, 25);
+
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(370, 20, 590, 660);
+        jPanel1.setBounds(370, 10, 590, 660);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGENES/fondoArreglo.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -217,7 +217,6 @@ public class RegistrarAdmin extends javax.swing.JFrame {
 
     private void IniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IniciarActionPerformed
         registrar();
-        vaciar();
     }//GEN-LAST:event_IniciarActionPerformed
 
     private void mailUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mailUserActionPerformed

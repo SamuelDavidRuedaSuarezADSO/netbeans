@@ -60,9 +60,7 @@ public class Registrar extends javax.swing.JFrame {
                             vaciar();
                         }
                         else{
-                            
                             JOptionPane.showMessageDialog(null, "ERROR: No tienes los permisos para crear un administrador");
-                            vaciar();
                         }
                     }
                     else{
@@ -190,9 +188,9 @@ public class Registrar extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(29, 90, 138));
-        jLabel6.setText("Contraseña:");
+        jLabel6.setText("Confirmar Contraseña:");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(130, 360, 110, 25);
+        jLabel6.setBounds(130, 360, 200, 25);
 
         confiContra.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(29, 90, 138), 3));
         jPanel1.add(confiContra);
@@ -210,7 +208,7 @@ public class Registrar extends javax.swing.JFrame {
         rol.setBounds(130, 470, 340, 40);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(370, 20, 590, 660);
+        jPanel1.setBounds(370, 10, 590, 660);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGENES/fondoArreglo.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -231,7 +229,6 @@ public class Registrar extends javax.swing.JFrame {
 
     private void IniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IniciarActionPerformed
         registrar();
-        vaciar();
     }//GEN-LAST:event_IniciarActionPerformed
 
     private void mailUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mailUserActionPerformed
