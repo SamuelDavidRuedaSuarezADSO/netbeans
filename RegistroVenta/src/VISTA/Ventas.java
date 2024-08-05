@@ -4,9 +4,9 @@ import MODELO.CategoriaClase;
 import MODELO.CategoriaDAO;
 import MODELO.MueblesClase;
 import MODELO.MueblesDAO;
-import MODELO.VentaClase;
 import MODELO.VentaDAO;
 import MODELO.VentaPClase;
+import MODELO.VentaPMClase;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,8 +16,8 @@ public class Ventas extends javax.swing.JFrame {
     int item;
     double totalP = 0.00;
     VentaDAO sells = new VentaDAO();
-    VentaClase sl = new VentaClase();
     VentaPClase vt = new VentaPClase();
+    VentaPMClase vp = new VentaPMClase();
     MueblesDAO touch = new MueblesDAO();
     CategoriaDAO categ = new CategoriaDAO();
     
@@ -39,7 +39,7 @@ public class Ventas extends javax.swing.JFrame {
         pressMueble.setText("");
         search.setText("");
         cant.setValue(0);
-        codClient.setSelectedItem("Selecciona un cliente...");
+        codClient.setSelectedItem("Seleccione un cliente...");
         pagar.setText("");
     }
     
@@ -51,7 +51,6 @@ public class Ventas extends javax.swing.JFrame {
         pressMueble.setText("");
         search.setText("");
         cant.setValue(0);
-        codClient.setSelectedItem("Selecciona un cliente...");
     }
     
     private void TotalP(){
@@ -192,7 +191,77 @@ public class Ventas extends javax.swing.JFrame {
     }
     
     public void pagar(){
-        
+        if(!"Seleccione un empleado...".equals(codEmple.getSelectedItem())){
+            if(!"Seleccione un cliente...".equals(codClient.getSelectedItem())){
+                if(modelo.getRowCount() > 0){
+                    int pregunta = JOptionPane.showConfirmDialog(null, "¿Estas seguro de continuar la venta?"); 
+                    if(pregunta == 0){
+                        String selectEmple = (String) codEmple.getSelectedItem();
+                        String codEmple = selectEmple.split(" - ")[0];
+                        if(!"1".equals(codEmple)){
+                            String nomEmple = selectEmple.split(" - ")[1];
+
+                            String selectClient = (String) codClient.getSelectedItem();
+                            String codClient = selectClient.split(" - ")[0];
+                            String nomClient = selectClient.split(" - ")[1];
+
+                            vt.setCod_user_fk(Integer.parseInt(codEmple));
+                            vt.setCod_client_fk(Integer.parseInt(codClient));
+                            vt.setTotal_pedido(totalP);
+
+                            int codP = sells.RegistrarPedido(vt);
+
+                            for(int i = 0; i<tbVenta.getRowCount(); i++){
+                                int codigo = (int) tbVenta.getValueAt(i, 0);
+                                int stock = ((Number) tbVenta.getValueAt(i, 4)).intValue();
+                                int canti = ((Number) tbVenta.getValueAt(i, 5)).intValue();
+                                int preci = ((Number) tbVenta.getValueAt(i, 7)).intValue();
+
+                                vp.setCod_mueble_fk(codigo);
+                                vp.setCod_pedido_fk(codP);
+                                vp.setCant_mueble(canti);
+                                vp.setPress_mueble(preci);
+
+                                int nStock = stock - canti;
+
+                                sells.actualizarStock(codigo, nStock);
+                                sells.RegistrarDetalles(vp);
+                            }
+
+                            // Recolectar los datos necesarios de la tabla tbVenta
+                            DefaultTableModel model = (DefaultTableModel) tbVenta.getModel();
+                            ArrayList<Object[]> datosSeleccionados = new ArrayList<>();
+
+                            for (int i = 0; i < model.getRowCount(); i++) {
+                                Object nombre = model.getValueAt(i, 1); // Columna nombre
+                                Object cantidad = model.getValueAt(i, 5); // Columna cantidad
+                                Object precioU = model.getValueAt(i, 6); // Columna precio/u
+                                Object precioT = model.getValueAt(i, 7); // Columna precio/t
+
+                                Object[] fila = {nombre, cantidad, precioU, precioT};
+                                datosSeleccionados.add(fila);
+                            }
+
+                            // Crear y mostrar el NewVenta con los datos recolectados
+                            NewVenta newVentaFrame = new NewVenta(datosSeleccionados, nomEmple, nomClient, totalP, codP);
+                            newVentaFrame.setVisible(true);
+
+                            Vaciar();
+                            modelo.setRowCount(0);
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "ERROR: No posees permisos para registrar esta venta con ese EMPLEANDO");
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR: No hay ningun elemento registrado.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR: No se selecciono un CLIENTE");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR: No se selecciono un EMPLEADO");
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -257,6 +326,11 @@ public class Ventas extends javax.swing.JFrame {
         Cerrar.setBackground(new java.awt.Color(55, 160, 244));
         Cerrar.setForeground(new java.awt.Color(255, 255, 255));
         Cerrar.setText("CERRAR SESIÓN");
+        Cerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarActionPerformed(evt);
+            }
+        });
         jPanel2.add(Cerrar);
         Cerrar.setBounds(1180, 20, 140, 50);
 
@@ -567,7 +641,9 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_CategoriaActionPerformed
 
     private void PedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PedidosActionPerformed
-        // TODO add your handling code here:
+        Pedidos pd = new Pedidos();
+        pd.setVisible(true);
+        dispose();
     }//GEN-LAST:event_PedidosActionPerformed
 
     private void ClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientesActionPerformed
@@ -626,32 +702,19 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_MuebleActionPerformed
 
     private void pagarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarBtnActionPerformed
-        if(modelo.getRowCount() > 0){
-            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estas seguro de continuar la venta?"); 
-            if(pregunta == 0){
-                String selectEmple = (String) codEmple.getSelectedItem();
-                String codEmple = selectEmple.split(" - ")[0];
-                
-                String selectClient = (String) codClient.getSelectedItem();
-                String codClient = selectClient.split(" - ")[0];
-                
-                vt.setCod_user_fk(Integer.parseInt(codEmple));
-                vt.setCod_client_fk(Integer.parseInt(codClient));
-                
-                sells.RegistrarPedido(vt);
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "No");
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "ERROR: No hay ningun elemento registrado.");
-        }
+        pagar();
     }//GEN-LAST:event_pagarBtnActionPerformed
 
     private void eliminarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarTodoActionPerformed
         Vaciar();
         modelo.setRowCount(0);
     }//GEN-LAST:event_eliminarTodoActionPerformed
+
+    private void CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarActionPerformed
+        Login lg = new Login();
+        lg.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_CerrarActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

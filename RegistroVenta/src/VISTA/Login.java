@@ -38,8 +38,8 @@ public class Login extends javax.swing.JFrame {
                     sis.setVisible(true);
                     dispose();
                 }else{
-                    ClientesAdmin ca = new ClientesAdmin();
-                    ca.setVisible(true);
+                    VentasAdmin vt = new VentasAdmin();
+                    vt.setVisible(true);
                     dispose();
                 }
                 

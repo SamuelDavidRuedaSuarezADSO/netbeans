@@ -14,8 +14,6 @@ public class Muebles extends javax.swing.JFrame {
 
     MueblesClase mb = new MueblesClase();
     MueblesDAO touch = new MueblesDAO();
-    
-    
     DefaultTableModel modelo = new DefaultTableModel();
     
     public Muebles() {
@@ -131,6 +129,11 @@ public class Muebles extends javax.swing.JFrame {
         Cerrar.setBackground(new java.awt.Color(55, 160, 244));
         Cerrar.setForeground(new java.awt.Color(255, 255, 255));
         Cerrar.setText("CERRAR SESIÓN");
+        Cerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarActionPerformed(evt);
+            }
+        });
         jPanel2.add(Cerrar);
         Cerrar.setBounds(1180, 20, 140, 50);
 
@@ -527,6 +530,12 @@ public class Muebles extends javax.swing.JFrame {
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_searchActionPerformed
+
+    private void CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarActionPerformed
+        Login lg = new Login();
+        lg.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_CerrarActionPerformed
 
     public static void main(String args[]) {
 

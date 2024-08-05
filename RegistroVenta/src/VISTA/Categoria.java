@@ -94,6 +94,11 @@ public class Categoria extends javax.swing.JFrame {
         Cerrar.setBackground(new java.awt.Color(55, 160, 244));
         Cerrar.setForeground(new java.awt.Color(255, 255, 255));
         Cerrar.setText("CERRAR SESIÓN");
+        Cerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarActionPerformed(evt);
+            }
+        });
         jPanel2.add(Cerrar);
         Cerrar.setBounds(1180, 20, 140, 50);
 
@@ -409,6 +414,12 @@ public class Categoria extends javax.swing.JFrame {
         vt.setVisible(true);
         dispose();
     }//GEN-LAST:event_VentaActionPerformed
+
+    private void CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarActionPerformed
+        Login lg = new Login();
+        lg.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_CerrarActionPerformed
 
     public static void main(String args[]) {
 
