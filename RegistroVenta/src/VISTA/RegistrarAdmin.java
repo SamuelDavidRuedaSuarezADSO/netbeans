@@ -60,7 +60,7 @@ public class RegistrarAdmin extends javax.swing.JFrame {
                 }                
             }
             else{
-                JOptionPane.showMessageDialog(null,"ERROR: El CORREO debe tener un @ y un .com la final");
+                JOptionPane.showMessageDialog(null,"ERROR: El CORREO debe tener un @ y un .com");
             }
         }else{
             JOptionPane.showMessageDialog(null,"ERROR: Seleccione todos los campos");

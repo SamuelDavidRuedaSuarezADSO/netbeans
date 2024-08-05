@@ -62,18 +62,24 @@ public class UsuariosAdmin extends javax.swing.JFrame {
 
     public void Buscar(){
         if(!"".equals(search.getText())){
-            int cod = Integer.parseInt(search.getText());
-            UsuariosClase u = user.Buscar(cod);
-            if(u != null){
-                codUser.setText(String.valueOf(u.getCod_user()));
-                nomUser.setText(u.getNom_user());
-                mailUser.setText(u.getEmail_user());
-                contraUser.setText(u.getContra_user());
-                codRol = u.getCod_rol_fk();
-                nomRol = user.nomRol(codRol);
-                rol.setSelectedItem( codRol + " - " + nomRol);
-            } else {
-                JOptionPane.showMessageDialog(null, "Usuario no encontrado");
+            if(user.esNumero(search.getText())){
+                int cod = Integer.parseInt(search.getText());
+                UsuariosClase u = user.Buscar(cod);
+                if(u != null){
+                    codUser.setText(String.valueOf(u.getCod_user()));
+                    nomUser.setText(u.getNom_user());
+                    mailUser.setText(u.getEmail_user());
+                    contraUser.setText(u.getContra_user());
+                    codRol = u.getCod_rol_fk();
+                    nomRol = user.nomRol(codRol);
+                    rol.setSelectedItem( codRol + " - " + nomRol);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Usuario no encontrado");
+                    vaciarInputs();
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ERROR: VALOR NO VALIDO");
                 vaciarInputs();
             }
         } else {
@@ -115,20 +121,25 @@ public class UsuariosAdmin extends javax.swing.JFrame {
         }
         else{
             if(!"".equals(codUser.getText()) || !"".equals(nomUser.getText()) || !"".equals(mailUser.getText()) || !"".equals(contraUser.getText()) || !"Seleccione un rol...".equals(rol.getSelectedItem())){
-                us.setCod_user(Integer.parseInt(codUser.getText()));
-                us.setNom_user(nomUser.getText());
-                us.setEmail_user(mailUser.getText());
-                us.setContra_user(contraUser.getText());
+                if(mailUser.getText().contains("@") && mailUser.getText().contains(".com")){
+                    us.setCod_user(Integer.parseInt(codUser.getText()));
+                    us.setNom_user(nomUser.getText());
+                    us.setEmail_user(mailUser.getText());
+                    us.setContra_user(contraUser.getText());
 
-                String selectRol = (String) rol.getSelectedItem();
-                String codRol = selectRol.split(" - ")[0];
+                    String selectRol = (String) rol.getSelectedItem();
+                    String codRol = selectRol.split(" - ")[0];
 
-                us.setCod_rol_fk(Integer.parseInt(codRol));
-                user.Modificar(us);
-                JOptionPane.showMessageDialog(null, "USUARIO Modificado");
-                LimpiarTabla();
-                vaciarInputs();
-                LlenarTabla();
+                    us.setCod_rol_fk(Integer.parseInt(codRol));
+                    user.Modificar(us);
+                    JOptionPane.showMessageDialog(null, "USUARIO Modificado");
+                    LimpiarTabla();
+                    vaciarInputs();
+                    LlenarTabla();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"ERROR: El CORREO debe tener un @ y un .com");
+                }
             }
             else{
                 JOptionPane.showMessageDialog(null, "ERROR: RELLENE todos los CAMPOS");
@@ -309,6 +320,7 @@ public class UsuariosAdmin extends javax.swing.JFrame {
         jPanel1.add(jLabel7);
         jLabel7.setBounds(630, 350, 210, 40);
 
+        codUser.setEditable(false);
         codUser.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(81, 141, 5)));
         jPanel1.add(codUser);
         codUser.setBounds(870, 150, 270, 40);

@@ -140,19 +140,25 @@ public class Ventas extends javax.swing.JFrame {
     
     public void Buscar(){
         if(!"".equals(search.getText())){
-            int dni = Integer.parseInt(search.getText());
-            MueblesClase mueble = touch.Buscar(dni);
-            CategoriaClase cag = categ.Buscar(dni);
-            if(mueble != null){
-                nomMueble.setText(mueble.getNom_mueble());
-                categMueble.setText(cag.getNom_categ());
-                materialMueble.setText(mueble.getMater_mueble());
-                stokMueble.setText(String.valueOf(mueble.getStok_mueble()));
-                pressMueble.setText(String.valueOf(mueble.getPresi_mueble()));
-            } else {
-                JOptionPane.showMessageDialog(null, "Mueble no encontrado");
+            if(sells.esNumero(search.getText())){
+                int dni = Integer.parseInt(search.getText());
+                MueblesClase mueble = touch.Buscar(dni);
+                CategoriaClase cag = categ.Buscar(dni);
+                if(mueble != null){
+                    nomMueble.setText(mueble.getNom_mueble());
+                    categMueble.setText(cag.getNom_categ());
+                    materialMueble.setText(mueble.getMater_mueble());
+                    stokMueble.setText(String.valueOf(mueble.getStok_mueble()));
+                    pressMueble.setText(String.valueOf(mueble.getPresi_mueble()));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Mueble no encontrado");
+                    Vaciar();
+                    search.requestFocus();
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ERROR: VALOR NO VALIDO");
                 Vaciar();
-                search.requestFocus();
             }
         } else {
             JOptionPane.showMessageDialog(null, "Por favor ingrese un codigo para buscar");
@@ -160,7 +166,6 @@ public class Ventas extends javax.swing.JFrame {
     }
     
     public void selecionar(int fila){
-        
         search.setText(tbVenta.getValueAt(fila, 0).toString());
         nomMueble.setText(tbVenta.getValueAt(fila, 1).toString());       
         categMueble.setText(tbVenta.getValueAt(fila, 2).toString());

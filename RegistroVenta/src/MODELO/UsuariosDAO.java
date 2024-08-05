@@ -227,4 +227,14 @@ public class UsuariosDAO {
             }
         }
     }
+    
+    public boolean esNumero (String p){
+        try{
+            Integer.parseInt(p);
+            return true;
+        }
+        catch(NumberFormatException e){
+            return false;
+        }
+    }
 }

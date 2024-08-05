@@ -185,20 +185,16 @@ public class MueblesDAO {
         return mueble;
     }
     
-    public boolean ValidarExistencia(int cod){
-        String sql = "SELECT cod_mueble FROM tb_mueble WHERE cod_mueble = ?";
+    public boolean Exist(int cod) {
+        String sql = "SELECT * FROM tb_mueble WHERE cod_mueble = ?";
+
         try {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, cod);
-            ps.execute();
-            if(ps.execute()){
-                return true;
-            }
-            else{
-                return false;
-            }
-        } catch (SQLException e){
+            rs = ps.executeQuery();
+            return rs.next(); // Retorna true si hay al menos una fila
+        } catch (SQLException e) {
             System.out.println(e.toString());
         } finally {
             try {
@@ -239,7 +235,7 @@ public class MueblesDAO {
         }
         return null;
     }
-    
+
     public boolean esNumero (String p){
         try{
             Integer.parseInt(p);

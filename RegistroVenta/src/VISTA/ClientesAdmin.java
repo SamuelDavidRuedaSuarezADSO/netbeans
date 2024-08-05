@@ -1,11 +1,8 @@
-
 package VISTA;
 
 import MODELO.ClienteClase;
 import MODELO.ClienteDAO;
 import javax.swing.JOptionPane;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -50,7 +47,124 @@ public class ClientesAdmin extends javax.swing.JFrame {
         DireccClient.setText("");
         TelefClient.setText("");
     }
-
+    
+    public void Añadir(){
+        if(!"".equals(DniClient.getText()) || !"".equals(NomClient.getText()) || !"".equals(ApellClient.getText()) || !"".equals(DireccClient.getText()) || !"".equals(TelefClient.getText())){
+            if(client.esNumero(DniClient.getText())){
+                if(client.esNumero(TelefClient.getText())){
+                    int dni = Integer.parseInt(DniClient.getText());
+                    if(!client.Exist(dni)){
+                        if(DniClient.getText().length()<= 10 && client.esNumero(DniClient.getText())){
+                            if(TelefClient.getText().length() <= 10 && client.esNumero(TelefClient.getText())){
+                                cl.setDni_client(Integer.parseInt(DniClient.getText()));
+                                cl.setNom_client(NomClient.getText());
+                                cl.setApell_client(ApellClient.getText());
+                                cl.setDirecc_client(DireccClient.getText());
+                                cl.setTelef_client(TelefClient.getText());
+                                client.RegistrarCliente(cl);
+                                JOptionPane.showMessageDialog(null, "CLIENTE Registrado");
+                                LimpiarTabla();
+                                ListarCliente();
+                                vaciarInputs();
+                            }else{
+                                JOptionPane.showMessageDialog(null, "El TELEFONO no es valido (tiene que ser menor a 10 caracteres)");
+                            }
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "El CODIGO no es valido (tiene que ser menor a 10 caracteres)");
+                        }
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "ERROR: El CODIGO ya esta en USO");
+                    }            
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "ERROR: El TELEFONO no es VALIDO");
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ERROR: El CODIGO no es VALIDO");
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Los CAMPOS estan VACIOS");
+        }
+    }
+    
+    public void Seleccionar(int fila){
+        DniClient.setText(TbClient.getValueAt(fila, 0).toString());
+        NomClient.setText(TbClient.getValueAt(fila, 1).toString());
+        ApellClient.setText(TbClient.getValueAt(fila, 2).toString());
+        DireccClient.setText(TbClient.getValueAt(fila, 3).toString());
+        TelefClient.setText(TbClient.getValueAt(fila, 4).toString());
+    }
+    
+    public void Modificar(){
+        if("".equals(DniClient.getText())){
+           JOptionPane.showMessageDialog(null, "SELECCIONE el CLIENTE a modificar");
+        }
+        else{
+            if(!"".equals(DniClient.getText()) || !"".equals(NomClient.getText()) || !"".equals(ApellClient.getText()) || !"".equals(DireccClient.getText()) || !"".equals(TelefClient.getText())){
+                cl.setDni_client(Integer.parseInt(DniClient.getText()));
+                cl.setNom_client(NomClient.getText());
+                cl.setApell_client(ApellClient.getText());
+                cl.setTelef_client(TelefClient.getText());
+                cl.setDirecc_client(DireccClient.getText());
+                client.ModificarCliente(cl);
+                JOptionPane.showMessageDialog(null, "CLIENTE Modificado");
+                LimpiarTabla();
+                vaciarInputs();
+                ListarCliente();
+            }else{
+                JOptionPane.showMessageDialog(null, "ERROR: RELLENE todos los CAMPOS");
+            }
+        }
+    }
+    
+    public void Eliminar(){
+        if(!"".equals(DniClient.getText())){
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de ELIMINAR este CLIENTE?");
+            if(pregunta == 0){
+                int dni = Integer.parseInt(DniClient.getText());
+                if (client.EliminarCliente(dni)) {
+                    JOptionPane.showMessageDialog(null, "CLIENTE Eliminado");
+                    LimpiarTabla();
+                    vaciarInputs();
+                    ListarCliente();
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR: El CLIENTE no fue eliminado");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR: SELECCIONE un CLIENTE");
+        }
+    }
+    
+    public void Buscar(){
+        if(!"".equals(search.getText())){
+            if(client.esNumero(search.getText())){
+                int dni = Integer.parseInt(search.getText());
+                ClienteClase cliente = client.Buscar(dni);
+                if(cliente != null){
+                    DniClient.setText(String.valueOf(cliente.getDni_client()));
+                    NomClient.setText(cliente.getNom_client());
+                    ApellClient.setText(cliente.getApell_client());
+                    DireccClient.setText(cliente.getDirecc_client());
+                    TelefClient.setText(cliente.getTelef_client());
+                } else {
+                    JOptionPane.showMessageDialog(null, "CLIENTE NO ENCONTRADO");
+                    vaciarInputs();
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ERROR: VALOR NO VALIDO");
+                vaciarInputs();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR: Por favor INGRESE un DNI para BUSCAR");
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -244,7 +358,7 @@ public class ClientesAdmin extends javax.swing.JFrame {
         guardar.setBackground(new java.awt.Color(81, 141, 5));
         guardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         guardar.setForeground(new java.awt.Color(255, 255, 255));
-        guardar.setText("GUARDAR");
+        guardar.setText("AÑADIR");
         guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 guardarActionPerformed(evt);
@@ -286,7 +400,15 @@ public class ClientesAdmin extends javax.swing.JFrame {
             new String [] {
                 "DNI", "NOMBRE", "APELLIDO", "DIRECCIÓN", "TELEFONO"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TbClient.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         TbClient.setGridColor(new java.awt.Color(204, 204, 204));
         TbClient.setRowHeight(35);
@@ -348,34 +470,7 @@ public class ClientesAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        if(!"".equals(DniClient.getText()) || !"".equals(NomClient.getText()) || !"".equals(ApellClient.getText()) || !"".equals(DireccClient.getText()) || !"".equals(TelefClient.getText())){
-            if(DniClient.getText().length()<= 10){
-                if(TelefClient.getText().length() <= 10){
-                    cl.setDni_client(Integer.parseInt(DniClient.getText()));
-                    cl.setNom_client(NomClient.getText());
-                    cl.setApell_client(ApellClient.getText());
-                    cl.setDirecc_client(DireccClient.getText());
-                    cl.setTelef_client(TelefClient.getText());
-                    client.RegistrarCliente(cl);
-                    JOptionPane.showMessageDialog(null, "Cliente Registrado");
-                    LimpiarTabla();
-                    ListarCliente();
-                    vaciarInputs();
-                }else{
-                    JOptionPane.showMessageDialog(null, "El TELEFONO no es valido (tiene que ser menor a 10 caracteres)");
-                }
-                
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "El CODIGO no es valido (tiene que ser menor a 10 caracteres)");
-            }
-            
-            
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Los campos estan vacios");
-        }
-        
+        Añadir();        
     }//GEN-LAST:event_guardarActionPerformed
 
     private void ClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientesActionPerformed
@@ -384,31 +479,11 @@ public class ClientesAdmin extends javax.swing.JFrame {
 
     private void TbClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbClientMouseClicked
         int fila = TbClient.rowAtPoint(evt.getPoint());
-        DniClient.setText(TbClient.getValueAt(fila, 0).toString());
-        NomClient.setText(TbClient.getValueAt(fila, 1).toString());
-        ApellClient.setText(TbClient.getValueAt(fila, 2).toString());
-        DireccClient.setText(TbClient.getValueAt(fila, 3).toString());
-        TelefClient.setText(TbClient.getValueAt(fila, 4).toString());
+        Seleccionar(fila);
     }//GEN-LAST:event_TbClientMouseClicked
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        if(!"".equals(DniClient.getText())){
-            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este cliente?");
-            if(pregunta == 0){
-                int dni = Integer.parseInt(DniClient.getText());
-                
-                if (client.EliminarCliente(dni)) {
-                    JOptionPane.showMessageDialog(null, "Cliente eliminado");
-                    LimpiarTabla();
-                    vaciarInputs();
-                    ListarCliente();
-                } else {
-                    JOptionPane.showMessageDialog(null, "ERROR: El cliente no fue eliminado");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "ERROR: Seleccion un cliente");
-        }
+        Eliminar();
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void VaciarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VaciarTxtActionPerformed
@@ -416,23 +491,7 @@ public class ClientesAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_VaciarTxtActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        if("".equals(DniClient.getText())){
-           JOptionPane.showMessageDialog(null, "Selecciones un Cliente");
-        }
-        else{
-            cl.setDni_client(Integer.parseInt(DniClient.getText()));
-            cl.setNom_client(NomClient.getText());
-            cl.setApell_client(ApellClient.getText());
-            cl.setTelef_client(TelefClient.getText());
-            cl.setDirecc_client(DireccClient.getText());
-            if(!"".equals(DniClient.getText()) || !"".equals(NomClient.getText()) || !"".equals(ApellClient.getText()) || !"".equals(DireccClient.getText()) || !"".equals(TelefClient.getText())){
-                client.ModificarCliente(cl);
-                JOptionPane.showMessageDialog(null, "Cliente Modificado");
-                LimpiarTabla();
-                vaciarInputs();
-                ListarCliente();
-            }
-        }
+        Modificar();
     }//GEN-LAST:event_modificarActionPerformed
 
     private void CategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoriaActionPerformed
@@ -452,22 +511,7 @@ public class ClientesAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_searchActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        if(!"".equals(search.getText())){
-            int dni = Integer.parseInt(search.getText());
-            ClienteClase cliente = client.Buscar(dni);
-            if(cliente != null){
-                DniClient.setText(String.valueOf(cliente.getDni_client()));
-                NomClient.setText(cliente.getNom_client());
-                ApellClient.setText(cliente.getApell_client());
-                DireccClient.setText(cliente.getDirecc_client());
-                TelefClient.setText(cliente.getTelef_client());
-            } else {
-                JOptionPane.showMessageDialog(null, "Cliente no encontrado");
-                vaciarInputs();
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un DNI para buscar");
-        }
+        Buscar();
     }//GEN-LAST:event_buscarActionPerformed
 
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed

@@ -42,15 +42,13 @@ public class MueblesAdmin extends javax.swing.JFrame {
         }
     }
     
+    
     public void Listar() {
-        // Obtener las listas de muebles y colores
         List<MueblesClase> Lista = touch.Listar();
 
-        // Obtener el modelo de la tabla
         modelo = (DefaultTableModel) TbMueble.getModel();
-        modelo.setRowCount(0); // Limpiar la tabla antes de agregar nuevas filas
+        modelo.setRowCount(0);
 
-        // Recorre la lista de muebles
         for (int i = 0; i < Lista.size(); i++) {
             Object[] ob = new Object[8];
             ob[0] = Lista.get(i).getCod_mueble();
@@ -64,14 +62,135 @@ public class MueblesAdmin extends javax.swing.JFrame {
             ob[4] = Lista.get(i).getColor_mueble();
             ob[5] = Lista.get(i).getPresi_mueble();
             ob[6] = Lista.get(i).getStok_mueble();
-
-            // Añadir la fila a la tabla
+            
             modelo.addRow(ob);
         }
-
-        // Establecer el modelo en la tabla
         TbMueble.setModel(modelo);
     }
+
+    public void Añadir(){
+        if (!"".equals(codigo.getText()) || !"".equals(NomMueble.getText()) || "Seleccione una categoria...".equals(categoria.getSelectedItem()) || "".equals(colorMueble.getText()) || !"".equals(MaterialMueble.getText()) || !"".equals(pressMueble.getText()) || !"".equals(StokMueble.getText())) {
+            if(touch.esNumero(pressMueble.getText()) && touch.esNumero(StokMueble.getText())){
+                if(touch.Exist(Integer.parseInt(codigo.getText()))){
+                    JOptionPane.showMessageDialog(null, "ERROR: El CODIGO del mueble YA esta en USO");
+                }
+                else{
+                    mb.setCod_mueble(Integer.parseInt(codigo.getText()));
+                    mb.setNom_mueble(NomMueble.getText());
+
+                    String selectedCategoria = (String) categoria.getSelectedItem();
+                    String codCategoria = selectedCategoria.split(" - ")[0];
+
+                    mb.setCod_categ_fk(codCategoria);
+                    mb.setMater_mueble(MaterialMueble.getText());
+                    mb.setColor_mueble(colorMueble.getText());
+                    mb.setPresi_mueble(Double.parseDouble(pressMueble.getText()));
+                    mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
+                    touch.Registrar(mb);
+                    JOptionPane.showMessageDialog(null, "MUEBLE Registrado");
+                    LimpiarTabla();
+                    Listar();
+                    Vaciar();   
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ERROR: El PRECIO o El STOCK no son validos");
+            }        
+        } else {
+            JOptionPane.showMessageDialog(null, "Los CAMPOS estan VACIOS");
+        }
+    }
+    
+    public void Eliminar(){
+        if(!"".equals(codigo.getText())){
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de ELIMINAR este MUEBLE?");
+            if(pregunta == 0){
+                int cod = Integer.parseInt(codigo.getText());
+                if (touch.Eliminar(cod)) {
+                    JOptionPane.showMessageDialog(null, "MUEBLE eliminado");
+                    LimpiarTabla();
+                    Vaciar();
+                    Listar();
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR: El MUEBLE no fue eliminado");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR: SELECCIONA un mueble");
+        }
+    }
+    
+    public void Modificar(){
+        if("".equals(codigo.getText())){
+           JOptionPane.showMessageDialog(null, "SELECCIONA un MUEBLE");
+        }
+        else{
+            if(!"".equals(codigo.getText()) || !"".equals(NomMueble.getText()) || !"Seleccione una categoria...".equals(categoria.getSelectedItem()) || !"".equals(MaterialMueble.getText()) || !"".equals(colorMueble.getText()) || !"".equals(pressMueble.getText()) || !"".equals(StokMueble.getText())){
+                if(touch.esNumero(StokMueble.getText())){
+                    int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de MODIFICAR este MUEBLE?");
+                    if(pregunta == 0){
+                        mb.setCod_mueble(Integer.parseInt(codigo.getText()));
+                        mb.setNom_mueble(NomMueble.getText());
+
+                        String selectedCategoria = (String) categoria.getSelectedItem();
+                        String codCategoria = selectedCategoria.split(" - ")[0];
+
+                        mb.setCod_categ_fk(codCategoria);
+                        mb.setMater_mueble(MaterialMueble.getText());
+                        mb.setColor_mueble(colorMueble.getText());
+                        mb.setPresi_mueble(Double.parseDouble(pressMueble.getText()));
+                        mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
+                        touch.Modificar(mb);
+                        JOptionPane.showMessageDialog(null, "MUEBLE modificado");
+                        LimpiarTabla();
+                        Vaciar();
+                        Listar();
+                    }                    
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "ERROR:Valor del STOCK no es VALIDO");
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ERROR: RELLENE todos los CAMPOS");
+            }
+        }
+    }
+    
+    public void Seleccionar(int fila){
+        codigo.setText(TbMueble.getValueAt(fila, 0).toString());
+        NomMueble.setText(TbMueble.getValueAt(fila, 1).toString());
+        categoria.setSelectedItem(TbMueble.getValueAt(fila, 2));
+        MaterialMueble.setText(TbMueble.getValueAt(fila, 3).toString()); 
+        colorMueble.setText(TbMueble.getValueAt(fila, 4).toString());
+        pressMueble.setText(TbMueble.getValueAt(fila, 5).toString());
+        StokMueble.setText(TbMueble.getValueAt(fila, 6).toString());
+    }
+    
+    public void Buscar(){
+        if(!"".equals(search.getText())){
+            boolean cod = touch.esNumero(search.getText());
+            if(cod){
+                int dni = Integer.parseInt(search.getText());
+                MueblesClase mueble = touch.Buscar(dni);
+                if(mueble != null){
+                    codigo.setText(String.valueOf(mueble.getCod_mueble()));
+                    NomMueble.setText(mueble.getNom_mueble());
+                    MaterialMueble.setText(mueble.getMater_mueble());
+                    pressMueble.setText(String.valueOf(mueble.getPresi_mueble()));
+                    StokMueble.setText(String.valueOf(mueble.getStok_mueble()));
+                    colorMueble.setText(mueble.getColor_mueble());
+                } else {
+                    JOptionPane.showMessageDialog(null, "MUEBLE no encontrado");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "ERROR: CODIGO no VALIDO");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR: Por favor ingrese un CODIGO para BUSCAR");
+        }
+    }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -399,97 +518,20 @@ public class MueblesAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_ClientesActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-    if (!"".equals(codigo.getText()) || !"".equals(NomMueble.getText()) || "Seleccione una categoria...".equals(categoria.getSelectedItem()) || "".equals(colorMueble.getText()) || !"".equals(MaterialMueble.getText()) || !"".equals(pressMueble.getText()) || !"".equals(StokMueble.getText())) {
-        if(touch.esNumero(pressMueble.getText()) && touch.esNumero(StokMueble.getText())){
-            if(!touch.ValidarExistencia(Integer.parseInt(codigo.getText()))){
-                JOptionPane.showMessageDialog(null, "ERROR: El CODIGO del mueble YA esta en USO");
-            }
-            else{
-                mb.setCod_mueble(Integer.parseInt(codigo.getText()));
-                mb.setNom_mueble(NomMueble.getText());
-
-                // Extraer el código de la categoría seleccionada
-
-                String selectedCategoria = (String) categoria.getSelectedItem();
-                String codCategoria = selectedCategoria.split(" - ")[0];
-
-                mb.setCod_categ_fk(codCategoria);
-                mb.setMater_mueble(MaterialMueble.getText());
-                mb.setColor_mueble(colorMueble.getText());
-                mb.setPresi_mueble(Double.parseDouble(pressMueble.getText()));
-                mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
-                touch.Registrar(mb);
-                JOptionPane.showMessageDialog(null, "Mueble Registrado");
-                LimpiarTabla();
-                Listar();
-                Vaciar();   
-            }
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "ERROR: El PRECIO o El STOK no son validos");
-        }
-        
-        
-    } else {
-        JOptionPane.showMessageDialog(null, "Los campos estan vacios");
-    }
+        Añadir();
     }//GEN-LAST:event_guardarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        if(!"".equals(codigo.getText())){
-            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este mueble?");
-            if(pregunta == 0){
-                int cod = Integer.parseInt(codigo.getText());
-                
-                if (touch.Eliminar(cod)) {
-                    JOptionPane.showMessageDialog(null, "Mueble eliminado");
-                    LimpiarTabla();
-                    Vaciar();
-                    Listar();
-                } else {
-                    JOptionPane.showMessageDialog(null, "ERROR: El mueble no fue eliminado");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "ERROR: Seleccion un mueble");
-        }
+        Eliminar();
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        if("".equals(codigo.getText())){
-           JOptionPane.showMessageDialog(null, "Selecciones un mueble");
-        }
-        else{
-            mb.setCod_mueble(Integer.parseInt(codigo.getText()));
-            mb.setNom_mueble(NomMueble.getText());
-            
-            String selectedCategoria = (String) categoria.getSelectedItem();
-            String codCategoria = selectedCategoria.split(" - ")[0];
-                            
-            mb.setCod_categ_fk(codCategoria);
-            mb.setMater_mueble(MaterialMueble.getText());
-            mb.setColor_mueble(colorMueble.getText());
-            mb.setPresi_mueble(Double.parseDouble(pressMueble.getText()));
-            mb.setStok_mueble(Integer.parseInt(StokMueble.getText()));
-            if(!"".equals(codigo.getText()) || !"".equals(NomMueble.getText()) || !"Seleccione una categoria...".equals(categoria.getSelectedItem()) || !"".equals(MaterialMueble.getText()) || !"".equals(colorMueble.getText()) || !"".equals(pressMueble.getText()) || !"".equals(StokMueble.getText())){
-                touch.Modificar(mb);
-                JOptionPane.showMessageDialog(null, "Mueble modificado");
-                LimpiarTabla();
-                Vaciar();
-                Listar();
-            }
-        }
+        Modificar();
     }//GEN-LAST:event_modificarActionPerformed
 
     private void TbMuebleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbMuebleMouseClicked
        int fila = TbMueble.rowAtPoint(evt.getPoint());
-        codigo.setText(TbMueble.getValueAt(fila, 0).toString());
-        NomMueble.setText(TbMueble.getValueAt(fila, 1).toString());       
-        categoria.setSelectedItem(TbMueble.getValueAt(fila, 2));
-        MaterialMueble.setText(TbMueble.getValueAt(fila, 3).toString()); 
-        colorMueble.setText(TbMueble.getValueAt(fila, 4).toString());
-        pressMueble.setText(TbMueble.getValueAt(fila, 5).toString());
-        StokMueble.setText(TbMueble.getValueAt(fila, 6).toString());
+        Seleccionar(fila);
     }//GEN-LAST:event_TbMuebleMouseClicked
 
     private void VaciarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VaciarTxtActionPerformed
@@ -525,23 +567,7 @@ public class MueblesAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_registerActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        if(!"".equals(search.getText())){
-            int dni = Integer.parseInt(search.getText());
-            MueblesClase mueble = touch.Buscar(dni);
-            if(mueble != null){
-                codigo.setText(String.valueOf(mueble.getCod_mueble()));
-                NomMueble.setText(mueble.getNom_mueble());
-                MaterialMueble.setText(mueble.getMater_mueble());
-                pressMueble.setText(String.valueOf(mueble.getPresi_mueble()));
-                StokMueble.setText(String.valueOf(mueble.getStok_mueble()));
-                colorMueble.setText(mueble.getColor_mueble());
-            } else {
-                JOptionPane.showMessageDialog(null, "Mueble no encontrado");
-                Vaciar();
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un codigo para buscar");
-        }
+        Buscar();
     }//GEN-LAST:event_buscarActionPerformed
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed

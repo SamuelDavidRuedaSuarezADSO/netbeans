@@ -130,7 +130,7 @@ public class PedidosDAO {
         return Lista;
     }
     
-    public boolean exist(int cod) {
+    public boolean Exist(int cod) {
         String sql = "SELECT * FROM tb_clientes WHERE dni_client = ?";
 
         try {

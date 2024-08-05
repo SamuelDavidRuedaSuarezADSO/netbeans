@@ -45,6 +45,103 @@ public class CategoriaAdmin extends javax.swing.JFrame {
         }
         TbCategoria.setModel(modelo);
     }
+    
+    public void Añadir(){
+        if(!"".equals(CodCategoria.getText()) || !"".equals(NomCategoria.getText()) || !"".equals(ZonaCategoria.getText())){
+            if(categori.esNumero(CodCategoria.getText())){
+                int cod = Integer.parseInt(CodCategoria.getText());
+                if(!categori.Exist(cod)){
+                    cc.setCod_categ(Integer.parseInt(CodCategoria.getText()));
+                    cc.setNom_categ(NomCategoria.getText());
+                    cc.setZona_mueble(ZonaCategoria.getText());
+                    categori.RegistrarCategoria(cc);
+                    LimpiarTabla();
+                    ListarCategoria();
+                    VaciarInputs();
+                    JOptionPane.showMessageDialog(null, "CATEGORIA Registrada");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "ERROR: El CODIGO ya esta en USO");
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ERROR: El CODIGO no es VALIDO");
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Los CAMPOS estan VACIOS");
+        }
+    }
+        
+    public void Modificar(){
+        if("".equals(CodCategoria.getText())){
+           JOptionPane.showMessageDialog(null, "SELECCIONE una CATEGORIA");
+        }
+        else{
+            if(!"".equals(CodCategoria.getText()) || !"".equals(NomCategoria.getText()) || !"".equals(ZonaCategoria.getText())){
+                cc.setCod_categ(Integer.parseInt(CodCategoria.getText()));
+                cc.setNom_categ(NomCategoria.getText());
+                cc.setZona_mueble(ZonaCategoria.getText());
+                categori.Modificar(cc);
+                JOptionPane.showMessageDialog(null, "CATEGORIA modificada");
+                LimpiarTabla();
+                VaciarInputs();
+                ListarCategoria();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ERROR: RELLENE todos los CAMPOS");
+            }
+        }
+    }
+    
+    public void Eliminar(){
+        if(!"".equals(CodCategoria.getText())){
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar esta categoria?");
+            if(pregunta == 0){
+                int cod = Integer.parseInt(CodCategoria.getText());
+                
+                if (categori.Eliminar(cod)) {
+                    JOptionPane.showMessageDialog(null, "Categoria eliminada");
+                    LimpiarTabla();
+                    VaciarInputs();
+                    ListarCategoria();
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR: La categoria no fue eliminada");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR: Selecciona una categoria");
+        }
+    }
+    
+    public void Seleccionar(int fila){
+        CodCategoria.setText(TbCategoria.getValueAt(fila, 0).toString());
+        NomCategoria.setText(TbCategoria.getValueAt(fila, 1).toString());
+        ZonaCategoria.setText(TbCategoria.getValueAt(fila, 2).toString());
+    }
+    
+    public void Buscar(){
+        if(!"".equals(search.getText())){
+            if(categori.esNumero(search.getText())){
+                int dni = Integer.parseInt(search.getText());
+                CategoriaClase categ = categori.Buscar(dni);
+                if(categ != null){
+                    CodCategoria.setText(String.valueOf(categ.getCod_categ()));
+                    NomCategoria.setText(categ.getNom_categ());
+                    ZonaCategoria.setText(categ.getZona_mueble());
+                } else {
+                    JOptionPane.showMessageDialog(null, "CATEGORIA NO ENCONTRADA");
+                    VaciarInputs();
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ERROR: VALOR NO VALIDO");
+                VaciarInputs();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR: Por favor ingrese un CODIGO para BUSCAR");
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -208,7 +305,7 @@ public class CategoriaAdmin extends javax.swing.JFrame {
         guardar.setBackground(new java.awt.Color(81, 141, 5));
         guardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         guardar.setForeground(new java.awt.Color(255, 255, 255));
-        guardar.setText("GUARDAR");
+        guardar.setText("AÑADIR");
         guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 guardarActionPerformed(evt);
@@ -250,7 +347,15 @@ public class CategoriaAdmin extends javax.swing.JFrame {
             new String [] {
                 "CODIGO", "NOMBRE", "ZONA"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TbCategoria.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         TbCategoria.setGridColor(new java.awt.Color(204, 204, 204));
         TbCategoria.setRowHeight(35);
@@ -322,64 +427,20 @@ public class CategoriaAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_ClientesActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        if(!"".equals(CodCategoria.getText()) || !"".equals(NomCategoria.getText()) || !"".equals(ZonaCategoria.getText())){
-            cc.setCod_categ(Integer.parseInt(CodCategoria.getText()));
-            cc.setNom_categ(NomCategoria.getText());
-            cc.setZona_mueble(ZonaCategoria.getText());
-            categori.RegistrarCategoria(cc);
-            LimpiarTabla();
-            ListarCategoria();
-            VaciarInputs();
-            JOptionPane.showMessageDialog(null, "Categoria Registrada");
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Los campos estan vacion");
-        }
+        Añadir();
     }//GEN-LAST:event_guardarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        if(!"".equals(CodCategoria.getText())){
-            int pregunta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar esta categoria?");
-            if(pregunta == 0){
-                int cod = Integer.parseInt(CodCategoria.getText());
-                
-                if (categori.Eliminar(cod)) {
-                    JOptionPane.showMessageDialog(null, "Categoria eliminada");
-                    LimpiarTabla();
-                    VaciarInputs();
-                    ListarCategoria();
-                } else {
-                    JOptionPane.showMessageDialog(null, "ERROR: La categoria no fue eliminada");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "ERROR: Selecciona una categoria");
-        }
+        Eliminar();
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        if("".equals(CodCategoria.getText())){
-           JOptionPane.showMessageDialog(null, "Selecciones una categoria");
-        }
-        else{
-            cc.setCod_categ(Integer.parseInt(CodCategoria.getText()));
-            cc.setNom_categ(NomCategoria.getText());
-            cc.setZona_mueble(ZonaCategoria.getText());
-            if(!"".equals(CodCategoria.getText()) || !"".equals(NomCategoria.getText()) || !"".equals(ZonaCategoria.getText())){
-                categori.Modificar(cc);
-                JOptionPane.showMessageDialog(null, "Categoria modificada");
-                LimpiarTabla();
-                VaciarInputs();
-                ListarCategoria();
-            }
-        }
+        Modificar();
     }//GEN-LAST:event_modificarActionPerformed
 
     private void TbCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbCategoriaMouseClicked
         int fila = TbCategoria.rowAtPoint(evt.getPoint());
-        CodCategoria.setText(TbCategoria.getValueAt(fila, 0).toString());
-        NomCategoria.setText(TbCategoria.getValueAt(fila, 1).toString());
-        ZonaCategoria.setText(TbCategoria.getValueAt(fila, 2).toString());
+        Seleccionar(fila);
     }//GEN-LAST:event_TbCategoriaMouseClicked
 
     private void VaciarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VaciarTxtActionPerformed
@@ -393,21 +454,7 @@ public class CategoriaAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_MuebleActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        if(!"".equals(search.getText())){
-            int dni = Integer.parseInt(search.getText());
-            CategoriaClase categ = categori.Buscar(dni);
-            if(categ != null){
-                CodCategoria.setText(String.valueOf(categ.getCod_categ()));
-                NomCategoria.setText(categ.getNom_categ());
-                ZonaCategoria.setText(categ.getZona_mueble());
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Categoria no encontrado");
-                VaciarInputs();
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un codigo para buscar");
-        }
+        Buscar();
     }//GEN-LAST:event_buscarActionPerformed
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed

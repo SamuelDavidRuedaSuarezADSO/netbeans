@@ -388,7 +388,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="GUARDAR"/>
+            <Property name="text" type="java.lang.String" value="A&#xd1;ADIR"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="guardarActionPerformed"/>
@@ -463,11 +463,11 @@
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="5" rowCount="0">
-                    <Column editable="true" title="DNI" type="java.lang.Object"/>
-                    <Column editable="true" title="NOMBRE" type="java.lang.Object"/>
-                    <Column editable="true" title="APELLIDO" type="java.lang.Object"/>
-                    <Column editable="true" title="DIRECCI&#xd3;N" type="java.lang.Object"/>
-                    <Column editable="true" title="TELEFONO" type="java.lang.Object"/>
+                    <Column editable="false" title="DNI" type="java.lang.Object"/>
+                    <Column editable="false" title="NOMBRE" type="java.lang.Object"/>
+                    <Column editable="false" title="APELLIDO" type="java.lang.Object"/>
+                    <Column editable="false" title="DIRECCI&#xd3;N" type="java.lang.Object"/>
+                    <Column editable="false" title="TELEFONO" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

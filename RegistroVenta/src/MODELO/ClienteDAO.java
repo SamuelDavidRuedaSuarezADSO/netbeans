@@ -155,4 +155,37 @@ public class ClienteDAO {
         return cliente;
     }
 
+    public boolean Exist(int cod) {
+        String sql = "SELECT * FROM tb_clientes WHERE dni_client = ?";
+
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cod);
+            rs = ps.executeQuery();
+            return rs.next(); // Retorna true si hay al menos una fila
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
+        }
+        return false;
+    }
+    
+    public boolean esNumero (String p){
+        try{
+            Integer.parseInt(p);
+            return true;
+        }
+        catch(NumberFormatException e){
+            return false;
+        }
+    }
+    
 }

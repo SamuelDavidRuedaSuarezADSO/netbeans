@@ -25,14 +25,11 @@ public class PedidosAdmin extends javax.swing.JFrame {
     }
     
     public void Listar() {
-        // Obtener las listas de muebles y colores
         List<PedidosClase> Lista = pedidos.Listar();
 
-        // Obtener el modelo de la tabla
         modelo = (DefaultTableModel) TbPedido.getModel();
-        modelo.setRowCount(0); // Limpiar la tabla antes de agregar nuevas filas
+        modelo.setRowCount(0);
 
-        // Recorre la lista de muebles
         for (int i = 0; i < Lista.size(); i++) {
             Object[] ob = new Object[5];
             ob[0] = Lista.get(i).getCod_pedido();
@@ -48,24 +45,20 @@ public class PedidosAdmin extends javax.swing.JFrame {
             ob[2] = codClient + " - " + client;
             ob[3] = Lista.get(i).getTotal_pedido();
 
-            // Añadir la fila a la tabla
             modelo.addRow(ob);
         }
-        // Establecer el modelo en la tabla
         TbPedido.setModel(modelo);
     }
 
     public void Buscar(){
         if(!"".equals(search.getText())){
             int cod = Integer.parseInt(search.getText());
-            if(pedidos.exist(cod)){
+            if(pedidos.Exist(cod)){
                 List<PedidosClase> Lista = pedidos.ListarBusca(cod);
 
-                // Obtener el modelo de la tabla
                 modelo = (DefaultTableModel) TbPedido.getModel();
-                modelo.setRowCount(0); // Limpiar la tabla antes de agregar nuevas filas
+                modelo.setRowCount(0);
 
-                // Recorre la lista de muebles
                 for (int i = 0; i < Lista.size(); i++) {
                     Object[] ob = new Object[5];
                     ob[0] = Lista.get(i).getCod_pedido();
@@ -81,14 +74,12 @@ public class PedidosAdmin extends javax.swing.JFrame {
                     ob[2] = codClient + " - " + client;
                     ob[3] = Lista.get(i).getTotal_pedido();
 
-                    // Añadir la fila a la tabla
                     modelo.addRow(ob);
                 }
-                // Establecer el modelo en la tabla
                 TbPedido.setModel(modelo);
             }
             else{
-                JOptionPane.showMessageDialog(null, "EEROR: No se encontro ningun CLIENTE registrado con ese codigo");
+                JOptionPane.showMessageDialog(null, "ERROR: No se encontro ningun CLIENTE registrado con ese codigo");
             }
         }
     }
