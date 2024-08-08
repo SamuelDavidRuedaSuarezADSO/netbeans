@@ -42,10 +42,8 @@ public class Login extends javax.swing.JFrame {
                     vt.setVisible(true);
                     dispose();
                 }
-                
-                
-               
-            }else{
+            }
+            else{
                 JOptionPane.showMessageDialog(null, "El usuario o la contraseña son incorrecta");
             }        
         }

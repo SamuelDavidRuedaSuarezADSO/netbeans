@@ -1,14 +1,33 @@
 
 package VISTA;
 
+import MODELO.ClienteDAO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import MODELO.VentaDAO;
 import MODELO.VentaFactu;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 public class NewVentaAdmin extends javax.swing.JFrame {
 
+    double res = 0;
+    ClienteDAO client = new ClienteDAO();
     VentaDAO sells = new VentaDAO();
     VentaFactu vf = new VentaFactu();
     
@@ -38,6 +57,36 @@ public class NewVentaAdmin extends javax.swing.JFrame {
         initComponents();
     }
    
+    public void Confirmar(){
+        if(Double.parseDouble(totalF.getText()) <= Double.parseDouble(pagaCon.getText())){
+            double total = Double.parseDouble(totalF.getText());
+            double paga = Double.parseDouble(pagaCon.getText());
+            
+            res = paga - total;
+            
+            int codPedido = Integer.parseInt(codP.getText());
+            
+            vf.setCod_pedido_fk(codPedido);
+            vf.setTotal_factu(total);
+            vf.setCambio_factu(res);
+            sells.registrarFactu(vf);
+            
+            if(res == 0){
+                JOptionPane.showMessageDialog(null, "Venta Realizada con exito");
+                dispose();
+            }
+            else{
+                String mensaj = "El cambio o vueltos corresponden a $" + res;
+                JOptionPane.showMessageDialog(null, mensaj);
+                JOptionPane.showMessageDialog(null, "Venta Realizada con exito");
+                dispose();
+            }
+            pdf();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "ERROR: Valor de PAGO no valido");
+        }
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -176,34 +225,7 @@ public class NewVentaAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void confirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmarActionPerformed
-        if(Double.parseDouble(totalF.getText()) <= Double.parseDouble(pagaCon.getText())){
-            double total = Double.parseDouble(totalF.getText());
-            double paga = Double.parseDouble(pagaCon.getText());
-            
-            double res = paga - total;
-            
-            int codPedido = Integer.parseInt(codP.getText());
-            
-            vf.setCod_pedido_fk(codPedido);
-            vf.setTotal_factu(total);
-            vf.setCambio_factu(res);
-            sells.registrarFactu(vf);
-            
-            if(res == 0){
-                JOptionPane.showMessageDialog(null, "Venta Realizada con exito");
-                dispose();
-            }
-            else{
-                String mensaj = "El cambio o vueltos corresponden a $" + res;
-                JOptionPane.showMessageDialog(null, mensaj);
-                JOptionPane.showMessageDialog(null, "Venta Realizada con exito");
-                dispose();
-            }
-            
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "ERROR: Valor de PAGO no valido");
-        }
+        Confirmar();
     }//GEN-LAST:event_confirmarActionPerformed
 
     
@@ -270,4 +292,172 @@ public class NewVentaAdmin extends javax.swing.JFrame {
     private javax.swing.JTable tbDeta;
     private javax.swing.JTextField totalF;
     // End of variables declaration//GEN-END:variables
+    
+    private void pdf(){
+        
+        try {
+            int codF = client.codFact(Integer.parseInt(codP.getText()));
+            int ped = Integer.parseInt(codP.getText());
+            
+            
+            // Obtener la carpeta de Descargas
+            String home = System.getProperty("user.home");
+            File downloadsFolder = new File(home, "Downloads");
+
+            // Generar un nombre único para el archivo PDF
+            String fileName = "Factura_" + codF + "_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".pdf";
+            File file = new File(downloadsFolder, fileName);
+
+            FileOutputStream archivo = new FileOutputStream(file);
+            Document doc = new Document();
+            PdfWriter.getInstance(doc, archivo);
+            doc.open();
+            
+            Image img = Image.getInstance("src/IMAGENES/Logo.png");
+            
+            Paragraph fecha = new Paragraph();
+            fecha.add(Chunk.NEWLINE);
+            Date date = new Date();
+            fecha.add("Factura: " + codF + "\n" + "Pedido: "+ ped +"\n" + "Fecha: " + new SimpleDateFormat("dd-MM-yyyy").format(date)+"\n\n");
+            
+            PdfPTable encabe = new PdfPTable(3);
+            encabe.setWidthPercentage(100);
+            encabe.getDefaultCell().setBorder(0);
+            float[] columnaE = new float[]{40f, 60f, 40f};
+            encabe.setWidths(columnaE);
+            encabe.setHorizontalAlignment(Element.ALIGN_LEFT);
+            
+            encabe.addCell(img);
+            encabe.addCell("");
+            encabe.addCell(fecha);
+            doc.add(encabe);
+            
+            Paragraph emp = new Paragraph();
+            emp.add(Chunk.NEWLINE);
+            emp.add("DATOS DEL EMPLEADO: " + "\n\n");
+            doc.add(emp);
+            
+            PdfPTable tbEmp = new PdfPTable( 2);
+            tbEmp.setWidthPercentage(100);
+            tbEmp.getDefaultCell().setBorder(0);
+            float[] columnaEm = new float[]{30f, 120f};
+            tbEmp.setWidths(columnaEm);
+            tbEmp.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            PdfPCell em1 = new PdfPCell(new Phrase("NOMBRE: "));
+            em1.setBorder(0);
+            
+            tbEmp.addCell(em1);
+            
+            tbEmp.addCell(nombreE.getText());
+            
+            doc.add(tbEmp);
+            
+            
+            Paragraph cli = new Paragraph();
+            cli.add(Chunk.NEWLINE);
+            cli.add("DATOS DEL CLIENTE: " + "\n\n");
+            doc.add(cli);
+            
+            PdfPTable tbCli = new PdfPTable( 2);
+            tbCli.setWidthPercentage(100);
+            tbCli.getDefaultCell().setBorder(0);
+            float[] columnaC = new float[]{30f, 120f};
+            tbCli.setWidths(columnaC);
+            tbCli.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            PdfPCell cl1 = new PdfPCell(new Phrase("NOMBRE: "));
+            cl1.setBorder(0);
+
+            tbCli.addCell(cl1);
+            tbCli.addCell(nombreC.getText());
+            
+            doc.add(tbCli);
+
+            Paragraph pro = new Paragraph();
+            pro.add(Chunk.NEWLINE);
+            pro.add("Productos Seleccionados: " + "\n\n");
+            doc.add(pro);
+            
+            //productos
+            PdfPTable tbPro = new PdfPTable(tbDeta.getColumnCount());
+            tbPro.setWidthPercentage(100);
+            tbPro.getDefaultCell().setBorder(0);
+            float[] columnaP = new float[tbDeta.getColumnCount()];
+            for (int i = 0; i < columnaP.length; i++) {
+                columnaP[i] = 30f; // Ajusta según tus necesidades
+            }
+            tbPro.setWidths(columnaP);
+            tbPro.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            // Agregar encabezados de columna
+            for (int col = 0; col < tbDeta.getColumnCount(); col++) {
+                PdfPCell cell = new PdfPCell(new Phrase(tbDeta.getColumnName(col)));
+                cell.setBorder(0);
+                tbPro.addCell(cell);
+            }
+
+            // Agregar datos de la JTable
+            for (int row = 0; row < tbDeta.getRowCount(); row++) {
+                for (int col = 0; col < tbDeta.getColumnCount(); col++) {
+                    Object value = tbDeta.getValueAt(row, col);
+                    PdfPCell cell = new PdfPCell(new Phrase(value != null ? value.toString() : ""));
+                    cell.setBorder(0);
+                    tbPro.addCell(cell);
+                }
+            }
+            doc.add(tbPro);
+            
+                        
+            // Espacio antes de los totales
+            doc.add(Chunk.NEWLINE);
+
+            // Totales
+            PdfPTable tbTot = new PdfPTable(2);
+            tbTot.setWidthPercentage(100);
+            tbTot.getDefaultCell().setBorder(0);
+            float[] columnaT = new float[]{30f, 140f};
+            tbTot.setWidths(columnaT);
+            tbTot.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+            PdfPCell tot1 = new PdfPCell(new Phrase("TOTAL: "));
+            tot1.setBorder(0);
+
+            tbTot.addCell(tot1);
+            tbTot.addCell(totalF.getText());
+            
+            doc.add(tbTot);
+
+            PdfPTable tbCam = new PdfPTable(2);
+            tbCam.setWidthPercentage(100);
+            tbCam.getDefaultCell().setBorder(0);
+            float[] columnaCam = new float[]{30f, 140f};
+            tbCam.setWidths(columnaCam);
+            tbCam.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+            PdfPCell cam = new PdfPCell(new Phrase("CAMBIO: "));
+            cam.setBorder(0);
+
+            tbCam.addCell(cam);
+            tbCam.addCell(String.valueOf(res));
+
+            doc.add(tbCam);
+            
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+
+            
+            Paragraph gracias = new Paragraph();
+            gracias.add(Chunk.NEWLINE);
+            gracias.add("¡GRACIAS POR LA COMPRA!");
+            gracias.setAlignment(Element.ALIGN_CENTER); // Centrar el mensaje
+            doc.add(gracias);
+            doc.close();
+            archivo.close();
+            Desktop.getDesktop().open(file);
+        } catch (DocumentException | IOException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
 }

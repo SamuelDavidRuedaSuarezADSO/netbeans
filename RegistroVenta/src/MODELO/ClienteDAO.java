@@ -187,5 +187,37 @@ public class ClienteDAO {
             return false;
         }
     }
+            
+    public int codFact(int cod) {
+        String sql = "SELECT cod_factu FROM tb_factura WHERE cod_pedido_fk = ?";
+        int codigoFactura = 0;
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cod);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                codigoFactura = rs.getInt("cod_factu");
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener el código de la factura: " + e.toString());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al cerrar los recursos: " + e.toString());
+            }
+        }
+        return codigoFactura;
+    }
     
 }
