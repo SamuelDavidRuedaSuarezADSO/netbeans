@@ -67,58 +67,63 @@ public class Ventas extends javax.swing.JFrame {
         if(!"".equals(nomMueble.getText()) || !"".equals(categMueble.getText()) || !"".equals(stokMueble.getText()) || !"".equals(materialMueble.getText()) || !"".equals(pressMueble.getText())){
             int cantidad = (Integer) cant.getValue();
             if(cantidad != 0 && cantidad >0){
-                if(cantidad <= Integer.parseInt(stokMueble.getText())){
-                    int codigo = Integer.parseInt(search.getText());
-                    String nombre = nomMueble.getText();
-                    String categoria = categMueble.getText();
-                    String material = materialMueble.getText();
-                    int stok = Integer.parseInt(stokMueble.getText());
-                    Double precio = Double.parseDouble(pressMueble.getText());
-                    Double pressTot = cantidad * precio;
-                    
-                    item = item + 1;
-                    modelo = (DefaultTableModel) tbVenta.getModel();
-                    
-                    for (int i = 0; i < tbVenta.getRowCount(); i++) {
-                        if(tbVenta.getValueAt(i, 1).equals(nomMueble.getText())){
-                            JOptionPane.showMessageDialog(null, "El producto ya esta registrado");
-                            LimpiserVenta();
-                            search.requestFocus();
-                            return ;
+                if(Integer.parseInt(stokMueble.getText()) != 0){
+                    if(cantidad <= Integer.parseInt(stokMueble.getText())){
+                        int codigo = Integer.parseInt(search.getText());
+                        String nombre = nomMueble.getText();
+                        String categoria = categMueble.getText();
+                        String material = materialMueble.getText();
+                        int stok = Integer.parseInt(stokMueble.getText());
+                        Double precio = Double.parseDouble(pressMueble.getText());
+                        Double pressTot = cantidad * precio;
+
+                        item = item + 1;
+                        modelo = (DefaultTableModel) tbVenta.getModel();
+
+                        for (int i = 0; i < tbVenta.getRowCount(); i++) {
+                            if(tbVenta.getValueAt(i, 1).equals(nomMueble.getText())){
+                                JOptionPane.showMessageDialog(null, "El producto ya esta registrado");
+                                LimpiserVenta();
+                                search.requestFocus();
+                                return ;
+                            }
                         }
+
+
+                        ArrayList lista = new ArrayList();
+
+                        lista.add(item);
+                        lista.add(codigo);
+                        lista.add(nombre);
+                        lista.add(categoria);
+                        lista.add(material);
+                        lista.add(stok);
+                        lista.add(cantidad);
+                        lista.add(precio);
+                        lista.add(pressTot);
+
+                        Object[] o = new Object[8];
+                        o[0] = lista.get(1);
+                        o[1] = lista.get(2);
+                        o[2] = lista.get(3);
+                        o[3] = lista.get(4);
+                        o[4] = lista.get(5);
+                        o[5] = lista.get(6);
+                        o[6] = lista.get(7);
+                        o[7] = lista.get(8);
+
+                        modelo.addRow(o);
+                        tbVenta.setModel(modelo);
+
+                        TotalP();
+                        LimpiserVenta();
+                        search.requestFocus();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "ERROR: STOCK no disponible");
                     }
-                    
-                    
-                    ArrayList lista = new ArrayList();
-                    
-                    lista.add(item);
-                    lista.add(codigo);
-                    lista.add(nombre);
-                    lista.add(categoria);
-                    lista.add(material);
-                    lista.add(stok);
-                    lista.add(cantidad);
-                    lista.add(precio);
-                    lista.add(pressTot);
-                    
-                    Object[] o = new Object[8];
-                    o[0] = lista.get(1);
-                    o[1] = lista.get(2);
-                    o[2] = lista.get(3);
-                    o[3] = lista.get(4);
-                    o[4] = lista.get(5);
-                    o[5] = lista.get(6);
-                    o[6] = lista.get(7);
-                    o[7] = lista.get(8);
-                    
-                    modelo.addRow(o);
-                    tbVenta.setModel(modelo);
-                    
-                    TotalP();
-                    LimpiserVenta();
-                    search.requestFocus();
-                }else{
-                    JOptionPane.showMessageDialog(null, "ERROR: STOCK no disponible");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "ERROR: No se encuentra STOCK disponible en este momento");
                 }
             }
             else{
